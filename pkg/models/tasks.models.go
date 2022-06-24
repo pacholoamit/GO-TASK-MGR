@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/config"
 	"gorm.io/gorm"
 )
@@ -19,13 +21,21 @@ func init() {
 	db.AutoMigrate(&Task{})
 }
 
-func  CreateTask(t *Task) *Task {
+func CreateTask(t *Task) *Task {
 	db.Create(&t)
 	return t
 }
 
-func GetAllTasks() []Task  {
+func GetAllTasks() []Task {
 	var tasks []Task
 	db.Find(&tasks)
 	return tasks
+}
+
+// Todo: Error handling if ID is not found
+func GetTask(id int) Task {
+	var task Task
+	db.Find(&task, id)
+	fmt.Print(task)
+	return task
 }

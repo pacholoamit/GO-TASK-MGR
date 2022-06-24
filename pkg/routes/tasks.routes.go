@@ -10,7 +10,7 @@ import (
 var TaskRoutes = func(router *echo.Echo) {
 	router.GET("/tasks", controllers.GetAllTasks)
 	router.POST("/task", controllers.CreateTask)
-	// router.GET("/task/:id",controllers.GetTask)
+	router.GET("/task/:id",controllers.GetTask)
 	// router.PUT("/task/:id", controllers.UpdateTask)
 	// router.DELETE("/task/:id", controllers.DeleteTask)
 }
