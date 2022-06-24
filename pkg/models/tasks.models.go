@@ -9,8 +9,8 @@ var db *gorm.DB
 
 type Task struct{
 	gorm.Model
-	Title string `json:"title" form:"title" query:"title" `
-	Description string `json:"description" form:"description" query:"description"`
+	Title		string `gorm:"column:title" json:"title" form:"title" query:"title" `
+	Description string `gorm:"column:description" json:"description" form:"description" query:"description"`
 }
 
 func init() {
@@ -19,13 +19,13 @@ func init() {
 	db.AutoMigrate(&Task{})
 }
 
-func CreateTask(t *Task) *Task {
+func  CreateTask(t *Task) *Task {
 	db.Create(&t)
 	return t
 }
 
-func GetAllTasks() []Task {
-	var Tasks []Task
-	db.Find(&Tasks)
-	return Tasks
+func GetAllTasks() []Task  {
+	var tasks []Task
+	db.Find(&tasks)
+	return tasks
 }

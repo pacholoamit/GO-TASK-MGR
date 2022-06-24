@@ -11,14 +11,13 @@ import (
 var NewTask models.Task
 
 func GetAllTasks(c echo.Context) error  {
-	newTasks:=models.GetAllTasks()
-	return c.JSON(http.StatusOK, newTasks)
+	allTasks:=models.GetAllTasks()
+	return c.JSON(http.StatusOK, allTasks)
 }
 
 func CreateTask(c echo.Context) error {
-	t := new(models.Task)
-	if err := c.Bind(t); err != nil {
-		return err
-	}
-	return c.JSON(http.StatusOK, t)
+	newTask := new(models.Task)
+	createdTask := models.CreateTask(newTask)
+	
+	return c.JSON(http.StatusOK, createdTask)
 }
