@@ -43,6 +43,5 @@ func DeleteTask(c echo.Context) error {
 	}
 	models.DeleteTask(id)
 
-	
-	return c.String(http.StatusAccepted, "Successfully deleted Task: " + qp)
+	return c.String(http.StatusAccepted, "Successfully deleted Task: "+qp)
 }
