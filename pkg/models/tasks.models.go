@@ -31,8 +31,14 @@ func GetAllTasks() []Task {
 }
 
 // Todo: Error handling if ID is not found
-func GetTask(id int) Task {
-	var task Task
+func GetTask(id int) *Task {
+	var task *Task
 	db.Find(&task, id)
+	return task
+}
+
+func DeleteTask(id int) *Task {
+	var task *Task
+	db.Delete(&task, id)
 	return task
 }

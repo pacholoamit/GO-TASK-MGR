@@ -10,5 +10,5 @@ var TaskRoutes = func(router *echo.Echo) {
 	router.POST("/task", controllers.CreateTask)
 	router.GET("/task/:id", controllers.GetTask)
 	// router.PUT("/task/:id", controllers.UpdateTask)
-	// router.DELETE("/task/:id", controllers.DeleteTask)
+	router.DELETE("/task/:id", controllers.DeleteTask)
 }
