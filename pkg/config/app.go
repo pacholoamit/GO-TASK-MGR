@@ -9,12 +9,12 @@ var (
 	db *gorm.DB
 )
 
-func Connect()  {
+func Connect() {
 	d, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect to database")
 	}
-	
+
 	db = d
 }
 
