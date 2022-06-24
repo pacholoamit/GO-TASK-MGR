@@ -1,1 +1,31 @@
 package models
+
+import (
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/config"
+	"gorm.io/gorm"
+)
+
+var db *gorm.DB
+
+type Task struct{
+	gorm.Model
+	Title string `json:"title" form:"title" query:"title" `
+	Description string `json:"description" form:"description" query:"description"`
+}
+
+func init() {
+	config.Connect()
+	db = config.GetDB()
+	db.AutoMigrate(&Task{})
+}
+
+func CreateTask(t *Task) *Task {
+	db.Create(&t)
+	return t
+}
+
+func GetAllTasks() []Task {
+	var Tasks []Task
+	db.Find(&Tasks)
+	return Tasks
+}

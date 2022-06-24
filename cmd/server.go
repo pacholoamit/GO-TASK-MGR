@@ -1,15 +1,12 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo/v4"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/routes"
 )
 
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	routes.TaskRoutes(e)
 	e.Logger.Fatal(e.Start(":1323"))
 }
