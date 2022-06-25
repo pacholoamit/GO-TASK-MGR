@@ -5,9 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
-var (
-	db *gorm.DB
-)
+var db *gorm.DB
+
 
 func Connect() {
 	d, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{})

@@ -14,7 +14,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /main.go ./cmd/server.go 
+RUN go build -o /main.go ./cmd/main.go 
 
 EXPOSE 8081
 
