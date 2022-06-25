@@ -20,6 +20,7 @@ func CreateTask(t *models.Task) (models.Task, error) {
 	if err != nil {
 		return ct, err
 	}
+
 	return ct, nil
 }
 
