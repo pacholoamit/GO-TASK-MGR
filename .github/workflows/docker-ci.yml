@@ -1,9 +1,9 @@
-name: ci
+name: docker-ci
 
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
 
 jobs:
   docker:
