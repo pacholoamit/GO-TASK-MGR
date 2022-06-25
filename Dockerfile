@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.18.3-alpine3.16
+FROM golang:1.18.3
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build ./cmd/server.go -o /main.go
+RUN go build -o /main.go ./cmd/server.go 
 
 EXPOSE 8081
 
