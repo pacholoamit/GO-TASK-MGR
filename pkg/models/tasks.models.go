@@ -24,25 +24,33 @@ func init() {
 	db.AutoMigrate(&Task{})
 }
 
-func (t Task) CreateTask() Task {
-	db.Create(&t)
-	return t
+func (t Task) CreateTask() (Task, error) {
+	if err := db.Create(&t).Error; err != nil {
+		return t, err
+	}
+	return t, nil
 }
 
-func GetAllTasks() *Tasks {
+func GetAllTasks() (*Tasks, error) {
 	var t *Tasks
-	db.Find(&t)
-	return t
+	if err := db.Find(&t).Error; err != nil {
+		return t, err
+	}
+	return t, nil
 }
 
-func GetTask(id int) *Task {
+func GetTask(id int) (*Task, error) {
 	var t *Task
-	db.Find(&t, id)
-	return t
+	if err := db.Find(&t, id).Error; err != nil {
+		return t, err
+	}
+	return t, nil
 }
 
-func DeleteTask(id int) *Task {
+func DeleteTask(id int) (*Task, error) {
 	var t *Task
-	db.Clauses(clause.Returning{}).Delete(&t, id)
-	return t
+	if err := db.Clauses(clause.Returning{}).Delete(&t, id).Error; err != nil {
+		return t, err
+	}
+	return t, nil
 }

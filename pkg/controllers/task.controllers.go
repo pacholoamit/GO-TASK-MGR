@@ -10,7 +10,10 @@ import (
 )
 
 func GetAllTasks(c echo.Context) error {
-	at := services.GetAllTasks()
+	at, err := services.GetAllTasks()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
 	return c.JSON(http.StatusOK, at)
 }
 
@@ -19,7 +22,10 @@ func CreateTask(c echo.Context) error {
 	if err := c.Bind(nt); err != nil {
 		return err
 	}
-	ct := nt.CreateTask()
+	ct, err := nt.CreateTask()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
 	return c.JSON(http.StatusCreated, ct)
 }
 
