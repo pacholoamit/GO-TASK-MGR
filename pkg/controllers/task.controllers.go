@@ -24,21 +24,20 @@ func CreateTask(c echo.Context) error {
 
 func GetTask(c echo.Context) error {
 	p := c.Param("id")
-	id,  err := strconv.Atoi(p)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
-	}
+	id, _ := strconv.Atoi(p)
 	task := models.GetTask(id)
+	if task.ID == 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "Task does not exist")
+	}
 	return c.JSON(http.StatusFound, task)
 }
 
 func DeleteTask(c echo.Context) error {
 	p := c.Param("id")
-	id, err := strconv.Atoi(p)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
+	id, _ := strconv.Atoi(p)
+	task := models.DeleteTask(id)
+	if task.ID == 0 {
+		return echo.NewHTTPError(http.StatusBadRequest, "Task does not exist")
 	}
-	
-	models.DeleteTask(id)
-	return c.String(http.StatusAccepted, "Successfully deleted Task: "+p)
+	return c.JSON(http.StatusAccepted, task)
 }
