@@ -1,5 +1,8 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.18.3
+FROM golang:1.18.3-alpine
+
+# Resolves missing gcc compiler dependency
+RUN apk add build-base 
 
 WORKDIR /app
 
