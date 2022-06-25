@@ -19,7 +19,7 @@ func CreateTask(c echo.Context) error {
 		return err
 	}
 	createdTask := task.CreateTask()
-	return c.JSON(http.StatusOK, createdTask)
+	return c.JSON(http.StatusCreated, createdTask)
 }
 
 func GetTask(c echo.Context) error {
@@ -27,9 +27,9 @@ func GetTask(c echo.Context) error {
 	id, _ := strconv.Atoi(p)
 	task := models.GetTask(id)
 	if task.ID == 0 {
-		return echo.NewHTTPError(http.StatusBadRequest, "Task does not exist")
+		return echo.NewHTTPError(http.StatusNotFound, "Task does not exist")
 	}
-	return c.JSON(http.StatusFound, task)
+	return c.JSON(http.StatusOK, task)
 }
 
 func DeleteTask(c echo.Context) error {
@@ -37,7 +37,7 @@ func DeleteTask(c echo.Context) error {
 	id, _ := strconv.Atoi(p)
 	task := models.DeleteTask(id)
 	if task.ID == 0 {
-		return echo.NewHTTPError(http.StatusBadRequest, "Task does not exist")
+		return echo.NewHTTPError(http.StatusNotFound, "Task does not exist")
 	}
-	return c.JSON(http.StatusAccepted, task)
+	return c.JSON(http.StatusOK, task)
 }

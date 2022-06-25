@@ -7,6 +7,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Validates the `/route/:id` parameter if a number is provided
+
 func ValidateQueryId(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		p := c.Param("id")

@@ -8,7 +8,12 @@ import (
 
 func main() {
 	e := echo.New()
+
+	e.Use(middleware.Secure())
+	e.Use(middleware.Recover()) // Recover from panics
 	e.Use(middleware.Logger())
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
+
 	routes.TaskRoutes(e)
 	e.Logger.Fatal(e.Start(":8081"))
 }
