@@ -8,7 +8,6 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 )
 
-var NewTask models.Task
 
 func GetAllTasks(c echo.Context) error {
 	allTasks := models.GetAllTasks()
@@ -20,13 +19,13 @@ func CreateTask(c echo.Context) error {
 	if err := c.Bind(task); err != nil {
 		return err
 	}
-	createdTask := models.CreateTask(task)
+	createdTask := task.CreateTask()
 	return c.JSON(http.StatusOK, createdTask)
 }
 
 func GetTask(c echo.Context) error {
-	qp := c.Param("id")
-	id, err := strconv.Atoi(qp)
+	p := c.Param("id")
+	id, err := strconv.Atoi(p)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
 	}
@@ -36,12 +35,12 @@ func GetTask(c echo.Context) error {
 }
 
 func DeleteTask(c echo.Context) error {
-	qp := c.Param("id")
-	id, err := strconv.Atoi(qp)
+	p := c.Param("id")
+	id, err := strconv.Atoi(p)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
 	}
 	models.DeleteTask(id)
 
-	return c.String(http.StatusAccepted, "Successfully deleted Task: "+qp)
+	return c.String(http.StatusAccepted, "Successfully deleted Task: "+ p)
 }

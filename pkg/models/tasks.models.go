@@ -19,13 +19,13 @@ func init() {
 	db.AutoMigrate(&Task{})
 }
 
-func CreateTask(t *Task) *Task {
+func (t *Task) CreateTask() *Task {
 	db.Create(&t)
 	return t
 }
 
-func GetAllTasks() []Task {
-	var tasks []Task
+func GetAllTasks() []*Task {
+	var tasks []*Task
 	db.Find(&tasks)
 	return tasks
 }
