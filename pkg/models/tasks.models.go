@@ -13,6 +13,8 @@ type Task struct {
 	Description string `gorm:"column:description" json:"description" form:"description" query:"description"`
 }
 
+type TaskId int
+
 func init() {
 	config.Connect()
 	db = config.GetDB()
