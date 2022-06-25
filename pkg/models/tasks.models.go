@@ -5,8 +5,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
-
 type Task struct {
 	gorm.Model
 	Title       string `gorm:"column:title" json:"title" form:"title" query:"title" `
@@ -14,6 +12,8 @@ type Task struct {
 }
 
 type Tasks []Task
+
+var db *gorm.DB
 
 func init() {
 	config.Connect()
@@ -32,7 +32,6 @@ func GetAllTasks() *Tasks {
 	return t
 }
 
-// Todo: Error handling if ID is not found
 func GetTask(id int) *Task {
 	var t *Task
 	db.Find(&t, id)
