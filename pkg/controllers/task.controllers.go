@@ -24,12 +24,11 @@ func CreateTask(c echo.Context) error {
 
 func GetTask(c echo.Context) error {
 	p := c.Param("id")
-	id, err := strconv.Atoi(p)
+	id,  err := strconv.Atoi(p)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
 	}
 	task := models.GetTask(id)
-
 	return c.JSON(http.StatusFound, task)
 }
 
@@ -39,8 +38,7 @@ func DeleteTask(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
 	}
-
+	
 	models.DeleteTask(id)
-
 	return c.String(http.StatusAccepted, "Successfully deleted Task: "+p)
 }
