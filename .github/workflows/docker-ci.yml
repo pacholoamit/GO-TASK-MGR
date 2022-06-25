@@ -37,8 +37,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.repository }}
+            ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
