@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/config"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Task struct {
@@ -13,7 +14,9 @@ type Task struct {
 
 type Tasks []Task
 
-var db *gorm.DB
+var (
+	db *gorm.DB
+)
 
 func init() {
 	config.Connect()
@@ -21,7 +24,7 @@ func init() {
 	db.AutoMigrate(&Task{})
 }
 
-func (t *Task) CreateTask() *Task {
+func (t Task) CreateTask() Task {
 	db.Create(&t)
 	return t
 }
@@ -40,6 +43,6 @@ func GetTask(id int) *Task {
 
 func DeleteTask(id int) *Task {
 	var t *Task
-	db.Delete(&t, id)
+	db.Clauses(clause.Returning{}).Delete(&t, id)
 	return t
 }

@@ -6,10 +6,11 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/services"
 )
 
 func GetAllTasks(c echo.Context) error {
-	at := models.GetAllTasks()
+	at := services.GetAllTasks()
 	return c.JSON(http.StatusOK, at)
 }
 
@@ -25,9 +26,9 @@ func CreateTask(c echo.Context) error {
 func GetTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-	t := models.GetTask(id)
-	if t.ID == 0 {
-		return echo.NewHTTPError(http.StatusNotFound, "Task does not exist")
+	t, err := services.GetTask(id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
 	return c.JSON(http.StatusOK, t)
 }
@@ -35,9 +36,9 @@ func GetTask(c echo.Context) error {
 func DeleteTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-	dt := models.DeleteTask(id)
-	if dt.ID == 0 {
-		return echo.NewHTTPError(http.StatusNotFound, "Task does not exist")
+	dt, err := services.DeleteTask(id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
 	return c.JSON(http.StatusOK, dt)
 }
