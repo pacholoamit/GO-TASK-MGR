@@ -9,35 +9,35 @@ import (
 )
 
 func GetAllTasks(c echo.Context) error {
-	allTasks := models.GetAllTasks()
-	return c.JSON(http.StatusOK, allTasks)
+	at := models.GetAllTasks()
+	return c.JSON(http.StatusOK, at)
 }
 
 func CreateTask(c echo.Context) error {
-	task := new(models.Task)
-	if err := c.Bind(task); err != nil {
+	nt := new(models.Task)
+	if err := c.Bind(nt); err != nil {
 		return err
 	}
-	createdTask := task.CreateTask()
-	return c.JSON(http.StatusCreated, createdTask)
+	ct := nt.CreateTask()
+	return c.JSON(http.StatusCreated, ct)
 }
 
 func GetTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-	task := models.GetTask(id)
-	if task.ID == 0 {
+	t := models.GetTask(id)
+	if t.ID == 0 {
 		return echo.NewHTTPError(http.StatusNotFound, "Task does not exist")
 	}
-	return c.JSON(http.StatusOK, task)
+	return c.JSON(http.StatusOK, t)
 }
 
 func DeleteTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-	task := models.DeleteTask(id)
-	if task.ID == 0 {
+	dt := models.DeleteTask(id)
+	if dt.ID == 0 {
 		return echo.NewHTTPError(http.StatusNotFound, "Task does not exist")
 	}
-	return c.JSON(http.StatusOK, task)
+	return c.JSON(http.StatusOK, dt)
 }

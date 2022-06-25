@@ -13,7 +13,7 @@ type Task struct {
 	Description string `gorm:"column:description" json:"description" form:"description" query:"description"`
 }
 
-type TaskId int
+type Tasks []Task
 
 func init() {
 	config.Connect()
@@ -26,21 +26,21 @@ func (t *Task) CreateTask() *Task {
 	return t
 }
 
-func GetAllTasks() []*Task {
-	var tasks []*Task
-	db.Find(&tasks)
-	return tasks
+func GetAllTasks() *Tasks {
+	var t *Tasks
+	db.Find(&t)
+	return t
 }
 
 // Todo: Error handling if ID is not found
 func GetTask(id int) *Task {
-	var task *Task
-	db.Find(&task, id)
-	return task
+	var t *Task
+	db.Find(&t, id)
+	return t
 }
 
 func DeleteTask(id int) *Task {
-	var task *Task
-	db.Delete(&task, id)
-	return task
+	var t *Task
+	db.Delete(&t, id)
+	return t
 }
