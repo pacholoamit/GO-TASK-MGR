@@ -8,6 +8,8 @@ type Project struct {
 	Color string `json:"Color" form:"Color"`
 }
 
+type Projects []Project
+
 type Task struct {
 	gorm.Model
 	Title       string `json:"title" form:"title"`

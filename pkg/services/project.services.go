@@ -11,7 +11,7 @@ type project struct{}
 
 var Project project
 
-func (project) GetAllProjects() (*models.Project, error) {
+func (project) GetAllProjects() (*models.Projects, error) {
 	ap, err := repositories.Project.GetAllProjects()
 	if err != nil {
 		return ap, err
