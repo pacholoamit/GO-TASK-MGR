@@ -9,8 +9,6 @@ type project struct{}
 
 var (
 	Project project
-	mp      *models.Project
-	mps     *models.Projects
 )
 
 func (project) CreateProject(p *models.Project) (*models.Project, error) {
@@ -21,6 +19,7 @@ func (project) CreateProject(p *models.Project) (*models.Project, error) {
 }
 
 func (project) GetAllProjects() (*models.Projects, error) {
+	var mps *models.Projects
 	if err := db.Find(&mps).Error; err != nil {
 		return mps, err
 	}
@@ -28,6 +27,7 @@ func (project) GetAllProjects() (*models.Projects, error) {
 }
 
 func (project) GetProject(id int) (*models.Project, error) {
+	var mp *models.Project
 	if err := db.Find(&mp, id).Error; err != nil {
 		return mp, err
 	}
@@ -35,6 +35,7 @@ func (project) GetProject(id int) (*models.Project, error) {
 }
 
 func (project) UpdateProject(id int, p *models.Project) (*models.Project, error) {
+	var mp *models.Project
 	if err := db.Clauses(clause.Returning{}).Find(&mp, id).Updates(p).Error; err != nil {
 		return mp, err
 	}
@@ -43,6 +44,7 @@ func (project) UpdateProject(id int, p *models.Project) (*models.Project, error)
 }
 
 func (project) DeleteProject(id int) (*models.Project, error) {
+	var mp *models.Project
 	if err := db.Clauses(clause.Returning{}).Delete(&mp, id).Error; err != nil {
 		return mp, err
 	}
