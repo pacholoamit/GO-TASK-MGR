@@ -7,9 +7,7 @@ import (
 
 type project struct{}
 
-var (
-	Project project
-)
+var Project project
 
 func (project) CreateProject(p *models.Project) (*models.Project, error) {
 	if err := db.Create(&p).Error; err != nil {
