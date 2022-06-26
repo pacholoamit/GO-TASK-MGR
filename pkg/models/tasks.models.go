@@ -14,8 +14,11 @@ type Task struct {
 
 type Tasks []Task
 
+type taskModel struct{}
+
 var (
-	db *gorm.DB
+	TaskModel taskModel
+	db        *gorm.DB
 )
 
 func init() {
@@ -31,7 +34,7 @@ func (t Task) CreateTask() (Task, error) {
 	return t, nil
 }
 
-func GetAllTasks() (*Tasks, error) {
+func (taskModel) GetAllTasks() (*Tasks, error) {
 	var t *Tasks
 	if err := db.Find(&t).Error; err != nil {
 		return t, err

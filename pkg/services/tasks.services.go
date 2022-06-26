@@ -8,7 +8,7 @@ import (
 )
 
 func GetAllTasks() (*models.Tasks, error) {
-	at, err := models.GetAllTasks()
+	at, err := models.TaskModel.GetAllTasks()
 	if err != nil {
 		return at, err
 	}
