@@ -10,9 +10,7 @@ import (
 
 type task struct{}
 
-var (
-	Task task
-)
+var Task task
 
 func (task) GetAllTasks() (*models.Tasks, error) {
 	at, err := repositories.Task.GetAllTasks()
