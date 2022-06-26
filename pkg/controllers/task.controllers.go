@@ -9,7 +9,13 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/services"
 )
 
-func GetAllTasks(c echo.Context) error {
+type task struct{}
+
+var (
+	Task task
+)
+
+func (task) GetAllTasks(c echo.Context) error {
 	at, err := services.Task.GetAllTasks()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
@@ -17,7 +23,7 @@ func GetAllTasks(c echo.Context) error {
 	return c.JSON(http.StatusOK, at)
 }
 
-func CreateTask(c echo.Context) error {
+func (task) CreateTask(c echo.Context) error {
 	nt := new(models.Task)
 	if err := c.Bind(nt); err != nil {
 		return err
@@ -29,7 +35,7 @@ func CreateTask(c echo.Context) error {
 	return c.JSON(http.StatusCreated, ct)
 }
 
-func GetTask(c echo.Context) error {
+func (task) GetTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
 	t, err := services.Task.GetTask(id)
@@ -39,7 +45,7 @@ func GetTask(c echo.Context) error {
 	return c.JSON(http.StatusOK, t)
 }
 
-func DeleteTask(c echo.Context) error {
+func (task) DeleteTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
 	dt, err := services.Task.DeleteTask(id)
