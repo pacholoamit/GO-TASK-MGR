@@ -8,7 +8,13 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/repositories"
 )
 
-func GetAllTasks() (*models.Tasks, error) {
+type task struct{}
+
+var (
+	Task task
+)
+
+func (task) GetAllTasks() (*models.Tasks, error) {
 	at, err := repositories.Task.GetAllTasks()
 	if err != nil {
 		return at, err
@@ -16,7 +22,7 @@ func GetAllTasks() (*models.Tasks, error) {
 	return at, nil
 }
 
-func CreateTask(t *models.Task) (*models.Task, error) {
+func (task) CreateTask(t *models.Task) (*models.Task, error) {
 	ct, err := repositories.Task.CreateTask(t)
 	if err != nil {
 		return ct, err
@@ -25,7 +31,7 @@ func CreateTask(t *models.Task) (*models.Task, error) {
 	return ct, nil
 }
 
-func GetTask(id int) (*models.Task, error) {
+func (task) GetTask(id int) (*models.Task, error) {
 	t, err := repositories.Task.GetTask(id)
 	if (t.ID == 0) || (err != nil) {
 		return t, errors.New("task does not exist")
@@ -33,7 +39,7 @@ func GetTask(id int) (*models.Task, error) {
 	return t, nil
 }
 
-func DeleteTask(id int) (*models.Task, error) {
+func (task) DeleteTask(id int) (*models.Task, error) {
 	dt, err := repositories.Task.DeleteTask(id)
 	fmt.Print(dt)
 	if (dt.ID == 0) || (err != nil) {

@@ -10,7 +10,7 @@ import (
 )
 
 func GetAllTasks(c echo.Context) error {
-	at, err := services.GetAllTasks()
+	at, err := services.Task.GetAllTasks()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
@@ -22,7 +22,7 @@ func CreateTask(c echo.Context) error {
 	if err := c.Bind(nt); err != nil {
 		return err
 	}
-	ct, err := services.CreateTask(nt)
+	ct, err := services.Task.CreateTask(nt)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
@@ -32,7 +32,7 @@ func CreateTask(c echo.Context) error {
 func GetTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-	t, err := services.GetTask(id)
+	t, err := services.Task.GetTask(id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
@@ -42,7 +42,7 @@ func GetTask(c echo.Context) error {
 func DeleteTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-	dt, err := services.DeleteTask(id)
+	dt, err := services.Task.DeleteTask(id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
