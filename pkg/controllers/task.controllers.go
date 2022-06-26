@@ -22,7 +22,7 @@ func CreateTask(c echo.Context) error {
 	if err := c.Bind(nt); err != nil {
 		return err
 	}
-	ct, err := nt.CreateTask()
+	ct, err := services.CreateTask(nt)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}

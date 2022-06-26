@@ -15,8 +15,8 @@ func GetAllTasks() (*models.Tasks, error) {
 	return at, nil
 }
 
-func CreateTask(t *models.Task) (models.Task, error) {
-	ct, err := t.CreateTask()
+func CreateTask(t *models.Task) (*models.Task, error) {
+	ct, err := models.TaskModel.CreateTask(t)
 	if err != nil {
 		return ct, err
 	}
@@ -25,7 +25,7 @@ func CreateTask(t *models.Task) (models.Task, error) {
 }
 
 func GetTask(id int) (*models.Task, error) {
-	t, err := models.GetTask(id)
+	t, err := models.TaskModel.GetTask(id)
 	if (t.ID == 0) || (err != nil) {
 		return t, errors.New("task does not exist")
 	}
@@ -33,7 +33,7 @@ func GetTask(id int) (*models.Task, error) {
 }
 
 func DeleteTask(id int) (*models.Task, error) {
-	dt, err := models.DeleteTask(id)
+	dt, err := models.TaskModel.DeleteTask(id)
 	fmt.Print(dt)
 	if (dt.ID == 0) || (err != nil) {
 		return dt, errors.New("task does not exist")

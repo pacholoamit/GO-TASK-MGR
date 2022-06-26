@@ -27,7 +27,7 @@ func init() {
 	db.AutoMigrate(&Task{})
 }
 
-func (t Task) CreateTask() (Task, error) {
+func (taskModel) CreateTask(t *Task) (*Task, error) {
 	if err := db.Create(&t).Error; err != nil {
 		return t, err
 	}
@@ -42,7 +42,7 @@ func (taskModel) GetAllTasks() (*Tasks, error) {
 	return t, nil
 }
 
-func GetTask(id int) (*Task, error) {
+func (taskModel) GetTask(id int) (*Task, error) {
 	var t *Task
 	if err := db.Find(&t, id).Error; err != nil {
 		return t, err
@@ -50,7 +50,7 @@ func GetTask(id int) (*Task, error) {
 	return t, nil
 }
 
-func DeleteTask(id int) (*Task, error) {
+func (taskModel) DeleteTask(id int) (*Task, error) {
 	var t *Task
 	if err := db.Clauses(clause.Returning{}).Delete(&t, id).Error; err != nil {
 		return t, err
