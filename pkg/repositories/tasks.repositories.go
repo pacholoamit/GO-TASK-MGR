@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/config"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/lib"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -17,8 +17,8 @@ var (
 )
 
 func init() {
-	config.Connect()
-	db = config.GetDB()
+	lib.Connect()
+	db = lib.GetDB()
 	db.AutoMigrate(&models.Task{})
 }
 

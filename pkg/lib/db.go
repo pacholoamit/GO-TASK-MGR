@@ -1,4 +1,4 @@
-package config
+package lib
 
 import (
 	"gorm.io/driver/sqlite"

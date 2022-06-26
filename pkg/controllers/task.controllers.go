@@ -11,9 +11,7 @@ import (
 
 type task struct{}
 
-var (
-	Task task
-)
+var Task task
 
 func (task) GetAllTasks(c echo.Context) error {
 	at, err := services.Task.GetAllTasks()
