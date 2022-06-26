@@ -41,7 +41,7 @@ func (task) GetTask(id int) (*models.Task, error) {
 
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 	ut, err := repositories.Task.UpdateTask(id, t)
-	if (t.ID == 0) || (err != nil) {
+	if (ut.ID == 0) || (err != nil) {
 		return ut, errors.New("task does not exist")
 	}
 	return ut, nil

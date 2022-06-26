@@ -48,20 +48,20 @@ func (task) GetTask(c echo.Context) error {
 }
 
 func (task) UpdateTask(c echo.Context) error {
-	ut := new(models.Task)
+	t := new(models.Task)
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
 
-	if err := c.Bind(ut); err != nil {
+	if err := c.Bind(t); err != nil {
 		return err
 	}
 
-	t, err := services.Task.UpdateTask(id, ut)
+	ut, err := services.Task.UpdateTask(id, t)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
-	return c.JSON(http.StatusOK, t)
+	return c.JSON(http.StatusOK, ut)
 }
 
 func (task) DeleteTask(c echo.Context) error {
