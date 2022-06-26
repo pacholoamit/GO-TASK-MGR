@@ -32,11 +32,11 @@ func (task) CreateTask(t *models.Task) (*models.Task, error) {
 }
 
 func (task) GetTask(id int) (*models.Task, error) {
-	t, err := repositories.Task.GetTask(id)
-	if (t.ID == 0) || (err != nil) {
-		return t, errors.New("task does not exist")
+	gt, err := repositories.Task.GetTask(id)
+	if (gt.ID == 0) || (err != nil) {
+		return gt, errors.New("task does not exist")
 	}
-	return t, nil
+	return gt, nil
 }
 
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
