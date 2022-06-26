@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -28,6 +29,7 @@ func (task) CreateTask(c echo.Context) error {
 	if err := c.Bind(nt); err != nil {
 		return err
 	}
+	fmt.Print(nt)
 	ct, err := services.Task.CreateTask(nt)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
@@ -39,6 +41,23 @@ func (task) GetTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
 	t, err := services.Task.GetTask(id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, err)
+	}
+	return c.JSON(http.StatusOK, t)
+}
+
+func (task) UpdateTask(c echo.Context) error {
+	ut := new(models.Task)
+	p := c.Param("id")
+	id, _ := strconv.Atoi(p)
+
+	if err := c.Bind(ut); err != nil {
+		return err
+	}
+
+	t, err := services.Task.UpdateTask(id, ut)
+
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)
 	}

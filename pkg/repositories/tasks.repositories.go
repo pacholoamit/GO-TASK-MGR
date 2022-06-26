@@ -43,6 +43,15 @@ func (task) GetTask(id int) (*models.Task, error) {
 	return t, nil
 }
 
+func (task) UpdateTask(id int, ut *models.Task) (*models.Task, error) {
+	var t *models.Task
+	if err := db.Model(&t).Find(&t, id).Select("Title", "Description").Updates(ut).Error; err != nil {
+		return t, nil
+	}
+
+	return ut, nil
+}
+
 func (task) DeleteTask(id int) (*models.Task, error) {
 	var t *models.Task
 	if err := db.Clauses(clause.Returning{}).Delete(&t, id).Error; err != nil {
