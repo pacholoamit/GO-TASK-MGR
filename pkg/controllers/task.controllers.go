@@ -45,15 +45,21 @@ func (task) GetTask(c echo.Context) error {
 }
 
 func (task) UpdateTask(c echo.Context) error {
-	t := new(models.Task)
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
+
+	t := new(models.Task)
 
 	if err := c.Bind(t); err != nil {
 		return err
 	}
-
 	ut, err := services.Task.UpdateTask(id, t)
+
+	// Assign Task to Project ID (pid) operation if assignTo param is provided
+	if at := c.QueryParam("assignTo"); at != "" {
+		pid, _ := strconv.Atoi(at)
+		services.Task.UpdateTaskProject(id, pid, t)
+	}
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)

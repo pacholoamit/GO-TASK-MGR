@@ -53,3 +53,7 @@ func (task) DeleteTask(id int) (*models.Task, error) {
 	}
 	return dt, nil
 }
+
+func (task) UpdateTaskProject(id int, pid int, t *models.Task) (*models.Task, error) {
+
+}

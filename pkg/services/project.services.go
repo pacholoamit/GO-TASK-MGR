@@ -31,7 +31,7 @@ func (project) CreateProject(t *models.Project) (*models.Project, error) {
 func (project) GetProject(id int) (*models.Project, error) {
 	gp, err := repositories.Project.GetProject(id)
 	if (gp.ID == 0) || (err != nil) {
-		return gp, errors.New("Project does not exist")
+		return gp, errors.New("project does not exist")
 	}
 	return gp, nil
 }
@@ -39,7 +39,7 @@ func (project) GetProject(id int) (*models.Project, error) {
 func (project) UpdateProject(id int, t *models.Project) (*models.Project, error) {
 	up, err := repositories.Project.UpdateProject(id, t)
 	if (up.ID == 0) || (err != nil) {
-		return up, errors.New("Project does not exist")
+		return up, errors.New("project does not exist")
 	}
 	return up, nil
 }
@@ -47,7 +47,7 @@ func (project) UpdateProject(id int, t *models.Project) (*models.Project, error)
 func (project) DeleteProject(id int) (*models.Project, error) {
 	dp, err := repositories.Project.DeleteProject(id)
 	if (dp.ID == 0) || (err != nil) {
-		return dp, errors.New("Project does not exist")
+		return dp, errors.New("project does not exist")
 	}
 	return dp, nil
 }
