@@ -47,19 +47,18 @@ func (task) GetTask(c echo.Context) error {
 func (task) UpdateTask(c echo.Context) error {
 	p := c.Param("id")
 	id, _ := strconv.Atoi(p)
-
 	t := new(models.Task)
 
 	if err := c.Bind(t); err != nil {
 		return err
 	}
-	ut, err := services.Task.UpdateTask(id, t)
 
 	// Assign Task to Project ID (pid) operation if assignTo param is provided
 	if at := c.QueryParam("assignTo"); at != "" {
 		pid, _ := strconv.Atoi(at)
 		services.Task.UpdateTaskProject(id, pid, t)
 	}
+	ut, err := services.Task.UpdateTask(id, t)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err)
