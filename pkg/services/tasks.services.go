@@ -52,8 +52,8 @@ func (task) DeleteTask(id int) (*models.Task, error) {
 	return dt, nil
 }
 
-func (task) UpdateTaskProject(id int, pid int, t *models.Task) (*models.Task, error) {
-	ut, err := repositories.Task.UpdateTaskProject(id, pid, t)
+func (task) UpdateTaskProject(id int, pid int) (*models.Task, error) {
+	ut, err := repositories.Task.UpdateTaskProject(id, pid)
 	if (ut.ID == 0) || (err != nil) {
 		return ut, errors.New("task does not exist")
 	}

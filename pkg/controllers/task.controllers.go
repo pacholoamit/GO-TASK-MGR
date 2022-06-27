@@ -54,16 +54,20 @@ func (task) UpdateTask(c echo.Context) error {
 	}
 
 	// Assign Task to Project ID (pid) operation if assignTo param is provided
-	if at := c.QueryParam("assignTo"); at != "" {
+	if at := c.QueryParam("assignTo"); len(at) > 0 {
 		pid, _ := strconv.Atoi(at)
-		services.Task.UpdateTaskProject(id, pid, t)
+		ut, err := services.Task.UpdateTaskProject(id, pid)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusNotFound, err)
+		}
+		return c.JSON(http.StatusOK, ut)
 	}
-	ut, err := services.Task.UpdateTask(id, t)
+	// ut, err := services.Task.UpdateTask(id, t)
 
-	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err)
-	}
-	return c.JSON(http.StatusOK, ut)
+	// if err != nil {
+	// 	return echo.NewHTTPError(http.StatusNotFound, err)
+	// }
+	return c.JSON(http.StatusOK, "hello")
 }
 
 func (task) DeleteTask(c echo.Context) error {

@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm/clause"
 )
@@ -10,18 +12,18 @@ type task struct{}
 var Task task
 
 func (task) CreateTask(t *models.Task) (*models.Task, error) {
-	if err := db.Create(&t).Error; err != nil {
+	if err := db.Omit(clause.Associations).Create(&t).Error; err != nil {
 		return t, err
 	}
 	return t, nil
 }
 
 func (task) GetAllTasks() (*models.Tasks, error) {
-	var mts *models.Tasks
+	var mts models.Tasks
 	if err := db.Find(&mts).Error; err != nil {
-		return mts, err
+		return &mts, err
 	}
-	return mts, nil
+	return &mts, nil
 }
 
 func (task) GetTask(id int) (*models.Task, error) {
@@ -33,12 +35,12 @@ func (task) GetTask(id int) (*models.Task, error) {
 }
 
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
-	var mt *models.Task
+	var mt models.Task
 	// var mp *models.Project
 
 	// Update Task
-	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Updates(t).Error; err != nil {
-		return mt, err
+	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Omit(clause.Associations).Updates(t).Error; err != nil {
+		return &mt, err
 	}
 
 	// Update Project association if any provided
@@ -51,26 +53,31 @@ func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 
 	// db.Model(&mt).Association("Project").Replace(mp)
 
-	return mt, nil
+	return &mt, nil
 }
 
 func (task) DeleteTask(id int) (*models.Task, error) {
-	var mt *models.Task
+	var mt models.Task
 	if err := db.Clauses(clause.Returning{}).Delete(&mt, id).Error; err != nil {
-		return mt, err
+		return &mt, err
 	}
-	return mt, nil
+	return &mt, nil
 }
 
-func (task) UpdateTaskProject(id int, pid int, t *models.Task) (*models.Task, error) {
-	var mt *models.Task
-	var mp *models.Project
+func (task) UpdateTaskProject(id int, pid int) (*models.Task, error) {
+	var mt models.Task
+	var mp models.Project
 
-	if err := db.Clauses(clause.Returning{}).Find(&mp, pid).Error; err != nil {
-		return mt, err
+	fmt.Print(id)
+	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Error; err != nil {
+		return &mt, err
 	}
 
-	db.Model(&mt).Association("Project").Replace(mp)
+	if err := db.Clauses(clause.Returning{}).Find(&mp, pid).Error; err != nil {
+		return &mt, err
+	}
 
-	return mt, nil
+	db.Model(&mt).Association("Project").Replace(&mp)
+
+	return &mt, nil
 }
