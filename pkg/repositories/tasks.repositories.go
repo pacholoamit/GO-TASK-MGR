@@ -44,7 +44,7 @@ func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 	// Update Project association if any provided
 	// db.Model(&mt).Association("Project").Replace(&t.Project)
 
-	// Found Project to associate
+	// Find Project to associate by ID (1)
 	if err := db.Clauses(clause.Returning{}).Find(&mp, 1).Error; err != nil {
 		return mt, err
 	}
