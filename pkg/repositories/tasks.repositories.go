@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	"fmt"
-
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm/clause"
 )
@@ -37,17 +35,14 @@ func (task) GetTask(id int) (*models.Task, error) {
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 	var mt *models.Task
 
-	// mock := &models.Task{
-	// 	Title: "Hello",
-	// }
-	// if err := db.Clauses(clause.Returning{}).Find(&mt, id).Updates(t).Error; err != nil {
-	// 	return mt, err
-	// }
+	// Update Task
+	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Updates(t).Error; err != nil {
+		return mt, err
+	}
 
-	db.Clauses(clause.Returning{}).Find(&mt, id)
-	fmt.Print(mt)
+	// Update Project association if any provided
 	db.Model(&mt).Association("Project").Replace(&t.Project)
-	fmt.Print(mt)
+
 	return mt, nil
 }
 
