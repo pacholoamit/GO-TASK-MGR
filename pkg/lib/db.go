@@ -10,6 +10,7 @@ var db *gorm.DB
 func Connect() {
 	d, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{
 		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
 	})
 	if err != nil {
 		panic("failed to connect to database")
