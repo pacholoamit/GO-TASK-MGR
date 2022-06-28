@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm/clause"
 )
@@ -27,6 +29,7 @@ func (project) GetAllProjects() (*models.Projects, error) {
 func (project) GetProject(id int) (*models.Project, error) {
 	var mp *models.Project
 	if err := db.Find(&mp, id).Error; err != nil {
+		fmt.Println("Error:", err)
 		return mp, err
 	}
 	return mp, nil
