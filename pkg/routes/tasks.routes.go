@@ -6,7 +6,11 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/middlewares"
 )
 
-var TaskRoutes = func(router *echo.Echo) {
+type task struct{}
+
+var Task task
+
+func (task) registerRoutes(router *echo.Echo) {
 	router.GET("/tasks", controllers.Task.GetAllTasks)
 	router.POST("/task", controllers.Task.CreateTask)
 	router.GET("/task/:id", controllers.Task.GetTask, middlewares.ValidateQueryId)
