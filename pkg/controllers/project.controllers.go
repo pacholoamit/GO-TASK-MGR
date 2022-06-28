@@ -24,7 +24,7 @@ func (project) GetAllProjects(c echo.Context) error {
 func (project) CreateProject(c echo.Context) error {
 	pr := new(models.Project)
 	if err := c.Bind(pr); err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	cp, err := services.Project.CreateProject(pr)

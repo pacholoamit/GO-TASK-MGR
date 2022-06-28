@@ -50,7 +50,7 @@ func (task) UpdateTask(c echo.Context) error {
 	t := new(models.Task)
 
 	if err := c.Bind(t); err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	ut, err := services.Task.UpdateTask(id, t)
