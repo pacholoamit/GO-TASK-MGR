@@ -26,6 +26,9 @@ func (project) CreateProject(c echo.Context) error {
 	if err := c.Bind(pr); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+	if err := c.Validate(pr); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 
 	cp, err := services.Project.CreateProject(pr)
 	if err != nil {
@@ -50,7 +53,7 @@ func (project) UpdateProject(c echo.Context) error {
 	id, _ := strconv.Atoi(p)
 
 	if err := c.Bind(pr); err != nil {
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	up, err := services.Project.UpdateProject(id, pr)

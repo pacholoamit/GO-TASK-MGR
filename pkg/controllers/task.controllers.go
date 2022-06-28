@@ -23,11 +23,16 @@ func (task) GetAllTasks(c echo.Context) error {
 
 func (task) CreateTask(c echo.Context) error {
 	t := new(models.Task)
+
 	if err := c.Bind(t); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	if err := c.Validate(t); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	ct, err := services.Task.CreateTask(t)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
