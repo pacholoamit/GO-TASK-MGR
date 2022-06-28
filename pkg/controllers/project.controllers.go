@@ -16,7 +16,7 @@ var Project project
 func (project) GetAllProjects(c echo.Context) error {
 	ap, err := services.Project.GetAllProjects()
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, ap)
 }
@@ -29,7 +29,7 @@ func (project) CreateProject(c echo.Context) error {
 
 	cp, err := services.Project.CreateProject(pr)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusCreated, cp)
 }
@@ -39,7 +39,7 @@ func (project) GetProject(c echo.Context) error {
 	id, _ := strconv.Atoi(p)
 	gp, err := services.Project.GetProject(id)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err)
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 	return c.JSON(http.StatusOK, gp)
 }
@@ -56,7 +56,7 @@ func (project) UpdateProject(c echo.Context) error {
 	up, err := services.Project.UpdateProject(id, pr)
 
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err)
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 	return c.JSON(http.StatusOK, up)
 }
@@ -66,7 +66,7 @@ func (project) DeleteProject(c echo.Context) error {
 	id, _ := strconv.Atoi(p)
 	dp, err := services.Project.DeleteProject(id)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err)
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 	return c.JSON(http.StatusOK, dp)
 }
