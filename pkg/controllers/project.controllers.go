@@ -14,63 +14,61 @@ type project struct{}
 var Project project
 
 func (project) GetAllProjects(c echo.Context) error {
-	ap, err := services.Project.GetAllProjects()
+	projects, err := services.Project.GetAllProjects()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, ap)
+	return c.JSON(http.StatusOK, projects)
 }
 
 func (project) CreateProject(c echo.Context) error {
-	pr := new(models.Project)
-	if err := c.Bind(pr); err != nil {
+	projectModel := new(models.Project)
+	if err := c.Bind(projectModel); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
-	if err := c.Validate(pr); err != nil {
+	if err := c.Validate(projectModel); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
-	cp, err := services.Project.CreateProject(pr)
+	createdProject, err := services.Project.CreateProject(projectModel)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
-	return c.JSON(http.StatusCreated, cp)
+	return c.JSON(http.StatusCreated, createdProject)
 }
 
 // G
 func (project) GetProject(c echo.Context) error {
-	p := c.Param("id")
-	id, _ := strconv.Atoi(p)
-	gp, err := services.Project.GetProject(id)
+	id, _ := strconv.Atoi(c.Param("id"))
+	project, err := services.Project.GetProject(id)
+
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, gp)
+	return c.JSON(http.StatusOK, project)
 }
 
 func (project) UpdateProject(c echo.Context) error {
-	p := c.Param("id")
-	pr := new(models.Project)
-	id, _ := strconv.Atoi(p)
+	id, _ := strconv.Atoi(c.Param("id"))
+	projectModel := new(models.Project)
 
-	if err := c.Bind(pr); err != nil {
+	if err := c.Bind(projectModel); err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	up, err := services.Project.UpdateProject(id, pr)
+	updatedProject, err := services.Project.UpdateProject(id, projectModel)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, up)
+	return c.JSON(http.StatusOK, updatedProject)
 }
 
 func (project) DeleteProject(c echo.Context) error {
-	p := c.Param("id")
-	id, _ := strconv.Atoi(p)
-	dp, err := services.Project.DeleteProject(id)
+	id, _ := strconv.Atoi(c.Param("id"))
+	deletedProject, err := services.Project.DeleteProject(id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, dp)
+	return c.JSON(http.StatusOK, deletedProject)
 }
