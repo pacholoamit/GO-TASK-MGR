@@ -4,8 +4,8 @@ import "gorm.io/gorm"
 
 type Project struct {
 	gorm.Model
-	Name  string `json:"name" form:"name" validate:"required"`
-	Color string `json:"color" form:"color" validate:"iscolor"`
+	Name  string `json:"name" form:"name"`
+	Color string `json:"color" form:"color"`
 }
 
 type Projects []Project

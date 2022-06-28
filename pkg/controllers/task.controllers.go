@@ -14,64 +14,64 @@ type task struct{}
 var Task task
 
 func (task) GetAllTasks(c echo.Context) error {
-	at, err := services.Task.GetAllTasks()
+	tasks, err := services.Task.GetAllTasks()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, at)
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (task) CreateTask(c echo.Context) error {
-	t := new(models.Task)
+	taskModel := new(models.Task)
 
-	if err := c.Bind(t); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
-	}
-	if err := c.Validate(t); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+	if err := c.Bind(taskModel); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	ct, err := services.Task.CreateTask(t)
+	// Issue where validating project is required
+	if err := c.Validate(taskModel); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	createdTask, err := services.Task.CreateTask(taskModel)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusCreated, ct)
+	return c.JSON(http.StatusCreated, createdTask)
 }
 
 func (task) GetTask(c echo.Context) error {
-	p := c.Param("id")
-	id, _ := strconv.Atoi(p)
-	gt, err := services.Task.GetTask(id)
+	id, _ := strconv.Atoi(c.Param("id"))
+	task, err := services.Task.GetTask(id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, gt)
+	return c.JSON(http.StatusOK, task)
 }
 
 func (task) UpdateTask(c echo.Context) error {
-	p := c.Param("id")
-	id, _ := strconv.Atoi(p)
-	t := new(models.Task)
+	id, _ := strconv.Atoi(c.Param("id"))
+	taskModel := new(models.Task)
 
-	if err := c.Bind(t); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+	if err := c.Bind(taskModel); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	ut, err := services.Task.UpdateTask(id, t)
+	updatedTask, err := services.Task.UpdateTask(id, taskModel)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, ut)
+	return c.JSON(http.StatusOK, updatedTask)
 }
 
 func (task) DeleteTask(c echo.Context) error {
-	p := c.Param("id")
-	id, _ := strconv.Atoi(p)
-	dt, err := services.Task.DeleteTask(id)
+	id, _ := strconv.Atoi(c.Param("id"))
+	deletedTask, err := services.Task.DeleteTask(id)
+
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, dt)
+	return c.JSON(http.StatusOK, deletedTask)
 }
