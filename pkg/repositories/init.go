@@ -12,6 +12,5 @@ var db *gorm.DB
 func init() {
 	lib.Connect()
 	db = lib.GetDB()
-	db.AutoMigrate(&models.Task{})
-	db.AutoMigrate(&models.Project{})
+	db.AutoMigrate(&models.Task{}, &models.Project{})
 }
