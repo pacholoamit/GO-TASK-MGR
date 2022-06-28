@@ -25,16 +25,16 @@ func (task) CreateTask(c echo.Context) error {
 	t := new(models.Task)
 
 	if err := c.Bind(t); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 	if err := c.Validate(t); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
 	ct, err := services.Task.CreateTask(t)
 
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err)
 	}
 	return c.JSON(http.StatusCreated, ct)
 }
@@ -44,7 +44,7 @@ func (task) GetTask(c echo.Context) error {
 	id, _ := strconv.Atoi(p)
 	gt, err := services.Task.GetTask(id)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
 	return c.JSON(http.StatusOK, gt)
 }
@@ -55,13 +55,13 @@ func (task) UpdateTask(c echo.Context) error {
 	t := new(models.Task)
 
 	if err := c.Bind(t); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
 	ut, err := services.Task.UpdateTask(id, t)
 
 	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
 	return c.JSON(http.StatusOK, ut)
 }

@@ -33,8 +33,8 @@ func (project) CreateProject(t *models.Project) (*models.Project, error) {
 
 func (project) GetProject(id int) (*models.Project, error) {
 	gp, err := repositories.Project.GetProject(id)
-	if gp.ID == 0 {
-		fmt.Print(gp)
+	if (gp.ID == 0) || (err != nil) {
+
 		fmt.Println("Error when Getting a project:", err)
 		return gp, errors.New("project does not exist")
 	}
