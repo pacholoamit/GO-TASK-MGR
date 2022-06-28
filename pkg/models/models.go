@@ -4,7 +4,6 @@ import "gorm.io/gorm"
 
 type Project struct {
 	gorm.Model
-	ID    uint   `gorm:"primarykey"`
 	Name  string `json:"name" form:"name"`
 	Color string `json:"color" form:"color"`
 }

@@ -1,8 +1,6 @@
 package repositories
 
 import (
-	"fmt"
-
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm/clause"
 )
@@ -36,22 +34,10 @@ func (task) GetTask(id int) (*models.Task, error) {
 
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 	var mt models.Task
-	// var mp *models.Project
 
-	// Update Task
-	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Omit(clause.Associations).Updates(t).Error; err != nil {
+	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Updates(t).Error; err != nil {
 		return &mt, err
 	}
-
-	// Update Project association if any provided
-	// db.Model(&mt).Association("Project").Replace(&t.Project)
-
-	// Find Project to associate by ID (1)
-	// if err := db.Clauses(clause.Returning{}).Find(&mp, 1).Error; err != nil {
-	// 	return mt, err
-	// }
-
-	// db.Model(&mt).Association("Project").Replace(mp)
 
 	return &mt, nil
 }
@@ -68,7 +54,6 @@ func (task) UpdateTaskProject(id int, pid int) (*models.Task, error) {
 	var mt models.Task
 	var mp models.Project
 
-	fmt.Print(id)
 	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Error; err != nil {
 		return &mt, err
 	}
@@ -76,6 +61,16 @@ func (task) UpdateTaskProject(id int, pid int) (*models.Task, error) {
 	if err := db.Clauses(clause.Returning{}).Find(&mp, pid).Error; err != nil {
 		return &mt, err
 	}
+
+	// Update Project association if any provided
+	// db.Model(&mt).Association("Project").Replace(&t.Project)
+
+	// Find Project to associate by ID (1)
+	// if err := db.Clauses(clause.Returning{}).Find(&mp, 1).Error; err != nil {
+	// 	return mt, err
+	// }
+
+	// db.Model(&mt).Association("Project").Replace(mp)
 
 	db.Model(&mt).Association("Project").Replace(&mp)
 
