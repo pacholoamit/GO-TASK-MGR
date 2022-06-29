@@ -11,8 +11,8 @@ import (
 type task struct{}
 
 var (
-	Task        task
-	nonExistErr = utils.NonExistentError("task")
+	Task            task
+	taskNonExistErr = utils.NonExistentError("task")
 )
 
 func (task) GetAllTasks() (*models.Tasks, error) {
@@ -38,8 +38,8 @@ func (task) GetTask(id int) (*models.Task, error) {
 	task, err := repositories.Task.GetTask(id)
 
 	if task.ID == 0 {
-		fmt.Print("Error when Getting a task:", nonExistErr)
-		return task, nonExistErr
+		fmt.Print("Error when Getting a task:", taskNonExistErr)
+		return task, taskNonExistErr
 	}
 
 	if err != nil {
@@ -53,12 +53,12 @@ func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 	updatedTask, err := repositories.Task.UpdateTask(id, t)
 
 	if updatedTask.ID == 0 {
-		fmt.Print("Error when Updating a task:", nonExistErr)
-		return updatedTask, nonExistErr
+		fmt.Print("Error when Updating a task:", taskNonExistErr)
+		return updatedTask, taskNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Updating a task:", err)
-		return updatedTask, nonExistErr
+		return updatedTask, taskNonExistErr
 	}
 	return updatedTask, nil
 }
@@ -67,12 +67,12 @@ func (task) DeleteTask(id int) (*models.Task, error) {
 	deletedTask, err := repositories.Task.DeleteTask(id)
 
 	if deletedTask.ID == 0 {
-		fmt.Print("Error when Deleting a task:", nonExistErr)
-		return deletedTask, nonExistErr
+		fmt.Print("Error when Deleting a task:", taskNonExistErr)
+		return deletedTask, taskNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Deleting a task:", err)
-		return deletedTask, nonExistErr
+		return deletedTask, taskNonExistErr
 	}
 	return deletedTask, nil
 }
