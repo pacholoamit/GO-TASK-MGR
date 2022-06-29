@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/repositories"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
@@ -15,7 +16,7 @@ var (
 	projectNonExistErr = utils.NonExistentError("project")
 )
 
-func (project) GetAllProjects() (*models.Projects, error) {
+func (project) GetAllProjects() (*dto.Projects, error) {
 	projects, err := repositories.Project.GetAllProjects()
 	if err != nil {
 		fmt.Println("Error when Getting all projects:", err)
@@ -24,7 +25,7 @@ func (project) GetAllProjects() (*models.Projects, error) {
 	return projects, nil
 }
 
-func (project) CreateProject(t *models.Project) (*models.Project, error) {
+func (project) CreateProject(t *dto.Project) (*dto.Project, error) {
 	createdProject, err := repositories.Project.CreateProject(t)
 	if err != nil {
 		fmt.Println("Error when Creating a project:", err)
@@ -34,7 +35,7 @@ func (project) CreateProject(t *models.Project) (*models.Project, error) {
 	return createdProject, nil
 }
 
-func (project) GetProject(id int) (*models.Project, error) {
+func (project) GetProject(id int) (*dto.Project, error) {
 	project, err := repositories.Project.GetProject(id)
 
 	if project.ID == 0 {
@@ -49,7 +50,7 @@ func (project) GetProject(id int) (*models.Project, error) {
 	return project, nil
 }
 
-func (project) UpdateProject(id int, t *models.Project) (*models.Project, error) {
+func (project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
 	updatedProject, err := repositories.Project.UpdateProject(id, t)
 
 	if updatedProject.ID == 0 {
@@ -63,7 +64,7 @@ func (project) UpdateProject(id int, t *models.Project) (*models.Project, error)
 	return updatedProject, nil
 }
 
-func (project) DeleteProject(id int) (*models.Project, error) {
+func (project) DeleteProject(id int) (*dto.Project, error) {
 	deletedProject, err := repositories.Project.DeleteProject(id)
 
 	if deletedProject.ID == 0 {

@@ -3,10 +3,11 @@ package dto
 import "time"
 
 type Project struct {
-	ID        uint `gorm:"primarykey"`
+	ID        uint
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
 	Name      string `json:"name" form:"name"`
 	Color     string `json:"color" form:"color"`
 }
+
+type Projects []Project

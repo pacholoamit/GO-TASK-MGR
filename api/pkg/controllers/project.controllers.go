@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/services"
 )
 
@@ -22,7 +22,7 @@ func (project) GetAllProjects(c echo.Context) error {
 }
 
 func (project) CreateProject(c echo.Context) error {
-	projectModel := new(models.Project)
+	projectModel := new(dto.Project)
 	if err := c.Bind(projectModel); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
@@ -50,7 +50,7 @@ func (project) GetProject(c echo.Context) error {
 
 func (project) UpdateProject(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	projectModel := new(models.Project)
+	projectModel := new(dto.Project)
 
 	if err := c.Bind(projectModel); err != nil {
 		return c.JSON(http.StatusBadRequest, err)

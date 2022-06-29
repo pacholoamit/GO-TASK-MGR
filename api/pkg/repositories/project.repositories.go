@@ -3,6 +3,7 @@ package repositories
 import (
 	"fmt"
 
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm/clause"
 )
@@ -11,23 +12,23 @@ type project struct{}
 
 var Project project
 
-func (project) CreateProject(p *models.Project) (*models.Project, error) {
+func (project) CreateProject(p *dto.Project) (*dto.Project, error) {
 	if err := db.Create(&p).Error; err != nil {
 		return p, err
 	}
 	return p, nil
 }
 
-func (project) GetAllProjects() (*models.Projects, error) {
-	var projectsModel *models.Projects
+func (project) GetAllProjects() (*dto.Projects, error) {
+	var projectsModel *dto.Projects
 	if err := db.Find(&projectsModel).Error; err != nil {
 		return projectsModel, err
 	}
 	return projectsModel, nil
 }
 
-func (project) GetProject(id int) (*models.Project, error) {
-	var projectModel *models.Project
+func (project) GetProject(id int) (*dto.Project, error) {
+	var projectModel *dto.Project
 	if err := db.Find(&projectModel, id).Error; err != nil {
 		fmt.Println("Error:", err)
 		return projectModel, err
@@ -35,8 +36,8 @@ func (project) GetProject(id int) (*models.Project, error) {
 	return projectModel, nil
 }
 
-func (project) UpdateProject(id int, p *models.Project) (*models.Project, error) {
-	var projectModel *models.Project
+func (project) UpdateProject(id int, p *dto.Project) (*dto.Project, error) {
+	var projectModel *dto.Project
 	if err := db.Clauses(clause.Returning{}).Find(&projectModel, id).Updates(p).Error; err != nil {
 		return projectModel, err
 	}
@@ -44,8 +45,8 @@ func (project) UpdateProject(id int, p *models.Project) (*models.Project, error)
 	return projectModel, nil
 }
 
-func (project) DeleteProject(id int) (*models.Project, error) {
-	var projectsModel *models.Project
+func (project) DeleteProject(id int) (*dto.Project, error) {
+	var projectsModel *dto.Project
 	if err := db.Clauses(clause.Returning{}).Delete(&projectsModel, id).Error; err != nil {
 		return projectsModel, err
 	}
@@ -54,7 +55,7 @@ func (project) DeleteProject(id int) (*models.Project, error) {
 
 func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 	var taskModel models.Task
-	var projectModel models.Project
+	var projectModel dto.Project
 
 	if err := db.Clauses(clause.Returning{}).Find(&taskModel, taskId).Error; err != nil {
 		return "", err
@@ -71,7 +72,7 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 
 func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
 	var tasksModel models.Tasks
-	var projectModel models.Project
+	var projectModel dto.Project
 
 	if err := db.Clauses(clause.Returning{}).Find(&projectModel, projectId).Error; err != nil {
 		return &tasksModel, err
