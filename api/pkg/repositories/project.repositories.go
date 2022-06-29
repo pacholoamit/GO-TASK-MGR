@@ -68,3 +68,9 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 
 	return fmt.Sprintf("Successfully assigned task %v to project %v", taskId, projectId), nil
 }
+
+func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
+	var taskModel models.Tasks
+
+	return &taskModel, nil
+}

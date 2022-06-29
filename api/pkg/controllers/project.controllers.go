@@ -87,3 +87,16 @@ func (project) AssignTaskToProject(c echo.Context) error {
 	return c.String(http.StatusOK, message)
 
 }
+
+func (project) GetAllTasksInProject(c echo.Context) error {
+	projectId, _ := strconv.Atoi(c.Param("projectId"))
+
+	message, err := services.Project.GetAllTasksInProject(projectId)
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, message)
+
+}

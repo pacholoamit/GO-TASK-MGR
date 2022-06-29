@@ -17,7 +17,7 @@ type Task struct {
 	Status      string `json:"status" form:"status"`
 	Label       string `json:"label" form:"label"`
 	ProjectID   int
-	Project     Project `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Project     Project `gorm:"OnDelete:SET NULL;"`
 }
 
 type Tasks []Task

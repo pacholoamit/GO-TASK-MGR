@@ -87,3 +87,14 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 	return message, nil
 
 }
+
+func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
+
+	tasks, err := repositories.Project.GetAllTasksInProject(projectId)
+	if err != nil {
+		fmt.Println("Error when Deleting a project:", err)
+		return tasks, err
+	}
+	return tasks, nil
+
+}
