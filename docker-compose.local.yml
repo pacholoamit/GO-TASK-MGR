@@ -3,13 +3,14 @@ version: "3.0"
 services:
   api:
     container_name: GO-TASK-MGR-API
-    image: ghcr.io/pacholoamit/go-task-mgr-api:latest
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
     ports: 
     - 8081:8081
 
   client:
     container_name: GO-TASK-MGR-CLIENT
-    image: ghcr.io/pacholoamit/go-task-mgr-client:latest
     build:
       context: ./client
       dockerfile: ./Dockerfile
