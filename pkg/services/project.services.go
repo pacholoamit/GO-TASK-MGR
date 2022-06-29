@@ -13,48 +13,49 @@ type project struct{}
 var Project project
 
 func (project) GetAllProjects() (*models.Projects, error) {
-	ap, err := repositories.Project.GetAllProjects()
+	projects, err := repositories.Project.GetAllProjects()
 	if err != nil {
 		fmt.Println("Error when Getting all projects:", err)
-		return ap, err
+		return projects, err
 	}
-	return ap, nil
+	return projects, nil
 }
 
 func (project) CreateProject(t *models.Project) (*models.Project, error) {
-	cp, err := repositories.Project.CreateProject(t)
+	createdProject, err := repositories.Project.CreateProject(t)
 	if err != nil {
 		fmt.Println("Error when Creating a project:", err)
-		return cp, err
+		return createdProject, err
 	}
 
-	return cp, nil
+	return createdProject, nil
 }
 
 func (project) GetProject(id int) (*models.Project, error) {
-	gp, err := repositories.Project.GetProject(id)
-	if (gp.ID == 0) || (err != nil) {
+	project, err := repositories.Project.GetProject(id)
+
+	if (project.ID == 0) || (err != nil) {
 		fmt.Println("Error when Getting a project:", err)
-		return gp, errors.New("project does not exist")
+		return project, errors.New("project does not exist")
 	}
 
-	return gp, nil
+	return project, nil
 }
 
 func (project) UpdateProject(id int, t *models.Project) (*models.Project, error) {
-	up, err := repositories.Project.UpdateProject(id, t)
-	if (up.ID == 0) || (err != nil) {
+	updatedProject, err := repositories.Project.UpdateProject(id, t)
+	if (updatedProject.ID == 0) || (err != nil) {
 		fmt.Println("Error when Updating a project:", err)
-		return up, errors.New("project does not exist")
+		return updatedProject, errors.New("project does not exist")
 	}
-	return up, nil
+	return updatedProject, nil
 }
 
 func (project) DeleteProject(id int) (*models.Project, error) {
-	dp, err := repositories.Project.DeleteProject(id)
-	if (dp.ID == 0) || (err != nil) {
+	deletedProject, err := repositories.Project.DeleteProject(id)
+	if (deletedProject.ID == 0) || (err != nil) {
 		fmt.Println("Error when Deleting a project:", err)
-		return dp, errors.New("project does not exist")
+		return deletedProject, errors.New("project does not exist")
 	}
-	return dp, nil
+	return deletedProject, nil
 }

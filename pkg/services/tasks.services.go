@@ -13,47 +13,47 @@ type task struct{}
 var Task task
 
 func (task) GetAllTasks() (*models.Tasks, error) {
-	at, err := repositories.Task.GetAllTasks()
+	tasks, err := repositories.Task.GetAllTasks()
 	if err != nil {
 		fmt.Println("Error when Getting all tasks:", err)
-		return at, err
+		return tasks, err
 	}
-	return at, nil
+	return tasks, nil
 }
 
 func (task) CreateTask(t *models.Task) (*models.Task, error) {
-	ct, err := repositories.Task.CreateTask(t)
+	createdTask, err := repositories.Task.CreateTask(t)
 	if err != nil {
 		fmt.Println("Error when Creating a task:", err)
-		return ct, err
+		return createdTask, err
 	}
 
-	return ct, nil
+	return createdTask, nil
 }
 
 func (task) GetTask(id int) (*models.Task, error) {
-	gt, err := repositories.Task.GetTask(id)
-	if (gt.ID == 0) || (err != nil) {
+	task, err := repositories.Task.GetTask(id)
+	if (task.ID == 0) || (err != nil) {
 		fmt.Println("Error when Getting a task:", err)
-		return gt, errors.New("task does not exist")
+		return task, errors.New("task does not exist")
 	}
-	return gt, nil
+	return task, nil
 }
 
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
-	ut, err := repositories.Task.UpdateTask(id, t)
-	if (ut.ID == 0) || (err != nil) {
+	updatedTask, err := repositories.Task.UpdateTask(id, t)
+	if (updatedTask.ID == 0) || (err != nil) {
 		fmt.Println("Error when Updating a task:", err)
-		return ut, errors.New("task does not exist")
+		return updatedTask, errors.New("task does not exist")
 	}
-	return ut, nil
+	return updatedTask, nil
 }
 
 func (task) DeleteTask(id int) (*models.Task, error) {
-	dt, err := repositories.Task.DeleteTask(id)
-	if (dt.ID == 0) || (err != nil) {
+	deletedTask, err := repositories.Task.DeleteTask(id)
+	if (deletedTask.ID == 0) || (err != nil) {
 		fmt.Println("Error when Deleting a task:", err)
-		return dt, errors.New("task does not exist")
+		return deletedTask, errors.New("task does not exist")
 	}
-	return dt, nil
+	return deletedTask, nil
 }
