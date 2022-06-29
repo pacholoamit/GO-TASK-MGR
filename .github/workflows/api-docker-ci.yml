@@ -41,7 +41,6 @@ jobs:
             latest=true
           images: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.API_IMAGE_NAME }}
-            ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
