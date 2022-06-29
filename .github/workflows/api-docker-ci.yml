@@ -8,9 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: go-task-mgr
   API_IMAGE_NAME: go-task-mgr-api
-  CLIENT_IMAGE_NAME: go-task-mgr-client
 
 jobs:
   push_to_registries:
