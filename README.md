@@ -29,9 +29,6 @@ services:
   client:
     container_name: GO-TASK-MGR-CLIENT
     image: ghcr.io/pacholoamit/go-task-mgr-client:latest
-    build:
-      context: ./client
-      dockerfile: ./Dockerfile
     ports:
       - 3000:3000
 ```
