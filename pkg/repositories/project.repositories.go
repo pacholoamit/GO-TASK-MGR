@@ -51,3 +51,20 @@ func (project) DeleteProject(id int) (*models.Project, error) {
 	}
 	return projectsModel, nil
 }
+
+func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
+	var taskModel models.Task
+	var projectModel models.Project
+
+	if err := db.Clauses(clause.Returning{}).Find(&taskModel, taskId).Error; err != nil {
+		return "", err
+	}
+
+	if err := db.Clauses(clause.Returning{}).Find(&projectModel, projectId).Error; err != nil {
+		return "", err
+	}
+
+	db.Model(&taskModel).Association("Project").Replace(&projectModel)
+
+	return fmt.Sprintf("Successfully assigned task %v to project %v", taskId, projectId), nil
+}

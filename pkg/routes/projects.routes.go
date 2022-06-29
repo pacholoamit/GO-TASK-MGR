@@ -16,4 +16,5 @@ func (project) registerRoutes(router *echo.Echo) {
 	router.GET("/project/:id", controllers.Project.GetProject, middlewares.ValidateQueryId)
 	router.PUT("/project/:id", controllers.Project.UpdateProject, middlewares.ValidateQueryId)
 	router.DELETE("/project/:id", controllers.Project.DeleteProject, middlewares.ValidateQueryId)
+	router.PUT("/project/:projectId/task/:taskId", controllers.Project.AssignTaskToProject)
 }

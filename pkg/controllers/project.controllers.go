@@ -72,3 +72,18 @@ func (project) DeleteProject(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, deletedProject)
 }
+
+// Note add error handling here
+func (project) AssignTaskToProject(c echo.Context) error {
+	projectId, _ := strconv.Atoi(c.Param("projectId"))
+	taskId, _ := strconv.Atoi(c.Param("taskId"))
+
+	message, err := services.Project.AssignTaskToProject(taskId, projectId)
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotFound, err.Error())
+	}
+
+	return c.String(http.StatusOK, message)
+
+}

@@ -10,7 +10,7 @@ type task struct{}
 var Task task
 
 func (task) CreateTask(t *models.Task) (*models.Task, error) {
-	if err := db.Omit(clause.Associations).Create(&t).Error; err != nil {
+	if err := db.Create(&t).Error; err != nil {
 		return t, err
 	}
 	return t, nil

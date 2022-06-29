@@ -76,3 +76,14 @@ func (project) DeleteProject(id int) (*models.Project, error) {
 	}
 	return deletedProject, nil
 }
+
+func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
+
+	message, err := repositories.Project.AssignTaskToProject(taskId, projectId)
+	if err != nil {
+		fmt.Println("Error when Deleting a project:", err)
+		return "", err
+	}
+	return message, nil
+
+}
