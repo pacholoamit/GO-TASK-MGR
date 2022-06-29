@@ -81,7 +81,7 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 
 	message, err := repositories.Project.AssignTaskToProject(taskId, projectId)
 	if err != nil {
-		fmt.Println("Error when Deleting a project:", err)
+		fmt.Println("Error when Assigning a task to a project:", err)
 		return "", err
 	}
 	return message, nil
@@ -92,7 +92,7 @@ func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
 
 	tasks, err := repositories.Project.GetAllTasksInProject(projectId)
 	if err != nil {
-		fmt.Println("Error when Deleting a project:", err)
+		fmt.Println("Error when Getting all tasks from a project:", err)
 		return tasks, err
 	}
 	return tasks, nil

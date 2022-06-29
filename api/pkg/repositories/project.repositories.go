@@ -64,13 +64,21 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 		return "", err
 	}
 
-	db.Model(&taskModel).Association("Project").Replace(&projectModel)
+	db.Model(&projectModel).Association("Tasks").Append(&taskModel)
 
 	return fmt.Sprintf("Successfully assigned task %v to project %v", taskId, projectId), nil
 }
 
 func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
-	var taskModel models.Tasks
+	var tasksModel models.Tasks
+	var projectModel models.Project
 
-	return &taskModel, nil
+	if err := db.Clauses(clause.Returning{}).Find(&projectModel, projectId).Error; err != nil {
+		return &tasksModel, err
+	}
+
+	if err := db.Clauses(clause.Returning{}).Model(&projectModel).Association("Tasks").Find(&tasksModel); err != nil {
+		return &tasksModel, err
+	}
+	return &tasksModel, nil
 }
