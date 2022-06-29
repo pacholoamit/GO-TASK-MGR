@@ -17,29 +17,29 @@ func (task) CreateTask(t *models.Task) (*models.Task, error) {
 }
 
 func (task) GetAllTasks() (*models.Tasks, error) {
-	var mts models.Tasks
-	if err := db.Find(&mts).Error; err != nil {
-		return &mts, err
+	var tasksModel models.Tasks
+	if err := db.Find(&tasksModel).Error; err != nil {
+		return &tasksModel, err
 	}
-	return &mts, nil
+	return &tasksModel, nil
 }
 
 func (task) GetTask(id int) (*models.Task, error) {
-	var mt *models.Task
-	if err := db.Find(&mt, id).Error; err != nil {
-		return mt, err
+	var taskModel *models.Task
+	if err := db.Find(&taskModel, id).Error; err != nil {
+		return taskModel, err
 	}
-	return mt, nil
+	return taskModel, nil
 }
 
 func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
-	var mt models.Task
+	var taskModel models.Task
 
-	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Updates(t).Error; err != nil {
-		return &mt, err
+	if err := db.Clauses(clause.Returning{}).Find(&taskModel, id).Updates(t).Error; err != nil {
+		return &taskModel, err
 	}
 
-	return &mt, nil
+	return &taskModel, nil
 }
 
 func (task) DeleteTask(id int) (*models.Task, error) {
