@@ -19,35 +19,35 @@ func (project) CreateProject(p *models.Project) (*models.Project, error) {
 }
 
 func (project) GetAllProjects() (*models.Projects, error) {
-	var mps *models.Projects
-	if err := db.Find(&mps).Error; err != nil {
-		return mps, err
+	var projectsModel *models.Projects
+	if err := db.Find(&projectsModel).Error; err != nil {
+		return projectsModel, err
 	}
-	return mps, nil
+	return projectsModel, nil
 }
 
 func (project) GetProject(id int) (*models.Project, error) {
-	var mp *models.Project
-	if err := db.Find(&mp, id).Error; err != nil {
+	var projectModel *models.Project
+	if err := db.Find(&projectModel, id).Error; err != nil {
 		fmt.Println("Error:", err)
-		return mp, err
+		return projectModel, err
 	}
-	return mp, nil
+	return projectModel, nil
 }
 
 func (project) UpdateProject(id int, p *models.Project) (*models.Project, error) {
-	var mp *models.Project
-	if err := db.Clauses(clause.Returning{}).Find(&mp, id).Updates(p).Error; err != nil {
-		return mp, err
+	var projectModel *models.Project
+	if err := db.Clauses(clause.Returning{}).Find(&projectModel, id).Updates(p).Error; err != nil {
+		return projectModel, err
 	}
 
-	return mp, nil
+	return projectModel, nil
 }
 
 func (project) DeleteProject(id int) (*models.Project, error) {
-	var mp *models.Project
-	if err := db.Clauses(clause.Returning{}).Delete(&mp, id).Error; err != nil {
-		return mp, err
+	var projectsModel *models.Project
+	if err := db.Clauses(clause.Returning{}).Delete(&projectsModel, id).Error; err != nil {
+		return projectsModel, err
 	}
-	return mp, nil
+	return projectsModel, nil
 }
