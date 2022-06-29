@@ -41,7 +41,7 @@ jobs:
             latest=true
           images: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.CLIENT_IMAGE_NAME }}
-            ${{ env.REGISTRY }}/${{ github.repository }}
+            ${{ env.REGISTRY }}/${{ env.CLIENT_IMAGE_NAME }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
