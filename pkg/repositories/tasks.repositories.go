@@ -43,23 +43,23 @@ func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 }
 
 func (task) DeleteTask(id int) (*models.Task, error) {
-	var mt models.Task
-	if err := db.Clauses(clause.Returning{}).Delete(&mt, id).Error; err != nil {
-		return &mt, err
+	var taskModel models.Task
+	if err := db.Clauses(clause.Returning{}).Delete(&taskModel, id).Error; err != nil {
+		return &taskModel, err
 	}
-	return &mt, nil
+	return &taskModel, nil
 }
 
 func (task) UpdateTaskProject(id int, pid int) (*models.Task, error) {
-	var mt models.Task
-	var mp models.Project
+	var taskModel models.Task
+	var projectModel models.Project
 
-	if err := db.Clauses(clause.Returning{}).Find(&mt, id).Error; err != nil {
-		return &mt, err
+	if err := db.Clauses(clause.Returning{}).Find(&taskModel, id).Error; err != nil {
+		return &taskModel, err
 	}
 
-	if err := db.Clauses(clause.Returning{}).Find(&mp, pid).Error; err != nil {
-		return &mt, err
+	if err := db.Clauses(clause.Returning{}).Find(&projectModel, pid).Error; err != nil {
+		return &taskModel, err
 	}
 
 	// Update Project association if any provided
@@ -72,7 +72,7 @@ func (task) UpdateTaskProject(id int, pid int) (*models.Task, error) {
 
 	// db.Model(&mt).Association("Project").Replace(mp)
 
-	db.Model(&mt).Association("Project").Replace(&mp)
+	db.Model(&taskModel).Association("Project").Replace(&projectModel)
 
-	return &mt, nil
+	return &taskModel, nil
 }
