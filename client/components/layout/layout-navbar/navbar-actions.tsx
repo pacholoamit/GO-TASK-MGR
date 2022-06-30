@@ -4,11 +4,13 @@ import {
   ThemeIcon,
   Text,
   MantineTheme,
+  DefaultMantineColor,
 } from "@mantine/core";
+import { Heart } from "tabler-icons-react";
 
 interface NavbarActionProps {
   icon: React.ReactNode;
-  color: string;
+  color: DefaultMantineColor;
   label: string;
 }
 
@@ -38,3 +40,16 @@ const NavbarAction: React.FC<NavbarActionProps> = ({ color, icon, label }) => {
     </UnstyledButton>
   );
 };
+
+const actionsList: NavbarActionProps[] = [
+  { icon: <Heart size={16} />, color: "pink", label: "Watchlist" },
+];
+
+const NavbarActions: React.FC = () => {
+  const actions = actionsList.map((action) => (
+    <NavbarAction {...action} key={action.label} />
+  ));
+  return <>{actions}</>;
+};
+
+export default NavbarActions;
