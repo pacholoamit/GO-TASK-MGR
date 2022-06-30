@@ -1,7 +1,7 @@
 import React from "react";
 import { AppShell, Header, Navbar, Text } from "@mantine/core";
 
-const LayoutHeader: React.FunctionComponent = () => {
+const LayoutHeader: React.FC = () => {
   return (
     <Header height={60} p="xs">
       <Text>Header</Text>
@@ -11,8 +11,8 @@ const LayoutHeader: React.FunctionComponent = () => {
 
 const LayoutNavbar: React.FC = () => {
   return (
-    <Navbar width={{ base: 300 }} height={500} p="xs">
-      <Text>Layout</Text>
+    <Navbar width={{ base: 300 }} p="xs">
+      <Text>Navbar</Text>
     </Navbar>
   );
 };
