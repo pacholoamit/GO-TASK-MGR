@@ -1,21 +1,7 @@
 import React from "react";
-import { AppShell, Header, Navbar, Text } from "@mantine/core";
-
-const LayoutHeader: React.FC = () => {
-  return (
-    <Header height={60} p="xs">
-      <Text>Header</Text>
-    </Header>
-  );
-};
-
-const LayoutNavbar: React.FC = () => {
-  return (
-    <Navbar width={{ base: 300 }} p="xs">
-      <Text>Navbar</Text>
-    </Navbar>
-  );
-};
+import { AppShell } from "@mantine/core";
+import LayoutNavbar from "./layout-navbar";
+import LayoutHeader from "./layout-navbar";
 
 type LayoutProps = {
   children: React.ReactNode;
