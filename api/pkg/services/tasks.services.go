@@ -3,7 +3,7 @@ package services
 import (
 	"fmt"
 
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/repositories"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
 )
@@ -15,7 +15,7 @@ var (
 	taskNonExistErr = utils.NonExistentError("task")
 )
 
-func (task) GetAllTasks() (*models.Tasks, error) {
+func (task) GetAllTasks() (*dto.Tasks, error) {
 	tasks, err := repositories.Task.GetAllTasks()
 	if err != nil {
 		fmt.Println("Error when Getting all tasks:", err)
@@ -24,7 +24,7 @@ func (task) GetAllTasks() (*models.Tasks, error) {
 	return tasks, nil
 }
 
-func (task) CreateTask(t *models.Task) (*models.Task, error) {
+func (task) CreateTask(t *dto.Task) (*dto.Task, error) {
 	createdTask, err := repositories.Task.CreateTask(t)
 	if err != nil {
 		fmt.Println("Error when Creating a task:", err)
@@ -34,7 +34,7 @@ func (task) CreateTask(t *models.Task) (*models.Task, error) {
 	return createdTask, nil
 }
 
-func (task) GetTask(id int) (*models.Task, error) {
+func (task) GetTask(id int) (*dto.Task, error) {
 	task, err := repositories.Task.GetTask(id)
 
 	if task.ID == 0 {
@@ -49,7 +49,7 @@ func (task) GetTask(id int) (*models.Task, error) {
 	return task, nil
 }
 
-func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
+func (task) UpdateTask(id int, t *dto.Task) (*dto.Task, error) {
 	updatedTask, err := repositories.Task.UpdateTask(id, t)
 
 	if updatedTask.ID == 0 {
@@ -63,7 +63,7 @@ func (task) UpdateTask(id int, t *models.Task) (*models.Task, error) {
 	return updatedTask, nil
 }
 
-func (task) DeleteTask(id int) (*models.Task, error) {
+func (task) DeleteTask(id int) (*dto.Task, error) {
 	deletedTask, err := repositories.Task.DeleteTask(id)
 
 	if deletedTask.ID == 0 {
