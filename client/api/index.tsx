@@ -9,6 +9,6 @@ interface GetProjectArgs {
   id: string | string[] | undefined;
 }
 const getProject = ({ id }: GetProjectArgs) =>
-  api.get("/project").then((res) => res.data) as Promise<Project>;
+  api.get(`/project/${id}`).then((res) => res.data) as Promise<Project>;
 
 export { getAllProjects, getProject };
