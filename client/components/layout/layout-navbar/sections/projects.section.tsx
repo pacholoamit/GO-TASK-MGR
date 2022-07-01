@@ -1,10 +1,9 @@
 import NavbarButton from "../components/navbar.button";
 import Link from "next/link";
 import { Title, Loader, Navbar, ScrollArea, Center } from "@mantine/core";
-import { useQuery } from "react-query";
-import { getAllProjects } from "../../../../api";
 import { Projects } from "../../../../api/dto";
 import { Folder } from "tabler-icons-react";
+import useGetAllProjects from "../../../../hooks/useGetAllProjects";
 
 interface ProjectsListProps {
   projects: Projects;
@@ -29,10 +28,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
 };
 
 const ProjectsSection: React.FC = () => {
-  const { data: allProjects, isLoading } = useQuery<Projects, Error>(
-    "projects",
-    getAllProjects
-  );
+  const { data: allProjects, isLoading } = useGetAllProjects();
 
   return (
     <Navbar.Section grow component={ScrollArea} mx="-x" px="xs">
