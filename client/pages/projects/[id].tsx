@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { Projects, Project } from "../../models/dto";
+import { Projects, Project } from "../../api/dto";
 
 interface ProjectProps {
   project: Project;

@@ -10,11 +10,7 @@ import Image from "next/image";
 import { CSSProperties } from "react";
 import { MoonStars, Sun } from "tabler-icons-react";
 
-type styles = {
-  [key: string]: CSSProperties;
-};
-
-const styles: styles = {
+const styles: { [key: string]: CSSProperties } = {
   group: {
     paddingLeft: 60,
     paddingRight: 60,
@@ -30,11 +26,13 @@ const ColorSchemeToggle = () => {
 
   return (
     <ActionIcon
-      variant="outline"
+      size={32}
+      variant="light"
+      color={dark ? "yellow" : "blue"}
       onClick={() => toggleColorScheme()}
       title="Toggle color scheme"
     >
-      {dark ? <Sun size={18} /> : <MoonStars size={18} />}
+      {dark ? <Sun size={24} /> : <MoonStars size={24} />}
     </ActionIcon>
   );
 };
@@ -42,8 +40,8 @@ const ColorSchemeToggle = () => {
 const LayoutHeader: React.FC = () => {
   return (
     <Header height={72} p="xs">
-      <Group position="apart">
-        <Group style={styles.group} spacing="xs" align={"center"}>
+      <Group style={styles.group} position="apart">
+        <Group spacing="xs" align={"center"}>
           <Image src="/gopher.svg" alt="go logo" width="36" height="48" />
           <Title style={styles.title}>GO TASK MGR</Title>
         </Group>

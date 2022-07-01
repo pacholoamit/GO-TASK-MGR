@@ -13,10 +13,11 @@ func main() {
 
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
 
+	e.Use(middleware.CORS())
 	e.Use(middleware.Secure())
-	// e.Use(middleware.Recover()) // Recover from panics
+	e.Use(middleware.Recover()) // Recover from panics
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
-	// e.Use(middleware.Logger())
+	e.Use(middleware.Logger())
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 
 	routes.SetupRoutes(e)

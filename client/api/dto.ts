@@ -1,7 +1,7 @@
 export type Project = {
   ID: string;
-  Name: string;
-  Color: String;
+  name: string;
+  color: String;
   CreatedAt: string;
   UpdatedAt: string;
 };

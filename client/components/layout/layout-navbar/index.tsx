@@ -1,11 +1,11 @@
 import { Navbar, ScrollArea } from "@mantine/core";
-import NavbarActions from "./navbar-actions";
+import ProjectsSection from "./sections/projects.section";
 
 const LayoutNavbar: React.FC = () => {
   return (
     <Navbar width={{ base: 300 }} p="xs">
       <Navbar.Section grow component={ScrollArea} mx="-x" px="xs">
-        <NavbarActions />
+        <ProjectsSection projects={[]} />
       </Navbar.Section>
     </Navbar>
   );
