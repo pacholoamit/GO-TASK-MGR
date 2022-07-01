@@ -2,57 +2,81 @@ import {
   Container,
   InputBaseProps,
   InputVariant,
+  Stack,
+  Textarea,
   TextInput,
 } from "@mantine/core";
 import { GetServerSideProps } from "next";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { getProject } from "../../api";
 import { Project } from "../../api/dto";
 
+const styles: { [key: string]: CSSProperties } = {
+  container: {
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingTop: 24,
+  },
+};
+
+interface ProjectTitleComponentProps {
+  projectName: string;
+}
+
+const ProjectTitleComponent: React.FC<ProjectTitleComponentProps> = ({
+  projectName,
+}) => {
+  const [name, setName] = useState(projectName);
+  return (
+    <TextInput
+      variant={"unstyled"}
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      styles={{
+        input: {
+          fontSize: 32,
+          fontWeight: 700,
+          paddingBottom: 20,
+          paddingTop: 20,
+        },
+      }}
+    />
+  );
+};
+
+interface ProjectDescriptionComponentProps {
+  projectDescription: string;
+}
+
+const ProjectDescriptionComponent: React.FC<
+  ProjectDescriptionComponentProps
+> = ({ projectDescription }) => {
+  const [description, setDescription] = useState(projectDescription);
+  const isNoDescription = description === "";
+  return (
+    <Textarea
+      variant="unstyled"
+      value={description}
+      onChange={(e) => setDescription(e.target.value)}
+      style={{ width: "400px" }}
+      placeholder={
+        isNoDescription ? "Add a description to your task here..." : undefined
+      }
+    />
+  );
+};
 interface ProjectProps {
   project: Project;
 }
 
-export default function ProjectPage({
-  project: { name: projectName, description: projectDescription },
-}: ProjectProps) {
-  const [name, setName] = useState(projectName);
-  const [description, setDescription] = useState(projectDescription);
-  const [variant, setVariant] = useState<InputVariant>("unstyled");
-
-  const isNoDescription = description === "";
+export default function ProjectPage({ project }: ProjectProps) {
   return (
-    <Container size={"xl"} px={"xs"}>
-      <TextInput
-        variant={variant}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        styles={{
-          input: {
-            fontSize: 32,
-            fontWeight: 700,
-            paddingBottom: 20,
-            paddingTop: 20,
-          },
-        }}
-      />
-      <TextInput
-        variant="unstyled"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder={
-          isNoDescription ? "Add a description to your task here" : undefined
-        }
-        styles={{
-          input: {
-            fontSize: 34,
-            fontWeight: 700,
-            paddingBottom: 20,
-            paddingTop: 20,
-          },
-        }}
-      />
-    </Container>
+    <div style={styles.container}>
+      <Stack>
+        <ProjectTitleComponent projectName={project.name} />
+        <ProjectDescriptionComponent projectDescription={project.description} />
+      </Stack>
+    </div>
   );
 }
 
