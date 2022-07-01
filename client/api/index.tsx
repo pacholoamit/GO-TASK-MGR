@@ -1,8 +1,14 @@
 import { useQuery } from "react-query";
 import api from "../config/api";
-import { Projects } from "./dto";
+import { Project, Projects } from "./dto";
 
 const getAllProjects = () =>
   api.get("/projects").then((res) => res.data) as Promise<Projects>;
 
-export { getAllProjects };
+interface GetProjectArgs {
+  id: string | string[] | undefined;
+}
+const getProject = ({ id }: GetProjectArgs) =>
+  api.get("/project").then((res) => res.data) as Promise<Project>;
+
+export { getAllProjects, getProject };

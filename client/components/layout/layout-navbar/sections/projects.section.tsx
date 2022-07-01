@@ -1,11 +1,10 @@
-import { Title, Loader, Navbar, ScrollArea, Center } from "@mantine/core";
-import { GetServerSideProps } from "next";
 import NavbarButton from "../components/navbar.button";
+import Link from "next/link";
+import { Title, Loader, Navbar, ScrollArea, Center } from "@mantine/core";
 import { useQuery } from "react-query";
 import { getAllProjects } from "../../../../api";
 import { Projects } from "../../../../api/dto";
 import { Folder } from "tabler-icons-react";
-import Link from "next/link";
 
 interface ProjectsListProps {
   projects: Projects;

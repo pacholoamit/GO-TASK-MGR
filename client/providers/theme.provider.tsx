@@ -13,8 +13,9 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [colorScheme, setColorScheme] = React.useState<ColorScheme>("light");
 
   const theme: MantineThemeOverride = {
+    fontFamily: "'Inter', sans-serif;",
     headings: {
-      fontFamily: "'League Spartan', sans-serif;",
+      fontFamily: "'Inter', sans-serif;",
     },
     colorScheme,
   };

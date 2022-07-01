@@ -1,5 +1,7 @@
+import { Title } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { getAllProjects, getProject } from "../../api";
 import { Projects, Project } from "../../api/dto";
 
 interface ProjectProps {
@@ -12,17 +14,13 @@ export default function ProjectPage({ project }: ProjectProps) {
 
   return (
     <>
-      <h1>This is Project {id}</h1>
+      <Title order={2}>{project.name}</Title>
       <p>{JSON.stringify(project)}</p>
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const req = await fetch(`http://localhost:8081/project/${query.id}`);
-  const data = (await req.json()) as Projects;
-
-  return {
-    props: { project: data },
-  };
+  const project = await getProject({ id: query.id });
+  return { props: { project } };
 };
