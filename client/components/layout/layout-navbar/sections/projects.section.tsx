@@ -1,12 +1,13 @@
-import { Title, Text } from "@mantine/core";
+import { Title, Loader, Navbar, ScrollArea } from "@mantine/core";
 import { GetServerSideProps } from "next";
+import NavbarButton from "../components/navbar.button";
 import { useQuery } from "react-query";
 import { getAllProjects } from "../../../../api";
 import { Projects } from "../../../../api/dto";
+import { Folder } from "tabler-icons-react";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const projects = await getAllProjects();
-  console.log(projects);
   return { props: { projects } };
 };
 
@@ -22,16 +23,22 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) => {
       initialData: projects,
     }
   );
-  console.log(allProjects);
+
+  const projectsComponent = allProjects?.map((project) => (
+    <NavbarButton
+      key={project.ID}
+      icon={<Folder size={16} />}
+      onClick={() => {}}
+      label={project.name}
+      color={"blue"}
+    />
+  ));
+
   return (
-    <>
+    <Navbar.Section grow component={ScrollArea} mx="-x" px="xs">
       <Title order={3}>Projects</Title>
-      {allProjects?.map((project) => (
-        <div key={project.ID}>
-          <Text>{project.name}</Text>
-        </div>
-      ))}
-    </>
+      {allProjects ? projectsComponent : <Loader />}
+    </Navbar.Section>
   );
 };
 
