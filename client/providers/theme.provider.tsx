@@ -7,11 +7,16 @@ type ThemeProviderProps = {
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const theme: MantineThemeOverride = {
     colorScheme: "dark",
+    headings: {
+      fontFamily: "'League Spartan', sans-serif;",
+    },
   };
   return (
-    <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-      {children}
-    </MantineProvider>
+    <>
+      <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+        {children}
+      </MantineProvider>
+    </>
   );
 };
 
