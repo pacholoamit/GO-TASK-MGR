@@ -7,6 +7,7 @@ import { apiUrl } from "../../api/config";
 import { Project, Tasks } from "../../api/dto";
 import ProjectDescriptionComponent from "../../components/project/project-description";
 import ProjectTitleComponent from "../../components/project/project-title";
+import TaskCards from "../../components/tasks/task-cards";
 import useGetAllTasksByProject from "../../hooks/useGetAllTasksByProject";
 import useGetProject from "../../hooks/useGetProject";
 
@@ -39,22 +40,9 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project, tasks }) => {
   return (
     <div style={styles.container}>
       <Stack>
-        <ProjectTitleComponent projectName={project?.name as string} />
-        <ProjectDescriptionComponent
-          projectDescription={project?.description as string}
-        />
-        <Grid>
-          {tasks?.map((task) => (
-            <Grid.Col key={task.ID} span={2}>
-              <Card shadow="lg" p="lg" sx={{ height: 150 }}>
-                <Stack>
-                  <Title order={4}> {task.title}</Title>
-                  <Text lineClamp={2}>{task.description}</Text>
-                </Stack>
-              </Card>
-            </Grid.Col>
-          ))}
-        </Grid>
+        <ProjectTitleComponent projectName={project.name} />
+        <ProjectDescriptionComponent projectDescription={project.description} />
+        <TaskCards tasks={tasks} />
       </Stack>
     </div>
   );
