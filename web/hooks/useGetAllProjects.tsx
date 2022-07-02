@@ -1,12 +1,16 @@
-import { useQuery } from "react-query";
+import useSWR from "swr";
+import { apiUrl, fetcher } from "../api/config";
 import { Projects } from "../api/dto";
-import api from "../config/api";
-
-const getAllProjects = () =>
-  api.get("/projects").then((res) => res.data) as Promise<Projects>;
 
 const useGetAllProjects = () => {
-  return useQuery<Projects, Error>("useGetAllProjects", getAllProjects);
+  const url = `${apiUrl}/projects`;
+  const { data, error } = useSWR<Projects>(url, fetcher);
+
+  return {
+    allProjects: data,
+    isLoading: !error && !data,
+    error,
+  };
 };
 
 export default useGetAllProjects;

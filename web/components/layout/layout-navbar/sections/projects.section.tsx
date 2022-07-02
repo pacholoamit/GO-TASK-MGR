@@ -27,7 +27,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects, router }) => {
 
 const ProjectsSection: React.FC = () => {
   const router = useRouter();
-  const { data: allProjects, isLoading } = useGetAllProjects();
+  const { allProjects, isLoading } = useGetAllProjects();
 
   return (
     <Navbar.Section grow component={ScrollArea} mx="-x" px="xs">
