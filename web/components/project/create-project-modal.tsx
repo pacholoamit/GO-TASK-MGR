@@ -1,12 +1,14 @@
-import { Button, Textarea, TextInput, Stack, Text } from "@mantine/core";
-import { useForm, zodResolver } from "@mantine/form";
-import { ContextModalProps } from "@mantine/modals";
-import { showNotification } from "@mantine/notifications";
-import { z } from "zod";
 import React from "react";
 import useCreateProject from "../../hooks/useCreateProject";
 
-const initialValues = {
+import { Button, Textarea, TextInput, Stack, Text } from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
+import { ContextModalProps } from "@mantine/modals";
+import { NotificationProps, showNotification } from "@mantine/notifications";
+import { z } from "zod";
+import { CreateProjectRequest } from "../../api/dto";
+
+const initialValues: CreateProjectRequest = {
   name: "",
   description: "",
 };
@@ -28,39 +30,36 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
 
   const nameProp = form.getInputProps("name");
 
+  const notificationProps: NotificationProps = {
+    title: `WOOO! New project created 🎉`,
+    message: `Project ${nameProp.value} successfully created!`,
+    styles: (theme) => ({
+      root: {
+        backgroundColor: theme.colors.green[6],
+        borderColor: theme.colors.green[6],
+        "&::before": { backgroundColor: theme.white },
+      },
+
+      title: { color: theme.white },
+      description: { color: theme.white },
+      closeButton: {
+        color: theme.white,
+        "&:hover": { backgroundColor: theme.colors.green[7] },
+      },
+    }),
+  };
+
   React.useEffect(() => {
     if (isSuccess) {
       context.closeModal(id);
-      showNotification({
-        title: `WOOO! New project created 🎉`,
-        message: `Project ${nameProp.value} successfully created!`,
-
-        styles: (theme) => ({
-          root: {
-            backgroundColor: theme.colors.green[6],
-            borderColor: theme.colors.green[6],
-            "&::before": { backgroundColor: theme.white },
-          },
-
-          title: { color: theme.white },
-          description: { color: theme.white },
-          closeButton: {
-            color: theme.white,
-            "&:hover": { backgroundColor: theme.colors.green[7] },
-          },
-        }),
-      });
+      showNotification(notificationProps);
     }
     if (isError) console.log(error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError]);
 
   return (
-    <form
-      onSubmit={form.onSubmit(({ name, description }) =>
-        mutate({ name, description })
-      )}
-    >
+    <form onSubmit={form.onSubmit((v) => mutate(v))}>
       <Stack>
         <TextInput
           label="Project Name"
