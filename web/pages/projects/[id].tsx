@@ -25,36 +25,35 @@ const styles: { [key: string]: CSSProperties } = {
 
 export default function ProjectPage() {
   const { query, push } = useRouter();
-  const {
-    isLoading: projectIsLoading,
-    isError: projectIsError,
-    data: projectData,
-  } = useGetProject({ id: query.id });
-  const {
-    isLoading: tasksIsLoading,
-    isError: tasksIsError,
-    data: taskData,
-  } = useGetAllTasksByProject({ projectId: query.id });
-  const theme = useMantineTheme();
+  const { error: projectError, project } = useGetProject({
+    id: query.id,
+  });
+  // const {
+  //   isLoading: tasksIsLoading,
+  //   isError: tasksIsError,
+  //   data: taskData,
+  // } = useGetAllTasksByProject({ projectId: query.id });
 
-  if (projectIsLoading || tasksIsLoading)
-    return (
-      <Center>
-        <Loader />
-      </Center>
-    );
+  // if (tasksIsLoading)
+  //   return (
+  //     <Center>
+  //       <Loader />
+  //     </Center>
+  //   );
 
-  if (projectIsError || tasksIsError) push("/");
-
+  if (projectError) {
+    console.log(projectError);
+    push("/");
+  }
   return (
     <div style={styles.container}>
       <Stack>
-        <ProjectTitleComponent projectName={projectData?.name as string} />
+        <ProjectTitleComponent projectName={project?.name as string} />
         <ProjectDescriptionComponent
-          projectDescription={projectData?.description as string}
+          projectDescription={project?.description as string}
         />
         <Grid>
-          {taskData?.map((task) => (
+          {/* {taskData?.map((task) => (
             <Grid.Col key={task.ID} span={2}>
               <Card shadow="lg" p="lg" sx={{ height: 150 }}>
                 <Stack>
@@ -63,7 +62,7 @@ export default function ProjectPage() {
                 </Stack>
               </Card>
             </Grid.Col>
-          ))}
+          ))} */}
         </Grid>
       </Stack>
     </div>
