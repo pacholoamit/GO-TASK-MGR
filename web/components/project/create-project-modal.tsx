@@ -1,31 +1,39 @@
 import { Button, Textarea, TextInput, Stack, Text } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, zodResolver } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
+import { z } from "zod";
 import React from "react";
 import useCreateProject from "../../hooks/useCreateProject";
+
+const initialValues = {
+  name: "",
+  description: "",
+};
+
+const schema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "You can't have a project without a name 🤔" }),
+  description: z.string(),
+});
 
 const CreateProjectModal = ({ context, id }: ContextModalProps) => {
   const { mutate, isLoading, isSuccess, isError, error } = useCreateProject();
 
   const form = useForm({
-    initialValues: {
-      projectName: "",
-      projectDescription: "",
-    },
-    validate: {
-      projectName: (value) =>
-        value.length > 0 ? null : "Can't have a project without a name 🤔",
-    },
+    schema: zodResolver(schema),
+    initialValues,
   });
-  const projectNameProp = form.getInputProps("projectName");
+
+  const nameProp = form.getInputProps("name");
 
   React.useEffect(() => {
     if (isSuccess) {
       context.closeModal(id);
       showNotification({
         title: `WOOO! New project created 🎉`,
-        message: `Project ${projectNameProp.value} successfully created!`,
+        message: `Project ${nameProp.value} successfully created!`,
 
         styles: (theme) => ({
           root: {
@@ -49,8 +57,8 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
 
   return (
     <form
-      onSubmit={form.onSubmit(({ projectName, projectDescription }) =>
-        mutate({ name: projectName, description: projectDescription })
+      onSubmit={form.onSubmit(({ name, description }) =>
+        mutate({ name, description })
       )}
     >
       <Stack>
@@ -58,14 +66,14 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
           label="Project Name"
           placeholder="My super awesome project!"
           disabled={isLoading}
-          {...form.getInputProps("projectName")}
+          {...form.getInputProps("name")}
           data-autoFocus
         />
         <Textarea
           label="Project Description"
           placeholder="Something about my awesome project!"
           disabled={isLoading}
-          {...form.getInputProps("projectDescription")}
+          {...form.getInputProps("description")}
         />
         {isError && (
           <Text color={"red"}>

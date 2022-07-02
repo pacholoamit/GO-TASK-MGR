@@ -25,3 +25,10 @@ export type CreateProjectRequest = {
   name: string;
   description: string;
 };
+
+export type CreateTaskRequest = {
+  title: string;
+  description: string;
+  status: string;
+  label: string;
+};
