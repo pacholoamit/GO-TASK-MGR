@@ -20,3 +20,8 @@ export type Task = {
 };
 
 export type Tasks = Task[];
+
+export type CreateProjectRequest = {
+  name: string;
+  description: string;
+};

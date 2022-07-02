@@ -41,7 +41,9 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
         <ThemeIcon color={color} variant="light">
           {icon}
         </ThemeIcon>
-        <Text size="sm">{label}</Text>
+        <Text lineClamp={1} size="sm">
+          {label}
+        </Text>
       </Group>
     </UnstyledButton>
   );

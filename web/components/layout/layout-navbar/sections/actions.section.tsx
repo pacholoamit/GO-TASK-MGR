@@ -2,7 +2,7 @@ import { Navbar, Title } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { FolderPlus, Note } from "tabler-icons-react";
 
-import NavbarButton from "../components/navbar.button";
+import NavbarButton from "../navbar.button";
 
 const ActionsSection: React.FC = () => {
   const modals = useModals();

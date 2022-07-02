@@ -8,7 +8,7 @@ interface useGetAllTasksByProjectProps {
 
 const useGetAllTasksByProject = ({ id }: useGetAllTasksByProjectProps) => {
   const url = `${apiUrl}/project/${id}/tasks`;
-  const { data, error } = useSWR<Tasks>(id ? url : null, id ? fetcher : null);
+  const { data, error } = useSWR<Tasks>(url, fetcher);
 
   return {
     tasks: data,

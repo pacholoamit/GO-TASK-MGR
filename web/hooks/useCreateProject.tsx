@@ -1,22 +1,16 @@
 import { useMutation } from "react-query";
-import { Project } from "../api/dto";
-import api from "../config/api";
+import { apiInstance } from "../api/config";
+import { CreateProjectRequest, Project } from "../api/dto";
 
-interface CreateProjectArgs {
-  name: string;
-  description: string;
-}
-
-const createProject = ({ name, description }: CreateProjectArgs) => {
-  return api
+const createProject = ({ name, description }: CreateProjectRequest) => {
+  return apiInstance
     .post("/project", { name, description })
     .then((res) => res.data) as Promise<Project>;
 };
 
 const useCreateProject = () => {
-  return useMutation(
-    (formData: CreateProjectArgs) => createProject(formData),
-    {}
+  return useMutation((formData: CreateProjectRequest) =>
+    createProject(formData)
   );
 };
 

@@ -1,4 +1,4 @@
-import NavbarButton from "../components/navbar.button";
+import NavbarButton from "../navbar.button";
 import Link from "next/link";
 import {
   Title,
