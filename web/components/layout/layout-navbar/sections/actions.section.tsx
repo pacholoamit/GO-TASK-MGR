@@ -10,8 +10,10 @@ const ActionsSection: React.FC = () => {
   const openCreateProjectModal = () =>
     modals.openContextModal("CreateProjectModal", {
       title: "Create Project",
+      centered: true,
       innerProps: {},
     });
+
   return (
     <Navbar.Section mx="-x" px="xs">
       <Title order={3}>Actions</Title>

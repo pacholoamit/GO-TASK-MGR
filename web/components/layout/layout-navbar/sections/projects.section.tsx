@@ -1,43 +1,50 @@
 import NavbarButton from "../components/navbar.button";
 import Link from "next/link";
-import { Title, Loader, Navbar, ScrollArea, Center } from "@mantine/core";
+import {
+  Title,
+  Loader as MaintineLoader,
+  Navbar,
+  ScrollArea,
+  Center,
+} from "@mantine/core";
 import { Projects } from "../../../../api/dto";
 import { Folder } from "tabler-icons-react";
 import useGetAllProjects from "../../../../hooks/useGetAllProjects";
-import { NextRouter, useRouter } from "next/router";
 
 interface ProjectsListProps {
   projects: Projects;
-  router: NextRouter;
 }
 
-const ProjectsList: React.FC<ProjectsListProps> = ({ projects, router }) => {
+const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
   const projectslist = projects.map((project) => (
-    <NavbarButton
-      key={project.ID}
-      icon={<Folder size={16} />}
-      onClick={() => router.push(`/projects/${encodeURIComponent(project.ID)}`)}
-      label={project.name}
-      color={"blue"}
-    />
+    <Link href={`/projects/${encodeURIComponent(project.ID)}`} key={project.ID}>
+      <NavbarButton
+        icon={<Folder size={16} />}
+        onClick={() => {}}
+        label={project.name}
+        color={"blue"}
+      />
+    </Link>
   ));
 
   return <>{projectslist}</>;
 };
 
+const Loader = () => {
+  return (
+    <Center style={{ height: "100%" }}>
+      <MaintineLoader />
+    </Center>
+  );
+};
+
 const ProjectsSection: React.FC = () => {
-  const router = useRouter();
   const { allProjects, isLoading } = useGetAllProjects();
 
   return (
     <Navbar.Section grow component={ScrollArea} mx="-x" px="xs">
       <Title order={3}>Projects</Title>
-
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <ProjectsList projects={allProjects || []} router={router} />
-      )}
+      {isLoading ? <Loader /> : <ProjectsList projects={allProjects || []} />}
     </Navbar.Section>
   );
 };

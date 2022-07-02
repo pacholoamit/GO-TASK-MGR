@@ -1,8 +1,7 @@
-import { Card, Center, Loader, Stack } from "@mantine/core";
+import { Center, Container, Loader, Stack } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { CSSProperties } from "react";
-import { Project, Tasks } from "../../api/dto";
 import ProjectDescriptionComponent from "../../components/project/project-description";
 import ProjectTitleComponent from "../../components/project/project-title";
 import TaskCards from "../../components/tasks/task-cards";
@@ -13,6 +12,9 @@ const styles: { [key: string]: CSSProperties } = {
     paddingLeft: 24,
     paddingRight: 24,
     paddingTop: 24,
+  },
+  center: {
+    height: "100%",
   },
 };
 
@@ -28,7 +30,7 @@ const ProjectPage = () => {
 
   if (isLoading)
     return (
-      <Center>
+      <Center style={styles.center}>
         <Loader />
       </Center>
     );
