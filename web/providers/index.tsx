@@ -1,4 +1,5 @@
 import React from "react";
+import ModalsProvider from "./modal.provider";
 import QueryProvider from "./query.provider";
 import ThemeProvider from "./theme.provider";
 
@@ -9,7 +10,9 @@ type ProvidersProps = {
 const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <QueryProvider>
-      <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider>
+        <ModalsProvider>{children}</ModalsProvider>
+      </ThemeProvider>
     </QueryProvider>
   );
 };
