@@ -6,8 +6,8 @@ type Project struct {
 	ID          uint
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description"`
+	Name        string `json:"name" form:"name" validate:"required"`
+	Description string `json:"description" form:"description"`
 }
 
 type Projects []Project

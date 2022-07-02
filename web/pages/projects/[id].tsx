@@ -5,6 +5,7 @@ import {
   Loader,
   Stack,
   Title,
+  Text,
   useMantineTheme,
 } from "@mantine/core";
 import { useRouter } from "next/router";
@@ -36,10 +37,6 @@ export default function ProjectPage() {
   } = useGetAllTasksByProject({ projectId: query.id });
   const theme = useMantineTheme();
 
-  console.log(query.id);
-  const secondaryColor =
-    theme.colorScheme === "dark" ? theme.colors.dark[1] : theme.colors.gray[7];
-
   if (projectIsLoading || tasksIsLoading)
     return (
       <Center>
@@ -58,11 +55,12 @@ export default function ProjectPage() {
         />
         <Grid>
           {taskData?.map((task) => (
-            <Grid.Col key={task.ID} span={3}>
-              <Card shadow="lg" p="lg">
-                <Card.Section>
-                  <Title order={6}> {task.title}</Title>
-                </Card.Section>
+            <Grid.Col key={task.ID} span={2}>
+              <Card shadow="lg" p="lg" sx={{ height: 150 }}>
+                <Stack>
+                  <Title order={4}> {task.title}</Title>
+                  <Text lineClamp={2}>{task.description}</Text>
+                </Stack>
               </Card>
             </Grid.Col>
           ))}

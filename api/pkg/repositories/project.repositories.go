@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
@@ -61,8 +62,16 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 		return "", err
 	}
 
+	if taskModel.ID == 0 {
+		return "", errors.New("task ID not found")
+	}
+
 	if err := db.Clauses(clause.Returning{}).Find(&projectModel, projectId).Error; err != nil {
 		return "", err
+	}
+
+	if projectModel.ID == 0 {
+		return "", errors.New("project ID not found")
 	}
 
 	db.Model(&projectModel).Association("Tasks").Append(&taskModel)
