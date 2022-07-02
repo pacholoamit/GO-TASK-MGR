@@ -5,7 +5,8 @@ import {
   MantineProvider,
   MantineThemeOverride,
 } from "@mantine/core";
-import { ModalsProvider } from "@mantine/modals";
+import { NotificationsProvider } from "@mantine/notifications";
+
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -32,9 +33,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         toggleColorScheme={toggleColorScheme}
       >
         <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-          <ModalsProvider labels={{ confirm: "Submit", cancel: "Cancel" }}>
-            {children}
-          </ModalsProvider>
+          <NotificationsProvider>{children}</NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </>

@@ -13,7 +13,7 @@ const getProject = ({ id }: GetProjectArgs) =>
   api.get(`/project/${id}`).then((res) => res.data) as Promise<Project>;
 
 const useGetProject = ({ id }: useGetProjectProps) => {
-  return useQuery<Project, Error>(["useGetProject", id], () =>
+  return useQuery<Project, Error>([`useGetProject${id}`, id], () =>
     getProject({ id })
   );
 };

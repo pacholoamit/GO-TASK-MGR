@@ -33,9 +33,8 @@ const ProjectsSection: React.FC = () => {
   return (
     <Navbar.Section grow component={ScrollArea} mx="-x" px="xs">
       <Title order={3}>Projects</Title>
-      <Center>
-        {isLoading ? <Loader /> : <ProjectsList projects={allProjects || []} />}
-      </Center>
+
+      {isLoading ? <Loader /> : <ProjectsList projects={allProjects || []} />}
     </Navbar.Section>
   );
 };
