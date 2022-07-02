@@ -1,6 +1,6 @@
 import { Card, Center, Grid, Loader, Stack, Title, Text } from "@mantine/core";
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import React, { CSSProperties } from "react";
 import { apiUrl } from "../../api/config";

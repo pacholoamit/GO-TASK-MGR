@@ -9,7 +9,6 @@ interface useGetProjectProps {
 const useGetProject = ({ id }: useGetProjectProps) => {
   const url = `${apiUrl}/project/${id}`;
   const { data, error } = useSWR<Project>(id ? url : null, id ? fetcher : null);
-  console.log(id);
   return {
     project: data,
     isLoading: !error && !data,
