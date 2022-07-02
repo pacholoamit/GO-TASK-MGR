@@ -1,6 +1,7 @@
 import {
   Card,
   Center,
+  Grid,
   Loader,
   Stack,
   Title,
@@ -35,6 +36,7 @@ export default function ProjectPage() {
   } = useGetAllTasksByProject({ projectId: query.id });
   const theme = useMantineTheme();
 
+  console.log(query.id);
   const secondaryColor =
     theme.colorScheme === "dark" ? theme.colors.dark[1] : theme.colors.gray[7];
 
@@ -54,13 +56,17 @@ export default function ProjectPage() {
         <ProjectDescriptionComponent
           projectDescription={projectData?.description as string}
         />
-        {taskData?.map((task) => (
-          <Card key={task.ID} shadow="lg" p="lg">
-            <Card.Section>
-              <Title> {task.Title}</Title>
-            </Card.Section>
-          </Card>
-        ))}
+        <Grid>
+          {taskData?.map((task) => (
+            <Grid.Col key={task.ID} span={3}>
+              <Card shadow="lg" p="lg">
+                <Card.Section>
+                  <Title order={6}> {task.title}</Title>
+                </Card.Section>
+              </Card>
+            </Grid.Col>
+          ))}
+        </Grid>
       </Stack>
     </div>
   );

@@ -10,10 +10,10 @@ export type Projects = Project[];
 
 export type Task = {
   ID: string;
-  Title: string;
-  Description: string;
-  Status: string;
-  Label: string;
+  title: string;
+  description: string;
+  status: string;
+  label: string;
   ProjectID: number;
   CreatedAt: string;
   UpdatedAt: string;
