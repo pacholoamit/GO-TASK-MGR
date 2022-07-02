@@ -1,4 +1,11 @@
-import { Center, Loader, Stack } from "@mantine/core";
+import {
+  Card,
+  Center,
+  Loader,
+  Stack,
+  Title,
+  useMantineTheme,
+} from "@mantine/core";
 import { useRouter } from "next/router";
 import React, { CSSProperties } from "react";
 import ProjectDescriptionComponent from "../../components/project/project-description";
@@ -26,6 +33,10 @@ export default function ProjectPage() {
     isError: tasksIsError,
     data: taskData,
   } = useGetAllTasksByProject({ projectId: query.id });
+  const theme = useMantineTheme();
+
+  const secondaryColor =
+    theme.colorScheme === "dark" ? theme.colors.dark[1] : theme.colors.gray[7];
 
   if (projectIsLoading || tasksIsLoading)
     return (
@@ -43,6 +54,13 @@ export default function ProjectPage() {
         <ProjectDescriptionComponent
           projectDescription={projectData?.description as string}
         />
+        {taskData?.map((task) => (
+          <Card key={task.ID} shadow="lg" p="lg">
+            <Card.Section>
+              <Title> {task.Title}</Title>
+            </Card.Section>
+          </Card>
+        ))}
       </Stack>
     </div>
   );

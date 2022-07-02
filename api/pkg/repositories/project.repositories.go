@@ -55,7 +55,7 @@ func (project) DeleteProject(id int) (*dto.Project, error) {
 
 func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 	var taskModel models.Task
-	var projectModel dto.Project
+	var projectModel models.Project
 
 	if err := db.Clauses(clause.Returning{}).Find(&taskModel, taskId).Error; err != nil {
 		return "", err
@@ -72,7 +72,7 @@ func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 
 func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
 	var tasksModel models.Tasks
-	var projectModel dto.Project
+	var projectModel models.Project
 
 	if err := db.Clauses(clause.Returning{}).Find(&projectModel, projectId).Error; err != nil {
 		return &tasksModel, err
