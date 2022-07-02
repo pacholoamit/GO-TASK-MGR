@@ -1,27 +1,25 @@
-import { useQuery } from "react-query";
-import { Project, Tasks } from "../api/dto";
-import api from "../config/api";
-import useGetAllProjects from "./useGetAllProjects";
-
-interface getAllTasksByProjectArgs {
-  projectId: string | string[] | undefined;
-}
+import useSWR from "swr";
+import { apiUrl, fetcher } from "../api/config";
+import { Tasks } from "../api/dto";
 
 interface useGetAllTasksByProjectProps {
   projectId: string | string[] | undefined;
 }
 
-const getAllTasksByProject = ({ projectId }: getAllTasksByProjectArgs) =>
-  api
-    .get(`/project/${projectId}/tasks`)
-    .then((res) => res.data) as Promise<Tasks>;
-
 const useGetAllTasksByProject = ({
   projectId,
 }: useGetAllTasksByProjectProps) => {
-  return useQuery<Tasks, Error>(["useGetAllTasksByProject", projectId], () =>
-    getAllTasksByProject({ projectId })
+  const url = `${apiUrl}/project/${projectId}/tasks`;
+  const { data, error } = useSWR<Tasks>(
+    projectId ? url : null,
+    projectId ? fetcher : null
   );
+
+  return {
+    tasks: data,
+    isLoading: !error && !data,
+    error,
+  };
 };
 
 export default useGetAllTasksByProject;

@@ -1,15 +1,10 @@
-import {
-  Card,
-  Center,
-  Grid,
-  Loader,
-  Stack,
-  Title,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import { Card, Center, Grid, Loader, Stack, Title, Text } from "@mantine/core";
+import axios from "axios";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { CSSProperties } from "react";
+import { apiUrl } from "../../api/config";
+import { Project, Tasks } from "../../api/dto";
 import ProjectDescriptionComponent from "../../components/project/project-description";
 import ProjectTitleComponent from "../../components/project/project-title";
 import useGetAllTasksByProject from "../../hooks/useGetAllTasksByProject";
@@ -23,28 +18,24 @@ const styles: { [key: string]: CSSProperties } = {
   },
 };
 
-export default function ProjectPage() {
-  const { query, push } = useRouter();
-  const { error: projectError, project } = useGetProject({
-    id: query.id,
-  });
-  // const {
-  //   isLoading: tasksIsLoading,
-  //   isError: tasksIsError,
-  //   data: taskData,
-  // } = useGetAllTasksByProject({ projectId: query.id });
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const project: Project = await axios
+    .get(`${apiUrl}/project/${params?.id}`)
+    .then((res) => res.data);
 
-  // if (tasksIsLoading)
-  //   return (
-  //     <Center>
-  //       <Loader />
-  //     </Center>
-  //   );
+  const tasks: Tasks = await axios
+    .get(`${apiUrl}/project/${params?.id}/tasks`)
+    .then((res) => res.data);
 
-  if (projectError) {
-    console.log(projectError);
-    push("/");
-  }
+  return { props: { key: params?.id, project, tasks } };
+};
+
+interface ProjectPageProps {
+  project: Project;
+  tasks: Tasks;
+}
+
+const ProjectPage: React.FC<ProjectPageProps> = ({ project, tasks }) => {
   return (
     <div style={styles.container}>
       <Stack>
@@ -53,7 +44,7 @@ export default function ProjectPage() {
           projectDescription={project?.description as string}
         />
         <Grid>
-          {/* {taskData?.map((task) => (
+          {tasks?.map((task) => (
             <Grid.Col key={task.ID} span={2}>
               <Card shadow="lg" p="lg" sx={{ height: 150 }}>
                 <Stack>
@@ -62,9 +53,11 @@ export default function ProjectPage() {
                 </Stack>
               </Card>
             </Grid.Col>
-          ))} */}
+          ))}
         </Grid>
       </Stack>
     </div>
   );
-}
+};
+
+export default ProjectPage;
