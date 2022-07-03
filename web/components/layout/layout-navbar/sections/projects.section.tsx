@@ -20,9 +20,9 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
     <Link href={`/projects/${encodeURIComponent(project.ID)}`} key={project.ID}>
       <NavbarButton
         icon={<Folder size={16} />}
-        onClick={() => {}}
         label={project.name}
         color={"blue"}
+        enableMenu={true}
       />
     </Link>
   ));
