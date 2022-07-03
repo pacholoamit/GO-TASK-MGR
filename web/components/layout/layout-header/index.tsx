@@ -19,6 +19,7 @@ const styles: { [key: string]: CSSProperties } = {
     display: "flex",
     alignItems: "center",
     height: "100%",
+    justifyContent: "space-between",
   },
 };
 
@@ -70,7 +71,7 @@ interface LayoutHeaderProps {
 const LayoutHeader: React.FC<LayoutHeaderProps> = ({ opened, setOpened }) => {
   const theme = useMantineTheme();
   return (
-    <Header height={72} p="md">
+    <Header height={72} p="xl">
       <div style={styles.container}>
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Burger
@@ -81,15 +82,13 @@ const LayoutHeader: React.FC<LayoutHeaderProps> = ({ opened, setOpened }) => {
             mr="xl"
           />
         </MediaQuery>
-        <Group style={styles.group} position="apart">
-          <Group spacing="xs" align={"center"}>
-            <Image src="/gopher.svg" alt="go logo" width="36" height="48" />
-            <MediaQuery smallerThan={"xs"} styles={{ display: "none" }}>
-              <Title style={styles.title}>GO TASK MGR</Title>
-            </MediaQuery>
-          </Group>
-          <HeaderOptions />
+        <Group spacing="xs" align={"center"}>
+          <Image src="/gopher.svg" alt="go logo" width="36" height="48" />
+          <MediaQuery smallerThan={"xs"} styles={{ display: "none" }}>
+            <Title style={styles.title}>GO TASK MGR</Title>
+          </MediaQuery>
         </Group>
+        <HeaderOptions />
       </div>
     </Header>
   );
