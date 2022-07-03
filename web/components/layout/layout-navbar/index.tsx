@@ -9,7 +9,7 @@ interface LayoutNavbarProps {
 const LayoutNavbar: React.FC<LayoutNavbarProps> = ({ opened }) => {
   return (
     <Navbar
-      p="md"
+      p="xs"
       hiddenBreakpoint="sm"
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}

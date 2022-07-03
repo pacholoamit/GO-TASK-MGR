@@ -1,12 +1,12 @@
-import { useDisclosure } from "@mantine/hooks";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import { TaskRequest, Task } from "../api/dto";
+import { TaskRequest } from "../api/dto";
 
 export interface TaskContextInterface {
   opened: boolean;
   setOpened: Dispatch<SetStateAction<boolean>>;
   currentTask: TaskRequest | null;
-  receiveTask: (task: TaskRequest) => void;
+  proxyTask: (task: TaskRequest) => void;
+  newTask: () => void;
 }
 // Context of current viewed task for Dialog
 const TaskContext = createContext<TaskContextInterface | null>(null);
@@ -19,16 +19,22 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   const [opened, setOpened] = useState(false);
   const [currentTask, setCurrentTask] = useState<TaskRequest | null>(null);
 
-  const receiveTask = (task: TaskRequest) => {
+  const proxyTask = (task: TaskRequest) => {
     setCurrentTask(task);
+    setOpened(true);
+  };
+
+  const newTask = () => {
+    setCurrentTask(null);
     setOpened(true);
   };
 
   const value: TaskContextInterface = {
     opened,
-    currentTask,
     setOpened,
-    receiveTask,
+    currentTask,
+    newTask,
+    proxyTask,
   };
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 };

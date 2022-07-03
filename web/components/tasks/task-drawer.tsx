@@ -32,7 +32,7 @@ const TaskDrawer: React.FC = () => {
   });
 
   React.useEffect(() => {
-    currentTask && form.setValues(currentTask);
+    form.setValues(currentTask ?? initialValues);
     if (isSuccess) {
       setOpened(false);
     }

@@ -7,10 +7,10 @@ import useTaskContext from "../../../../hooks/useTaskContext";
 import NavbarButton from "../navbar.button";
 
 const ActionsSection: React.FC = () => {
-  const { setOpened } = useTaskContext();
+  const { newTask } = useTaskContext();
   const { openCreateProjectModal } = useCreateProjectModal();
 
-  const onClick = () => setOpened(true);
+  const onClick = () => newTask();
   return (
     <Navbar.Section mx="-x" px="xs">
       <Title order={3}>Actions</Title>
@@ -18,13 +18,13 @@ const ActionsSection: React.FC = () => {
         onClick={onClick}
         icon={<Note size={16} />}
         color={"red"}
-        label={"Write a new task"}
+        label={"New task"}
       />
       <NavbarButton
         onClick={openCreateProjectModal}
         icon={<FolderPlus size={16} />}
         color={"grape"}
-        label={"Create a new project"}
+        label={"New project"}
       />
     </Navbar.Section>
   );

@@ -6,8 +6,8 @@ interface TaskCardProps {
   task: Task;
 }
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
-  const { receiveTask } = useTaskContext();
-  const onClick = () => receiveTask(task);
+  const { proxyTask } = useTaskContext();
+  const onClick = () => proxyTask(task);
   return (
     <Grid.Col sm={12} md={4} lg={2}>
       <Card shadow="lg" p="lg" sx={{ height: 150 }}>
