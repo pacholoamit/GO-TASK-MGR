@@ -2,6 +2,7 @@ import React from "react";
 import ModalsProvider from "./modal.provider";
 import QueryProvider from "./query.provider";
 import ThemeProvider from "./theme.provider";
+import { TaskProvider } from "./task.context.provider";
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -11,7 +12,9 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <QueryProvider>
       <ThemeProvider>
-        <ModalsProvider>{children}</ModalsProvider>
+        <ModalsProvider>
+          <TaskProvider>{children}</TaskProvider>
+        </ModalsProvider>
       </ThemeProvider>
     </QueryProvider>
   );

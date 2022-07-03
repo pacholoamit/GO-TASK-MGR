@@ -3,9 +3,10 @@ import React from "react";
 
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
-import { Button, Drawer, Stack, TextInput } from "@mantine/core";
+import { Button, Drawer, Stack, TextInput, Text } from "@mantine/core";
 import { CreateTaskRequest } from "../../api/dto";
 import RichTextEditor from "../RichTextEditor";
+import useTaskContext from "../../hooks/useTaskContext";
 
 const initialValues: CreateTaskRequest = {
   title: "",
@@ -21,16 +22,9 @@ const schema = z.object({
   label: z.string(),
 });
 
-interface CreateTaskDrawerProps {
-  opened: boolean;
-  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const CreateTaskDrawer: React.FC<CreateTaskDrawerProps> = ({
-  opened,
-  setOpened,
-}) => {
+const TaskDrawer: React.FC = () => {
   const { mutate, isLoading, isSuccess, isError, error } = useCreateTask();
+  const { opened, setOpened } = useTaskContext();
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -49,19 +43,19 @@ const CreateTaskDrawer: React.FC<CreateTaskDrawerProps> = ({
     <Drawer
       opened={opened}
       position="right"
-      size="30%"
+      size="40%"
       onClose={() => setOpened(false)}
       padding="xl"
     >
       <form onSubmit={form.onSubmit((v) => mutate(v))}>
         <Stack>
           <TextInput
-            label="Name"
+            label="Task Name"
             placeholder="Rule the world!"
             disabled={isLoading}
             {...form.getInputProps("title")}
           />
-
+          <Text>Description</Text>
           <RichTextEditor {...form.getInputProps("description")} />
           <Button mt="md" type="submit" loading={isLoading}>
             Create a new task!
@@ -72,4 +66,4 @@ const CreateTaskDrawer: React.FC<CreateTaskDrawerProps> = ({
   );
 };
 
-export default CreateTaskDrawer;
+export default TaskDrawer;
