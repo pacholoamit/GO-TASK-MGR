@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
-import { apiInstance } from "../api/config";
+import { useSWRConfig } from "swr";
+import { apiInstance, apiUrl } from "../api/config";
 import { CreateProjectRequest, Project } from "../api/dto";
 
 const createProject = ({ name, description }: CreateProjectRequest) => {
@@ -9,8 +10,12 @@ const createProject = ({ name, description }: CreateProjectRequest) => {
 };
 
 const useCreateProject = () => {
-  return useMutation((formData: CreateProjectRequest) =>
-    createProject(formData)
+  const { mutate: revalidate } = useSWRConfig();
+  return useMutation(
+    (formData: CreateProjectRequest) => createProject(formData),
+    {
+      onSuccess: () => revalidate(`${apiUrl}/projects`),
+    }
   );
 };
 

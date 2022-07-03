@@ -24,7 +24,6 @@ const schema = z.object({
 
 const CreateProjectModal = ({ context, id }: ContextModalProps) => {
   const { mutate, isLoading, isSuccess, isError, error } = useCreateProject();
-  const { mutate: revalidate } = useSWRConfig();
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -56,7 +55,6 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
     if (isSuccess) {
       context.closeModal(id);
       showNotification(notificationProps);
-      revalidate(`${apiUrl}/projects`);
     }
     if (isError) console.log(error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
