@@ -7,6 +7,8 @@ import { ContextModalProps } from "@mantine/modals";
 import { NotificationProps, showNotification } from "@mantine/notifications";
 import { z } from "zod";
 import { CreateProjectRequest } from "../../api/dto";
+import { useSWRConfig } from "swr";
+import { apiUrl } from "../../api/config";
 
 const initialValues: CreateProjectRequest = {
   name: "",
@@ -22,17 +24,18 @@ const schema = z.object({
 
 const CreateProjectModal = ({ context, id }: ContextModalProps) => {
   const { mutate, isLoading, isSuccess, isError, error } = useCreateProject();
+  const { mutate: revalidate } = useSWRConfig();
 
   const form = useForm({
     schema: zodResolver(schema),
     initialValues,
   });
 
-  const nameProp = form.getInputProps("name");
+  const { value } = form.getInputProps("name");
 
   const notificationProps: NotificationProps = {
     title: `WOOO! New project created 🎉`,
-    message: `Project ${nameProp.value} successfully created!`,
+    message: `Project ${value} successfully created!`,
     styles: (theme) => ({
       root: {
         backgroundColor: theme.colors.green[6],
@@ -53,6 +56,7 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
     if (isSuccess) {
       context.closeModal(id);
       showNotification(notificationProps);
+      revalidate(`${apiUrl}/projects`);
     }
     if (isError) console.log(error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
