@@ -1,10 +1,10 @@
 import useSWR from "swr";
-import { apiUrl, fetcher } from "../api/config";
+import { apiUrl } from "../api/config";
 import { Tasks } from "../api/dto";
 
 const useGetAllTasks = () => {
   const url = `${apiUrl}/tasks`;
-  const { data, error } = useSWR<Tasks>(url, fetcher);
+  const { data, error } = useSWR<Tasks>(url);
 
   return {
     tasks: data,

@@ -7,7 +7,8 @@ const SWRProvider: React.FC<SWRProviderProps> = ({ children }) => {
   return (
     <SWRConfig
       value={{
-        refreshInterval: 1000,
+        fetcher: (resource, init) =>
+          fetch(resource, init).then((res) => res.json()),
       }}
     >
       {children}

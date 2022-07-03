@@ -3,6 +3,7 @@ import ModalsProvider from "./modal.provider";
 import QueryProvider from "./query.provider";
 import ThemeProvider from "./theme.provider";
 import { TaskProvider } from "./task.context.provider";
+import SWRProvider from "./swr.provider";
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -10,13 +11,15 @@ type ProvidersProps = {
 
 const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
-    <QueryProvider>
-      <ThemeProvider>
-        <ModalsProvider>
-          <TaskProvider>{children}</TaskProvider>
-        </ModalsProvider>
-      </ThemeProvider>
-    </QueryProvider>
+    <SWRProvider>
+      <QueryProvider>
+        <ThemeProvider>
+          <ModalsProvider>
+            <TaskProvider>{children}</TaskProvider>
+          </ModalsProvider>
+        </ThemeProvider>
+      </QueryProvider>
+    </SWRProvider>
   );
 };
 

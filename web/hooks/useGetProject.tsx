@@ -1,5 +1,5 @@
 import { Project } from "../api/dto";
-import { apiUrl, fetcher } from "../api/config";
+import { apiUrl } from "../api/config";
 import useSWR from "swr";
 
 interface useGetProjectProps {
@@ -8,7 +8,7 @@ interface useGetProjectProps {
 
 const useGetProject = ({ id }: useGetProjectProps) => {
   const url = `${apiUrl}/project/${id}`;
-  const { data, error } = useSWR<Project>(url, fetcher);
+  const { data, error } = useSWR<Project>(url);
   return {
     project: data,
     isLoading: !error && !data,

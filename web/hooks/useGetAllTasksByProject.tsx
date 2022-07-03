@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { apiUrl, fetcher } from "../api/config";
+import { apiUrl } from "../api/config";
 import { Tasks } from "../api/dto";
 
 interface useGetAllTasksByProjectProps {
@@ -8,7 +8,7 @@ interface useGetAllTasksByProjectProps {
 
 const useGetAllTasksByProject = ({ id }: useGetAllTasksByProjectProps) => {
   const url = `${apiUrl}/project/${id}/tasks`;
-  const { data, error } = useSWR<Tasks>(url, fetcher);
+  const { data, error } = useSWR<Tasks>(url);
 
   return {
     tasks: data,
