@@ -2,9 +2,18 @@ import { Navbar, Space } from "@mantine/core";
 import ActionsSection from "./sections/actions.section";
 import ProjectsSection from "./sections/projects.section";
 
-const LayoutNavbar: React.FC = () => {
+interface LayoutNavbarProps {
+  opened: boolean;
+}
+
+const LayoutNavbar: React.FC<LayoutNavbarProps> = ({ opened }) => {
   return (
-    <Navbar width={{ base: 300 }} p="xs">
+    <Navbar
+      p="md"
+      hiddenBreakpoint="sm"
+      hidden={!opened}
+      width={{ sm: 200, lg: 300 }}
+    >
       <ActionsSection />
       <Space h="lg" />
       <ProjectsSection />

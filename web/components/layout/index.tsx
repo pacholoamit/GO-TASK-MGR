@@ -1,18 +1,31 @@
 import React from "react";
 import LayoutNavbar from "./layout-navbar";
 import LayoutHeader from "./layout-header";
-import { AppShell } from "@mantine/core";
+import { AppShell, useMantineTheme } from "@mantine/core";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const theme = useMantineTheme();
+  const [opened, setOpened] = React.useState(false);
+  const styles = {
+    main: {
+      background:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[8]
+          : theme.colors.gray[0],
+    },
+  };
   return (
     <AppShell
       padding={"md"}
-      navbar={<LayoutNavbar />}
-      header={<LayoutHeader />}
+      navbar={<LayoutNavbar opened={opened} />}
+      header={<LayoutHeader opened={opened} setOpened={setOpened} />}
+      navbarOffsetBreakpoint="sm"
+      fixed
+      styles={styles}
     >
       {children}
     </AppShell>
