@@ -6,11 +6,32 @@ import {
   Navbar,
   ScrollArea,
   Center,
+  Menu,
 } from "@mantine/core";
 import { Projects } from "../../../../api/dto";
-import { Folder } from "tabler-icons-react";
+import { Eraser, Folder, Trash } from "tabler-icons-react";
 import useGetAllProjects from "../../../../hooks/useGetAllProjects";
+import useDeleteProject from "../../../../hooks/useDeleteProject";
 
+interface ProjectMenuProps {
+  id: string;
+}
+const ProjectMenu: React.FC<ProjectMenuProps> = ({ id }) => {
+  const { mutate: deleteProject } = useDeleteProject();
+
+  const handleDelete = () => deleteProject(id);
+  return (
+    <Menu>
+      <Menu.Label>Settings</Menu.Label>
+      <Menu.Item icon={<Eraser size={14} />} color="green">
+        Rename
+      </Menu.Item>
+      <Menu.Item icon={<Trash size={14} />} color="red" onClick={handleDelete}>
+        Delete
+      </Menu.Item>
+    </Menu>
+  );
+};
 interface ProjectsListProps {
   projects: Projects;
 }
@@ -22,7 +43,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
         icon={<Folder size={16} />}
         label={project.name}
         color={"blue"}
-        enableMenu={true}
+        menu={<ProjectMenu id={project.ID} />}
       />
     </Link>
   ));

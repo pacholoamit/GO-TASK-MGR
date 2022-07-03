@@ -10,32 +10,19 @@ import {
 import { MouseEventHandler } from "react";
 import { Eraser, Trash } from "tabler-icons-react";
 
-const ProjectMenu = () => {
-  return (
-    <Menu>
-      <Menu.Label>Settings</Menu.Label>
-      <Menu.Item icon={<Eraser size={14} />} color="green">
-        Rename
-      </Menu.Item>
-      <Menu.Item icon={<Trash size={14} />} color="red">
-        Delete
-      </Menu.Item>
-    </Menu>
-  );
-};
 interface NavbarButtonProps {
   icon: React.ReactNode;
   color: DefaultMantineColor;
   label: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  enableMenu?: boolean;
+  menu?: React.ReactNode;
 }
 
 const NavbarButton: React.FC<NavbarButtonProps> = ({
   color,
   icon,
   label,
-  enableMenu,
+  menu,
   onClick,
 }) => {
   const sx = (theme: MantineTheme) => ({
@@ -63,7 +50,7 @@ const NavbarButton: React.FC<NavbarButtonProps> = ({
             {label}
           </Text>
         </Group>
-        {enableMenu && <ProjectMenu />}
+        {menu}
       </Group>
     </UnstyledButton>
   );

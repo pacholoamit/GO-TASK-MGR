@@ -1,15 +1,15 @@
 import { useMutation } from "react-query";
 import { apiInstance } from "../api/config";
-import { CreateTaskRequest, Task } from "../api/dto";
+import { TaskRequest, Task } from "../api/dto";
 
-const createTask = (data: CreateTaskRequest) => {
+const createTask = (data: TaskRequest) => {
   return apiInstance
     .post("/task", data)
     .then((res) => res.data) as Promise<Task>;
 };
 
 const useCreateTask = () => {
-  return useMutation((formData: CreateTaskRequest) => createTask(formData));
+  return useMutation((formData: TaskRequest) => createTask(formData));
 };
 
 export default useCreateTask;
