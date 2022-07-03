@@ -1,7 +1,6 @@
 import { Navbar, Title } from "@mantine/core";
-import { useModals } from "@mantine/modals";
 import React from "react";
-import { FolderPlus, Note } from "tabler-icons-react";
+import { FolderPlus, Home, Note } from "tabler-icons-react";
 import useCreateProjectModal from "../../../../hooks/useCreateProjectModal";
 import CreateTaskDrawer from "../../../tasks/create-task-drawer";
 
@@ -27,6 +26,7 @@ const ActionsSection: React.FC = () => {
         color={"grape"}
         label={"Create a new project"}
       />
+
       <CreateTaskDrawer opened={opened} setOpened={setOpened} />
     </Navbar.Section>
   );

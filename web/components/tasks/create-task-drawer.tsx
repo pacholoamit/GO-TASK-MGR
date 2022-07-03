@@ -76,7 +76,7 @@ const CreateTaskDrawer: React.FC<CreateTaskDrawerProps> = ({
             disabled={isLoading}
             {...form.getInputProps("description")}
           />
-          <Button fullWidth mt="md" type="submit" loading={isLoading}>
+          <Button mt="md" type="submit" loading={isLoading}>
             Create a new task!
           </Button>
         </Stack>
