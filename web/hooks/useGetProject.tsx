@@ -1,5 +1,5 @@
 import { Project } from "../api/dto";
-import { apiUrl } from "../api/config";
+import { apiUrl, getProjectEndpoint } from "../api/config";
 import useSWR from "swr";
 
 interface useGetProjectProps {
@@ -7,8 +7,9 @@ interface useGetProjectProps {
 }
 
 const useGetProject = ({ id }: useGetProjectProps) => {
-  const url = `${apiUrl}/project/${id}`;
-  const { data, error } = useSWR<Project, Error>(url);
+  const { data, error } = useSWR<Project, Error>(
+    getProjectEndpoint(id as string)
+  );
   return {
     project: data,
     isLoading: !error && !data,
