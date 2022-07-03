@@ -1,16 +1,16 @@
 import { Grid, Card, Title, Text, Stack } from "@mantine/core";
 import { Task, Tasks } from "../../api/dto";
+import RichTextEditor from "../RichTextEditor";
 
 interface TaskCardProps {
   task: Task;
 }
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   return (
-    <Grid.Col span={2}>
+    <Grid.Col sm={12} md={4} lg={2}>
       <Card shadow="lg" p="lg" sx={{ height: 150 }}>
         <Stack>
           <Title order={4}> {task.title}</Title>
-          <Text lineClamp={2}>{task.description}</Text>
         </Stack>
       </Card>
     </Grid.Col>

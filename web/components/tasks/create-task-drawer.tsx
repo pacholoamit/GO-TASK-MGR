@@ -1,19 +1,11 @@
 import useCreateTask from "../../hooks/useCreateTask";
 import React from "react";
 
-import { ContextModalProps } from "@mantine/modals";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
-import {
-  Button,
-  Dialog,
-  Drawer,
-  Stack,
-  Textarea,
-  TextInput,
-} from "@mantine/core";
+import { Button, Drawer, Stack, TextInput } from "@mantine/core";
 import { CreateTaskRequest } from "../../api/dto";
-import { showNotification, NotificationProps } from "@mantine/notifications";
+import RichTextEditor from "../RichTextEditor";
 
 const initialValues: CreateTaskRequest = {
   title: "",
@@ -65,17 +57,12 @@ const CreateTaskDrawer: React.FC<CreateTaskDrawerProps> = ({
         <Stack>
           <TextInput
             label="Name"
-            placeholder="Whatchu gonna do?"
+            placeholder="Rule the world!"
             disabled={isLoading}
             {...form.getInputProps("title")}
           />
-          <Textarea
-            label="Description"
-            placeholder="Whatchu gonna do?"
-            minRows={8}
-            disabled={isLoading}
-            {...form.getInputProps("description")}
-          />
+
+          <RichTextEditor {...form.getInputProps("description")} />
           <Button mt="md" type="submit" loading={isLoading}>
             Create a new task!
           </Button>
