@@ -1,5 +1,4 @@
-import { Grid, Card, Title, Text } from "@mantine/core";
-import { Stack } from "tabler-icons-react";
+import { Grid, Card, Title, Text, Stack } from "@mantine/core";
 import { Task, Tasks } from "../../api/dto";
 
 interface TaskCardProps {
@@ -7,7 +6,7 @@ interface TaskCardProps {
 }
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   return (
-    <Grid.Col key={task.ID} span={2}>
+    <Grid.Col span={2}>
       <Card shadow="lg" p="lg" sx={{ height: 150 }}>
         <Stack>
           <Title order={4}> {task.title}</Title>
@@ -26,7 +25,7 @@ const TaskCards: React.FC<TasksCardProps> = ({ tasks }) => {
   return (
     <Grid>
       {tasks.map((task) => (
-        <TaskCard task={task} key={task.ID} />
+        <TaskCard task={task} key={task.title} />
       ))}
     </Grid>
   );

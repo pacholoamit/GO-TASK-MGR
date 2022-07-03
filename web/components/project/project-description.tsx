@@ -2,12 +2,12 @@ import { Textarea } from "@mantine/core";
 import { useState } from "react";
 
 interface ProjectDescriptionComponentProps {
-  projectDescription: string;
+  description: string;
 }
 
 const ProjectDescriptionComponent: React.FC<
   ProjectDescriptionComponentProps
-> = ({ projectDescription }) => {
+> = ({ description: projectDescription }) => {
   const [description, setDescription] = useState(projectDescription);
   const isNoDescription = description === "";
   return (

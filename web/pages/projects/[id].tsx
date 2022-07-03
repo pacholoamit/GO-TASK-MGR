@@ -35,17 +35,13 @@ const ProjectPage = () => {
       </Center>
     );
 
-  if (isError) {
-    push("/");
-  }
+  if (isError) push("/");
 
   return (
     <div style={styles.container}>
       <Stack>
-        <ProjectTitleComponent projectName={project?.name || ""} />
-        <ProjectDescriptionComponent
-          projectDescription={project?.description || ""}
-        />
+        <ProjectTitleComponent name={project?.name ?? ""} />
+        <ProjectDescriptionComponent description={project?.description ?? ""} />
         <TaskCards tasks={tasks ?? []} />
       </Stack>
     </div>

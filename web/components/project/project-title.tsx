@@ -2,11 +2,11 @@ import { TextInput } from "@mantine/core";
 import { useState } from "react";
 
 interface ProjectTitleComponentProps {
-  projectName: string;
+  name: string;
 }
 
 const ProjectTitleComponent: React.FC<ProjectTitleComponentProps> = ({
-  projectName,
+  name: projectName,
 }) => {
   const [name, setName] = useState(projectName);
   return (
