@@ -4,11 +4,11 @@ import React from "react";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { Button, Drawer, Stack, TextInput, Text } from "@mantine/core";
-import { CreateTaskRequest } from "../../api/dto";
+import { TaskRequest } from "../../api/dto";
 import RichTextEditor from "../RichTextEditor";
 import useTaskContext from "../../hooks/useTaskContext";
 
-const initialValues: CreateTaskRequest = {
+const initialValues: TaskRequest = {
   title: "",
   description: "",
   status: "",
@@ -24,7 +24,7 @@ const schema = z.object({
 
 const TaskDrawer: React.FC = () => {
   const { mutate, isLoading, isSuccess, isError, error } = useCreateTask();
-  const { opened, setOpened } = useTaskContext();
+  const { opened, setOpened, currentTask } = useTaskContext();
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -32,12 +32,13 @@ const TaskDrawer: React.FC = () => {
   });
 
   React.useEffect(() => {
+    currentTask && form.setValues(currentTask);
     if (isSuccess) {
       setOpened(false);
     }
     if (isError) console.log(error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, currentTask]);
 
   return (
     <Drawer

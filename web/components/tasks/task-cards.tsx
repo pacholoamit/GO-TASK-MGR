@@ -1,16 +1,19 @@
-import { Grid, Card, Title, Text, Stack } from "@mantine/core";
+import { Grid, Card, Title, Text, Stack, Button } from "@mantine/core";
 import { Task, Tasks } from "../../api/dto";
-import RichTextEditor from "../RichTextEditor";
+import useTaskContext from "../../hooks/useTaskContext";
 
 interface TaskCardProps {
   task: Task;
 }
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+  const { receiveTask } = useTaskContext();
+  const onClick = () => receiveTask(task);
   return (
     <Grid.Col sm={12} md={4} lg={2}>
       <Card shadow="lg" p="lg" sx={{ height: 150 }}>
         <Stack>
           <Title order={4}> {task.title}</Title>
+          <Button onClick={onClick}>Open</Button>
         </Stack>
       </Card>
     </Grid.Col>

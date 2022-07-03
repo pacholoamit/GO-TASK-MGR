@@ -26,7 +26,7 @@ export type CreateProjectRequest = {
   description: string;
 };
 
-export type CreateTaskRequest = {
+export type TaskRequest = {
   title: string;
   description: string;
   status: string;
