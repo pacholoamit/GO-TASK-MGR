@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
-import { apiInstance } from "../api/config";
+import { useSWRConfig } from "swr";
+import { apiInstance, apiUrl } from "../api/config";
 import { Project } from "../api/dto";
 
 const deleteProject = (id: string) => {
@@ -9,7 +10,10 @@ const deleteProject = (id: string) => {
 };
 
 const useDeleteProject = () => {
-  return useMutation((id: string) => deleteProject(id));
+  const { mutate } = useSWRConfig();
+  return useMutation((id: string) => deleteProject(id), {
+    onSuccess: () => mutate(`${apiUrl}/projects`),
+  });
 };
 
 export default useDeleteProject;

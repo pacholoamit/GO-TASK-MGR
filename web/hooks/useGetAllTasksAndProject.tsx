@@ -6,18 +6,18 @@ interface useGetAllTasksAndProjectProps {
 }
 const useGetAllTasksAndProject = ({ id }: useGetAllTasksAndProjectProps) => {
   const {
-    error: projectError,
     project,
     isLoading: projectIsLoading,
+    IsError: projectError,
   } = useGetProject({ id });
   const {
-    isLoading: tasksIsLoading,
-    error: tasksError,
     tasks,
+    isLoading: tasksIsLoading,
+    isError: tasksError,
   } = useGetAllTasksByProject({ id });
 
   return {
-    isError: projectError && tasksError,
+    isError: projectError || tasksError,
     isLoading: projectIsLoading && tasksIsLoading,
     project,
     tasks,

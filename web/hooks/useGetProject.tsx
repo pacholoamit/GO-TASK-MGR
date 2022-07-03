@@ -8,11 +8,11 @@ interface useGetProjectProps {
 
 const useGetProject = ({ id }: useGetProjectProps) => {
   const url = `${apiUrl}/project/${id}`;
-  const { data, error } = useSWR<Project>(url);
+  const { data, error } = useSWR<Project, Error>(url);
   return {
     project: data,
     isLoading: !error && !data,
-    error,
+    IsError: error,
   };
 };
 export default useGetProject;

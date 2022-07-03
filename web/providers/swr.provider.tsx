@@ -1,14 +1,20 @@
-import useSWR, { SWRConfig } from "swr";
+import axios, { AxiosRequestConfig } from "axios";
+import { SWRConfig } from "swr";
 
 interface SWRProviderProps {
   children: React.ReactNode;
 }
+
 const SWRProvider: React.FC<SWRProviderProps> = ({ children }) => {
   return (
     <SWRConfig
       value={{
-        fetcher: (resource, init) =>
-          fetch(resource, init).then((res) => res.json()),
+        fetcher: (...args: [string, AxiosRequestConfig]) =>
+          axios(...args)
+            .then((res) => res.data)
+            .catch((err) => {
+              throw err;
+            }),
       }}
     >
       {children}

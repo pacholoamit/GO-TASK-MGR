@@ -13,7 +13,7 @@ const useGetAllTasksByProject = ({ id }: useGetAllTasksByProjectProps) => {
   return {
     tasks: data,
     isLoading: !error && !data,
-    error,
+    isError: error,
   };
 };
 
