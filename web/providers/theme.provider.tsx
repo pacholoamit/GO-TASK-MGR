@@ -6,14 +6,18 @@ import {
   MantineThemeOverride,
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-
+import { useLocalStorage } from "@mantine/hooks";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [colorScheme, setColorScheme] = React.useState<ColorScheme>("light");
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: "light",
+    getInitialValueInEffect: true,
+  });
 
   const theme: MantineThemeOverride = {
     fontFamily: "'Inter', sans-serif;",
