@@ -11,7 +11,7 @@ const styles: { [key: string]: CSSProperties } = {
     paddingRight: 24,
     paddingTop: 24,
   },
-  nter: {
+  center: {
     height: "100%",
   },
 };

@@ -3,10 +3,29 @@ import React from "react";
 
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
-import { Button, Drawer, Stack, TextInput, Text } from "@mantine/core";
+import {
+  Button,
+  Drawer,
+  Stack,
+  TextInput,
+  Text,
+  MultiSelect,
+} from "@mantine/core";
 import { TaskRequest } from "../../api/dto";
 import RichTextEditor from "../RichTextEditor";
 import useTaskContext from "../../hooks/useTaskContext";
+
+interface StatusEnum {
+  status: "Not Started" | "In Progress" | "Waiting" | "Deferred" | "Done";
+}
+
+const statusOpts: StatusEnum[] = [
+  { status: "Not Started" },
+  { status: "In Progress" },
+  { status: "Waiting" },
+  { status: "Deferred" },
+  { status: "Done" },
+];
 
 const initialValues: TaskRequest = {
   title: "",
@@ -51,10 +70,20 @@ const TaskDrawer: React.FC = () => {
       <form onSubmit={form.onSubmit((v) => mutate(v))}>
         <Stack>
           <TextInput
-            label="Task Name"
-            placeholder="Rule the world!"
+            placeholder="Write a task name"
             disabled={isLoading}
+            size={"xl"}
             {...form.getInputProps("title")}
+          />
+
+          <MultiSelect
+            label="Label"
+            searchable
+            maxSelectedValues={1}
+            disabled={isLoading}
+            defaultValue={[statusOpts[0].status]}
+            data={statusOpts.map(({ status }) => status)}
+            {...form.getInputProps("label")}
           />
           <Text>Description</Text>
           <RichTextEditor {...form.getInputProps("description")} />
