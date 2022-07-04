@@ -126,6 +126,18 @@ const TaskDrawer: React.FC = () => {
               onChange={(arr) => form.setFieldValue("status", arr[0])}
               data={statusOpts.map(({ status }) => status)}
             />
+            <MultiSelect
+              label="Label"
+              maxSelectedValues={1}
+              variant={"unstyled"}
+              disabled={mut.isLoading}
+              defaultValue={[form.getInputProps("label").value]}
+              onChange={(arr) => form.setFieldValue("label", arr[0])}
+              creatable
+              searchable
+              getCreateLabel={(query) => `+ Create ${query}`}
+              data={[]}
+            />
             <Text>Description</Text>
             <RichTextEditor {...form.getInputProps("description")} />
             <Button mt="md" type="submit" loading={mut.isLoading}>

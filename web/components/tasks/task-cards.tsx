@@ -28,6 +28,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
               {task.status}
             </Badge>
           )}
+          {task.label && (
+            <Badge variant="light" color={"blue"}>
+              {task.label}
+            </Badge>
+          )}
         </Stack>
       </Card>
     </Grid.Col>
