@@ -11,6 +11,9 @@ export const getAllProjectsEndpoint = `${apiUrl}/projects`;
 // GET
 export const getProjectEndpoint = (id: string) => `${apiUrl}/project/${id}`;
 
+//PUT
+export const updateProjectEndpoint = (id: string) => `${apiUrl}/project/${id}`;
+
 // DELETE
 export const deleteProjectEndpoint = (id: string) => `${apiUrl}/project/${id}`;
 

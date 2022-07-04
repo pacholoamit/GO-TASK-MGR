@@ -41,7 +41,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
         icon={<Folder size={16} />}
         label={project.name}
         color={"blue"}
-        menu={<ProjectMenu id={project.ID} />}
+        menu={<ProjectMenu id={project.ID.toString()} />}
       />
     </Link>
   ));

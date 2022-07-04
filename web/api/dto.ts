@@ -21,7 +21,8 @@ export type Task = {
 
 export type Tasks = Task[];
 
-export type CreateProjectRequest = {
+export type ProjectRequest = {
+  ID?: number;
   name: string;
   description: string;
 };

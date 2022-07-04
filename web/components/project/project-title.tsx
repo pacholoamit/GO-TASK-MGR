@@ -16,6 +16,7 @@ const ProjectTitleComponent: React.FC<ProjectTitleComponentProps> = ({
       onChange={(e) => setName(e.target.value)}
       styles={{
         input: {
+          width: "75%",
           fontSize: 32,
           fontWeight: 700,
           paddingBottom: 20,
