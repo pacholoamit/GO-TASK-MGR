@@ -1,24 +1,34 @@
 import { Textarea } from "@mantine/core";
 import { useState } from "react";
+import { Project } from "../../api/dto";
+import useUpdateProject from "../../hooks/useUpdateProject";
 
 interface ProjectDescriptionComponentProps {
-  description: string;
+  project: Project;
 }
 
 const ProjectDescriptionComponent: React.FC<
   ProjectDescriptionComponentProps
-> = ({ description: projectDescription }) => {
-  const [description, setDescription] = useState(projectDescription);
+> = ({ project }) => {
+  const [description, setDescription] = useState(project?.description || "");
   const isNoDescription = description === "";
+  const placeholder = isNoDescription
+    ? "Add a description to your task here..."
+    : undefined;
+  const { mutate } = useUpdateProject();
+  const submitUpdate = () => mutate({ description, ID: project.ID });
   return (
     <Textarea
       variant="unstyled"
       value={description}
+      onBlur={submitUpdate}
       onChange={(e) => setDescription(e.target.value)}
-      style={{ width: "400px" }}
-      placeholder={
-        isNoDescription ? "Add a description to your task here..." : undefined
+      maxRows={4}
+      onKeyDown={(e) =>
+        e.key === "Enter" && mutate({ description, ID: project.ID })
       }
+      style={{ width: "100%" }}
+      placeholder={placeholder}
     />
   );
 };

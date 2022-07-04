@@ -77,21 +77,19 @@ const ProjectPage = () => {
     push("/");
   }
 
-  return (
-    <div style={styles.container}>
-      <Stack>
-        <Group>
-          <ProjectMenu
-            id={project?.ID?.toString() ?? ""}
-            name={project?.name ?? ""}
-          />
-          <ProjectTitleComponent project={project as Project} />
-        </Group>
-        <ProjectDescriptionComponent description={project?.description ?? ""} />
-        <TaskCards tasks={tasks ?? []} />
-      </Stack>
-    </div>
-  );
+  if (project)
+    return (
+      <div style={styles.container}>
+        <Stack>
+          <Group>
+            <ProjectMenu id={project.ID.toString()} name={project.name} />
+            <ProjectTitleComponent project={project} />
+          </Group>
+          <ProjectDescriptionComponent project={project} />
+          <TaskCards tasks={tasks ?? []} />
+        </Stack>
+      </div>
+    );
 };
 
 export default ProjectPage;

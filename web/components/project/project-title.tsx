@@ -23,7 +23,7 @@ const ProjectTitleComponent: React.FC<ProjectTitleComponentProps> = ({
       onKeyDown={(e) => e.key === "Enter" && mutate({ name, ID: project.ID })}
       styles={{
         input: {
-          width: "75%",
+          flex: 1,
           fontSize: 32,
           fontWeight: 700,
           paddingBottom: 20,
