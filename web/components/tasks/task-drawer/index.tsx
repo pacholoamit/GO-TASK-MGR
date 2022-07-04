@@ -1,7 +1,14 @@
 import React from "react";
+import RichTextEditor from "../../RichTextEditor";
+import useTaskContext from "../../../hooks/useTaskContext";
+import useCreateOrUpdateTask from "../../../hooks/useCreateOrUpdateTask";
+import ErrorNotification from "../../notifications/error.notification";
+import useDeleteTask from "../../../hooks/useDeleteTask";
 
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
+import { Trash } from "tabler-icons-react";
+import { Projects, TaskRequest } from "../../../api/dto";
 import {
   Button,
   Drawer,
@@ -14,14 +21,10 @@ import {
   ActionIcon,
   Chips,
   Chip,
+  Select,
+  SelectItem,
 } from "@mantine/core";
-import { TaskRequest } from "../../../api/dto";
-import RichTextEditor from "../../RichTextEditor";
-import useTaskContext from "../../../hooks/useTaskContext";
-import useCreateOrUpdateTask from "../../../hooks/useCreateOrUpdateTask";
-import ErrorNotification from "../../notifications/error.notification";
-import { Trash } from "tabler-icons-react";
-import useDeleteTask from "../../../hooks/useDeleteTask";
+import useGetAllProjects from "../../../hooks/useGetAllProjects";
 
 interface StatusEnum {
   status: "Not Started" | "In Progress" | "Waiting" | "Deferred" | "Done";
@@ -52,6 +55,7 @@ const schema = z.object({
 const TaskDrawer: React.FC = () => {
   const mut = useCreateOrUpdateTask();
   const { opened, currentTask, clearTask } = useTaskContext();
+  const { allProjects } = useGetAllProjects();
   const { mutate: remove } = useDeleteTask();
 
   const isExistingTask = currentTask?.ID;
@@ -66,6 +70,17 @@ const TaskDrawer: React.FC = () => {
     schema: zodResolver(schema),
     initialValues,
   });
+
+  const chipStatusOptions = statusOpts.map(({ status }) => (
+    <Chip key={status} value={status}>
+      {status}
+    </Chip>
+  ));
+
+  const projectSelectOptions = allProjects?.map((project) => ({
+    value: project.ID,
+    label: project.name,
+  }));
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
@@ -117,6 +132,12 @@ const TaskDrawer: React.FC = () => {
                 </ActionIcon>
               )}
             </Group>
+            <Select
+              label="Project"
+              data={projectSelectOptions || []}
+              size="md"
+              variant="unstyled"
+            />
 
             <Text>Status</Text>
             <Chips
@@ -126,11 +147,7 @@ const TaskDrawer: React.FC = () => {
               defaultValue={form.getInputProps("status").value}
               onChange={(v) => form.setFieldValue("status", v as string)}
             >
-              {statusOpts.map(({ status }) => (
-                <Chip key={status} value={status}>
-                  {status}
-                </Chip>
-              ))}
+              {chipStatusOptions}
             </Chips>
             <MultiSelect
               label="Label"
@@ -139,9 +156,9 @@ const TaskDrawer: React.FC = () => {
               variant={"unstyled"}
               disabled={mut.isLoading}
               defaultValue={[form.getInputProps("label").value || "none"]}
-              onChange={(arr) => form.setFieldValue("label", arr[0])}
-              creatable
+              onChange={(arr) => form.setFieldValue("label", arr[0] || "")}
               searchable
+              creatable
               getCreateLabel={(query) => `+ Create ${query}`}
               data={[]}
             />
