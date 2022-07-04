@@ -58,14 +58,13 @@ const TaskDrawer: React.FC = () => {
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
-
     if (opts.isError)
       ErrorNotification({
         title: "Oh no an error!",
         message: "Something bad happened because of my bad programming skills",
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opts.isSuccess, opts.isError, currentTask]);
+  }, [opts.isError, currentTask]);
 
   return (
     <ScrollArea style={{ height: "100vh" }}>

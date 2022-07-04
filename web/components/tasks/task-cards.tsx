@@ -1,4 +1,5 @@
-import { Grid, Card, Title, Text, Stack, Button } from "@mantine/core";
+import { Grid, Card, Text, Stack, Button, Badge } from "@mantine/core";
+
 import { Task, Tasks } from "../../api/dto";
 import useTaskContext from "../../hooks/useTaskContext";
 
@@ -8,14 +9,19 @@ interface TaskCardProps {
 const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const { proxyTask } = useTaskContext();
   const onClick = () => proxyTask(task);
+
   return (
-    <Grid.Col sm={12} md={4} lg={2}>
+    <Grid.Col sm={12} md={4} lg={2} onClick={onClick}>
       <Card shadow="lg" p="lg" sx={{ height: 150 }}>
-        <Stack>
-          <Text size={"sm"} lineClamp={1}>
+        <Stack align={"flex-start"}>
+          <Text size={"sm"} lineClamp={2}>
             {task.title}
           </Text>
-          <Button onClick={onClick}>Open</Button>
+          {task.label && (
+            <Badge variant="light" color={"red"}>
+              {task.label}
+            </Badge>
+          )}
         </Stack>
       </Card>
     </Grid.Col>

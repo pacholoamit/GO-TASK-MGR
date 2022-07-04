@@ -20,7 +20,6 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   const [opened, setOpened] = useState(false);
   const [currentTask, setCurrentTask] = useState<TaskRequest | null>(null);
 
-  console.log(opened);
   const proxyTask = (task: TaskRequest) => {
     setCurrentTask(task);
     setOpened(true);
