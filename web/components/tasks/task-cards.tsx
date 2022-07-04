@@ -47,7 +47,7 @@ const TaskCards: React.FC<TasksCardProps> = ({ tasks }) => {
   return (
     <Grid>
       {tasks.map((task) => (
-        <TaskCard task={task} key={task.title} />
+        <TaskCard task={task} key={task.ID} />
       ))}
     </Grid>
   );

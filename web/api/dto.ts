@@ -14,7 +14,7 @@ export type Task = {
   description: string;
   status: string;
   label: string;
-  ProjectID: number;
+  projectId: number;
   CreatedAt: string;
   UpdatedAt: string;
 };

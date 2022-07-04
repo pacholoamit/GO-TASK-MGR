@@ -1,9 +1,25 @@
+import axios from "axios";
 import { useMutation } from "react-query";
 import { useSWRConfig } from "swr";
-import { getAllTasksEndpoint } from "../api/config";
-import { TaskRequest } from "../api/dto";
-import { createTask } from "./useCreateTask";
-import { updateTask } from "./useUpdateTask";
+import {
+  createTaskEndpoint,
+  getAllTasksByProjectEndpoint,
+  getAllTasksEndpoint,
+  updateTaskEndpoint,
+} from "../api/config";
+import { Task, TaskRequest } from "../api/dto";
+
+const createTask = (data: TaskRequest) => {
+  return axios
+    .post(createTaskEndpoint, data)
+    .then((res) => res.data) as Promise<Task>;
+};
+
+export const updateTask = (data: TaskRequest) => {
+  return axios
+    .put(updateTaskEndpoint(data.ID?.toString() as string), data)
+    .then((res) => res.data) as Promise<Task>;
+};
 
 const useCreateOrUpdateTask = () => {
   const { mutate: revalidate } = useSWRConfig();
@@ -11,13 +27,17 @@ const useCreateOrUpdateTask = () => {
   // If Task has an ID then update it else create one
   const handler = (formData: TaskRequest) => {
     formData.projectId = parseInt(formData.projectId as string);
-
-    console.log(formData);
     if (formData.ID) return updateTask(formData);
     return createTask(formData);
   };
   return useMutation(handler, {
-    onSuccess: () => revalidate(getAllTasksEndpoint),
+    onSuccess: (data, variables, context) => {
+      // Revalidate all tasks of the assigned project from Task request
+      const projectId = variables.projectId?.toString() || null;
+
+      if (!projectId) revalidate(getAllTasksEndpoint);
+      revalidate(getAllTasksByProjectEndpoint(projectId as string));
+    },
   });
 };
 

@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 import { useSWRConfig } from "swr";
-import { deleteTaskEndpoint, getAllTasksEndpoint } from "../api/config";
+import {
+  deleteTaskEndpoint,
+  getAllTasksByProjectEndpoint,
+  getAllTasksEndpoint,
+} from "../api/config";
 import { Task } from "../api/dto";
 
 const deleteTask = (id: string) => {
@@ -11,9 +15,13 @@ const deleteTask = (id: string) => {
 };
 
 const useDeleteTask = () => {
-  const { mutate } = useSWRConfig();
+  const { mutate: revalidate } = useSWRConfig();
   return useMutation((id: string) => deleteTask(id), {
-    onSuccess: () => mutate(getAllTasksEndpoint),
+    onSuccess: (data, variables, context) => {
+      const projectId = data.projectId?.toString() || null;
+      if (!projectId) revalidate(getAllTasksEndpoint);
+      revalidate(getAllTasksByProjectEndpoint(projectId as string));
+    },
   });
 };
 
