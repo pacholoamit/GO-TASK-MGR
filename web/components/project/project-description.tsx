@@ -1,4 +1,5 @@
 import { Textarea } from "@mantine/core";
+import React from "react";
 import { useState } from "react";
 import { Project } from "../../api/dto";
 import useUpdateProject from "../../hooks/useUpdateProject";
@@ -16,6 +17,11 @@ const ProjectDescriptionComponent: React.FC<
     ? "Add a description to your task here..."
     : undefined;
   const { mutate } = useUpdateProject();
+
+  React.useEffect(() => {
+    setDescription(project.description);
+  }, [project.description]);
+
   const submitUpdate = () => mutate({ description, ID: project.ID });
   return (
     <Textarea

@@ -1,6 +1,6 @@
 import { Center, Container, Group, Loader, Menu, Stack } from "@mantine/core";
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import React, { CSSProperties } from "react";
 import { Trash } from "tabler-icons-react";
 import { Project } from "../../api/dto";
@@ -30,16 +30,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 interface ProjectMenuProps {
   id: string;
   name: string;
+  router: NextRouter;
 }
 
-const ProjectMenu: React.FC<ProjectMenuProps> = ({ id, name }) => {
+const ProjectMenu: React.FC<ProjectMenuProps> = ({ id, name, router }) => {
   const { mutate: deleteProject, isSuccess, isError } = useDeleteProject();
   const handleDelete = () => deleteProject(id);
-  const { push } = useRouter();
 
   React.useEffect(() => {
     if (isSuccess) {
-      push("/");
+      router.push("/");
       SuccessNotification({
         title: "Successfully deleted project",
         message: `Project ${name} deleted`,
@@ -60,11 +60,12 @@ const ProjectMenu: React.FC<ProjectMenuProps> = ({ id, name }) => {
 };
 
 const ProjectPage = () => {
-  const { query, push } = useRouter();
+  const router = useRouter();
   const { project, tasks, isLoading, isError } = useGetAllTasksAndProject({
-    id: query.id,
+    id: router?.query?.id || undefined,
   });
 
+  console.log({ project });
   if (isLoading)
     return (
       <Center style={styles.center}>
@@ -74,7 +75,7 @@ const ProjectPage = () => {
 
   if (isError) {
     ErrorNotification({});
-    push("/");
+    router.push("/");
   }
 
   if (project)
@@ -82,7 +83,11 @@ const ProjectPage = () => {
       <div style={styles.container}>
         <Stack>
           <Group>
-            <ProjectMenu id={project.ID.toString()} name={project.name} />
+            <ProjectMenu
+              id={project.ID.toString()}
+              name={project.name}
+              router={router}
+            />
             <ProjectTitleComponent project={project} />
           </Group>
           <ProjectDescriptionComponent project={project} />

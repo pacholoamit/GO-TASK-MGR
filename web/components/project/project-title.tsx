@@ -1,5 +1,6 @@
 import { TextInput } from "@mantine/core";
-import { KeyboardEventHandler, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Project } from "../../api/dto";
 import useUpdateProject from "../../hooks/useUpdateProject";
 
@@ -12,6 +13,10 @@ const ProjectTitleComponent: React.FC<ProjectTitleComponentProps> = ({
 }) => {
   const [name, setName] = useState(project.name);
   const { mutate } = useUpdateProject();
+
+  React.useEffect(() => {
+    setName(project.name);
+  }, [project.name]);
 
   const submitUpdate = () => mutate({ name, ID: project.ID });
   return (

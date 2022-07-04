@@ -4,14 +4,12 @@ import useCreateProject from "../../hooks/useCreateProject";
 import { Button, Textarea, TextInput, Stack, Text } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
-import { NotificationProps, showNotification } from "@mantine/notifications";
 import { z } from "zod";
-import { CreateProjectRequest } from "../../api/dto";
-import { useSWRConfig } from "swr";
-import { apiUrl } from "../../api/config";
+import { ProjectRequest } from "../../api/dto";
+
 import SuccessNotification from "../notifications/success.notification";
 
-const initialValues: CreateProjectRequest = {
+const initialValues: ProjectRequest = {
   name: "",
   description: "",
 };
@@ -53,7 +51,7 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
           placeholder="My super awesome project!"
           disabled={isLoading}
           {...form.getInputProps("name")}
-          data-autoFocus
+          data-autofocus
         />
         <Textarea
           label="Project Description"

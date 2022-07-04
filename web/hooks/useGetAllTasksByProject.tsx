@@ -8,7 +8,7 @@ interface useGetAllTasksByProjectProps {
 
 const useGetAllTasksByProject = ({ id }: useGetAllTasksByProjectProps) => {
   const { data, error } = useSWR<Tasks>(
-    getAllTasksByProjectEndpoint(id as string)
+    id ? getAllTasksByProjectEndpoint(id as string) : null
   );
 
   return {

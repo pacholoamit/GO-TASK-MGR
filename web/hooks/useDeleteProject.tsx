@@ -11,9 +11,11 @@ const deleteProject = (id: string) => {
 };
 
 const useDeleteProject = () => {
-  const { mutate } = useSWRConfig();
+  const { mutate: revalidate } = useSWRConfig();
   return useMutation((id: string) => deleteProject(id), {
-    onSuccess: () => mutate(getAllProjectsEndpoint),
+    onSuccess: (data, variables, context) => {
+      revalidate(getAllProjectsEndpoint);
+    },
   });
 };
 

@@ -8,7 +8,7 @@ interface useGetProjectProps {
 
 const useGetProject = ({ id }: useGetProjectProps) => {
   const { data, error } = useSWR<Project, Error>(
-    getProjectEndpoint(id as string)
+    id ? getProjectEndpoint(id as string) : null
   );
   return {
     project: data,
