@@ -6,7 +6,7 @@ import { TaskRequest, Task } from "../api/dto";
 
 export const updateTask = (data: TaskRequest) => {
   return axios
-    .put(updateTaskEndpoint(data.ID as number), data)
+    .put(updateTaskEndpoint(data.ID?.toString() as string), data)
     .then((res) => res.data) as Promise<Task>;
 };
 

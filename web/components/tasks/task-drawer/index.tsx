@@ -44,7 +44,7 @@ const schema = z.object({
 });
 
 const TaskDrawer: React.FC = () => {
-  const { opened, setOpened, currentTask } = useTaskContext();
+  const { opened, currentTask, clearTask } = useTaskContext();
   const opts = useCreateOrUpdateTask();
 
   const buttonText = currentTask?.ID ? "Update task! " : "Create a new task!";
@@ -56,9 +56,7 @@ const TaskDrawer: React.FC = () => {
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
-    if (opts.isSuccess) {
-      setOpened(false);
-    }
+    if (opts.isSuccess) clearTask();
     if (opts.isError) console.log(opts.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opts.isSuccess, opts.isError, currentTask]);
@@ -68,7 +66,7 @@ const TaskDrawer: React.FC = () => {
       opened={opened}
       position="right"
       size="40%"
-      onClose={() => setOpened(false)}
+      onClose={() => clearTask()}
       padding="xl"
     >
       <form onSubmit={form.onSubmit((v) => opts.mutate(v))}>

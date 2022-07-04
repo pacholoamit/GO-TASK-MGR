@@ -12,7 +12,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     <Grid.Col sm={12} md={4} lg={2}>
       <Card shadow="lg" p="lg" sx={{ height: 150 }}>
         <Stack>
-          <Text weight={"bold"} lineClamp={2}>
+          <Text size={"sm"} lineClamp={1}>
             {task.title}
           </Text>
           <Button onClick={onClick}>Open</Button>

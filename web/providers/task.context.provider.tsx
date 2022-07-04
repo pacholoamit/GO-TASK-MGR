@@ -7,6 +7,7 @@ export interface TaskContextInterface {
   currentTask: TaskRequest | null;
   proxyTask: (task: TaskRequest) => void;
   newTask: () => void;
+  clearTask: () => void;
 }
 // Context of current viewed task for Dialog
 const TaskContext = createContext<TaskContextInterface | null>(null);
@@ -29,12 +30,17 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setOpened(true);
   };
 
+  const clearTask = () => {
+    setCurrentTask(null);
+    setOpened(false);
+  };
   const value: TaskContextInterface = {
     opened,
     setOpened,
     currentTask,
     newTask,
     proxyTask,
+    clearTask,
   };
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 };
