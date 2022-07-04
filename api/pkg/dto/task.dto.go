@@ -8,7 +8,7 @@ type Task struct {
 	Description string `json:"description" form:"description"`
 	Status      string `json:"status" form:"status"`
 	Label       string `json:"label" form:"label"`
-	ProjectID   uint
+	ProjectID   uint   `json:"projectId" form:"projectId"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

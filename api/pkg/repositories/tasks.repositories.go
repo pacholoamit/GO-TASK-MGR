@@ -1,6 +1,9 @@
 package repositories
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm/clause"
@@ -11,9 +14,27 @@ type task struct{}
 var Task task
 
 func (task) CreateTask(t *dto.Task) (*dto.Task, error) {
+	var projectModel models.Project
+
 	if err := db.Create(&t).Error; err != nil {
 		return t, err
 	}
+
+	if t.ProjectID != 0 {
+
+		if err := db.Clauses(clause.Returning{}).Find(&projectModel, t.ProjectID).Error; err != nil {
+			return t, err
+		}
+
+		fmt.Print(projectModel.ID)
+		if projectModel.ID == 0 {
+			return t, errors.New("project does not exist")
+		}
+
+		db.Model(&projectModel).Association("Tasks").Append(&t)
+
+	}
+
 	return t, nil
 }
 
