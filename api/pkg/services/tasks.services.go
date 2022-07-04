@@ -26,6 +26,13 @@ func (task) GetAllTasks() (*dto.Tasks, error) {
 
 func (task) CreateTask(t *dto.Task) (*dto.Task, error) {
 	createdTask, err := repositories.Task.CreateTask(t)
+
+	if t.ProjectID != 0 {
+		if _, err := repositories.Project.AssignTaskToProject(int(createdTask.ID), int(t.ProjectID)); err != nil {
+			return createdTask, err
+		}
+		return createdTask, err
+	}
 	if err != nil {
 		fmt.Println("Error when Creating a task:", err)
 		return createdTask, err

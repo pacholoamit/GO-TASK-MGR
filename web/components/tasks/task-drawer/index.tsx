@@ -84,6 +84,12 @@ const TaskDrawer: React.FC = () => {
     label: project.name,
   }));
 
+  const projectLabel = `Project ${
+    !projectSelectOptions?.length
+      ? "(Create a project to assign this task)"
+      : ""
+  }`;
+
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
     if (mut.isError)
@@ -135,8 +141,8 @@ const TaskDrawer: React.FC = () => {
               )}
             </Group>
             <Select
-              label="Project"
-              data={projectSelectOptions || []}
+              label={projectLabel}
+              data={projectSelectOptions || [""]}
               size="md"
               variant="unstyled"
               {...form.getInputProps("projectId")}

@@ -18,9 +18,9 @@ const useDeleteTask = () => {
   const { mutate: revalidate } = useSWRConfig();
   return useMutation((id: string) => deleteTask(id), {
     onSuccess: (data, variables, context) => {
-      const projectId = data.projectId?.toString() || null;
-      if (!projectId) revalidate(getAllTasksEndpoint);
+      const projectId = data.projectId?.toString();
       revalidate(getAllTasksByProjectEndpoint(projectId as string));
+      revalidate(getAllTasksEndpoint);
     },
   });
 };

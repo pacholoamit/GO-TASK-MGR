@@ -40,26 +40,10 @@ const ColorSchemeToggle = () => {
   );
 };
 
-const HomeButton = () => {
-  return (
-    <Link href="/">
-      <ActionIcon
-        size={32}
-        variant="light"
-        color={"teal"}
-        title="Navigate to home"
-      >
-        <Home size={24} />
-      </ActionIcon>
-    </Link>
-  );
-};
-
 const HeaderOptions = () => {
   return (
     <Group>
       <ColorSchemeToggle />
-      <HomeButton />
     </Group>
   );
 };

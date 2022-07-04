@@ -35,7 +35,7 @@ const useCreateOrUpdateTask = () => {
       // Revalidate all tasks of the assigned project from Task request
       const projectId = variables.projectId?.toString() || null;
 
-      if (!projectId) revalidate(getAllTasksEndpoint);
+      revalidate(getAllTasksEndpoint);
       revalidate(getAllTasksByProjectEndpoint(projectId as string));
     },
   });
