@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
@@ -26,7 +25,6 @@ func (task) CreateTask(t *dto.Task) (*dto.Task, error) {
 			return t, err
 		}
 
-		fmt.Print(projectModel.ID)
 		if projectModel.ID == 0 {
 			return t, errors.New("project does not exist")
 		}

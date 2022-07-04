@@ -1,5 +1,5 @@
 export type Project = {
-  ID: string;
+  ID: number;
   name: string;
   description: string;
   CreatedAt: string;
@@ -32,4 +32,5 @@ export type TaskRequest = {
   description: string;
   status: string;
   label: string;
+  projectId?: number | string;
 };

@@ -43,6 +43,7 @@ const initialValues: TaskRequest = {
   description: "",
   status: statusOpts[0].status,
   label: "",
+  projectId: "",
 };
 
 const schema = z.object({
@@ -50,6 +51,7 @@ const schema = z.object({
   description: z.string(),
   status: z.string(),
   label: z.string(),
+  projectId: z.string(),
 });
 
 const TaskDrawer: React.FC = () => {
@@ -78,7 +80,7 @@ const TaskDrawer: React.FC = () => {
   ));
 
   const projectSelectOptions = allProjects?.map((project) => ({
-    value: project.ID,
+    value: project.ID.toString(),
     label: project.name,
   }));
 
@@ -137,6 +139,7 @@ const TaskDrawer: React.FC = () => {
               data={projectSelectOptions || []}
               size="md"
               variant="unstyled"
+              {...form.getInputProps("projectId")}
             />
 
             <Text>Status</Text>

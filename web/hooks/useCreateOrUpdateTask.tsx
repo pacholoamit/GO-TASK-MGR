@@ -10,6 +10,8 @@ const useCreateOrUpdateTask = () => {
 
   // If Task has an ID then update it else create one
   const handler = (formData: TaskRequest) => {
+    formData.projectId = parseInt(formData.projectId as string);
+
     console.log(formData);
     if (formData.ID) return updateTask(formData);
     return createTask(formData);
