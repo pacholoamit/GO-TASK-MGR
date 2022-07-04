@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { useSWRConfig } from "swr";
 import { updateProjectEndpoint, getAllProjectsEndpoint } from "../api/config";
@@ -13,11 +12,9 @@ const updateProject = (data: ProjectRequest) => {
 
 const useUpdateProject = () => {
   const { mutate: revalidate } = useSWRConfig();
-  const { push } = useRouter();
   return useMutation((formData: ProjectRequest) => updateProject(formData), {
     onSuccess: () => {
       revalidate(getAllProjectsEndpoint);
-      push("/");
     },
   });
 };

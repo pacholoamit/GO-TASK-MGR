@@ -3,6 +3,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { CSSProperties } from "react";
 import { Trash } from "tabler-icons-react";
+import ErrorNotification from "../../components/notifications/error.notification";
+import SuccessNotification from "../../components/notifications/success.notification";
 import ProjectDescriptionComponent from "../../components/project/project-description";
 import ProjectTitleComponent from "../../components/project/project-title";
 import TaskCards from "../../components/tasks/task-cards";
@@ -26,13 +28,26 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 interface ProjectMenuProps {
   id: string;
+  name: string;
 }
 
-const ProjectMenu: React.FC<ProjectMenuProps> = ({ id }) => {
-  const { mutate: deleteProject } = useDeleteProject();
-
+const ProjectMenu: React.FC<ProjectMenuProps> = ({ id, name }) => {
+  const { mutate: deleteProject, isSuccess, isError } = useDeleteProject();
   const handleDelete = () => deleteProject(id);
+  const { push } = useRouter();
 
+  React.useEffect(() => {
+    if (isSuccess) {
+      push("/");
+      SuccessNotification({
+        title: "Successfully deleted project",
+        message: `Project ${name} deleted`,
+      });
+    }
+    if (isError) ErrorNotification({});
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess, isError]);
   return (
     <Menu>
       <Menu.Label>Settings</Menu.Label>
@@ -62,7 +77,10 @@ const ProjectPage = () => {
     <div style={styles.container}>
       <Stack>
         <Group>
-          <ProjectMenu id={project?.ID?.toString() ?? ""} />
+          <ProjectMenu
+            id={project?.ID?.toString() ?? ""}
+            name={project?.name ?? ""}
+          />
           <ProjectTitleComponent name={project?.name ?? ""} />
         </Group>
         <ProjectDescriptionComponent description={project?.description ?? ""} />

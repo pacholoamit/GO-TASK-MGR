@@ -92,11 +92,7 @@ const TaskDrawer: React.FC = () => {
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
-    if (mut.isError)
-      ErrorNotification({
-        title: "Oh no an error!",
-        message: "Something bad happened because of my bad programming skills",
-      });
+    if (mut.isError) ErrorNotification({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mut.isError, currentTask]);
 

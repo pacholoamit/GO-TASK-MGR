@@ -13,23 +13,6 @@ import { Folder, Trash } from "tabler-icons-react";
 import useGetAllProjects from "../../../../hooks/useGetAllProjects";
 import useDeleteProject from "../../../../hooks/useDeleteProject";
 
-interface ProjectMenuProps {
-  id: string;
-}
-const ProjectMenu: React.FC<ProjectMenuProps> = ({ id }) => {
-  const { mutate: deleteProject } = useDeleteProject();
-
-  const handleDelete = () => deleteProject(id);
-
-  return (
-    <Menu>
-      <Menu.Label>Settings</Menu.Label>
-      <Menu.Item icon={<Trash size={14} />} color="red" onClick={handleDelete}>
-        Delete
-      </Menu.Item>
-    </Menu>
-  );
-};
 interface ProjectsListProps {
   projects: Projects;
 }
@@ -41,7 +24,6 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
         icon={<Folder size={16} />}
         label={project.name}
         color={"blue"}
-        menu={<ProjectMenu id={project.ID.toString()} />}
       />
     </Link>
   ));

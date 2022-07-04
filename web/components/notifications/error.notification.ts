@@ -1,14 +1,14 @@
 import { NotificationProps, showNotification } from "@mantine/notifications";
-import { X } from "tabler-icons-react";
 
 interface ErrorNotificationArgs {
-  title: string;
-  message: string;
+  title?: string;
+  message?: string;
 }
 const ErrorNotification = ({ title, message }: ErrorNotificationArgs) => {
   const notificationProps: NotificationProps = {
-    title,
-    message,
+    title: title || "Oh no an error!",
+    message:
+      message || "Something bad happened because of my bad programming skills",
     styles: (theme) => ({
       root: {
         backgroundColor: theme.colors.red[6],
