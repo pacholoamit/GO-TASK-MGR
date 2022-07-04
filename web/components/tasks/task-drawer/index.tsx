@@ -116,14 +116,14 @@ const TaskDrawer: React.FC = () => {
             </Group>
 
             <MultiSelect
-              label="Label"
+              label="Status"
               maxSelectedValues={1}
               variant={"unstyled"}
               disabled={mut.isLoading}
               defaultValue={[
-                form.getInputProps("label").value || statusOpts[0].status,
+                form.getInputProps("status").value || statusOpts[0].status,
               ]}
-              onChange={(arr) => form.setFieldValue("label", arr[0])}
+              onChange={(arr) => form.setFieldValue("status", arr[0])}
               data={statusOpts.map(({ status }) => status)}
             />
             <Text>Description</Text>

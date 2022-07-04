@@ -23,9 +23,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
           <Text size={"sm"} lineClamp={3}>
             {task.title}
           </Text>
-          {task.label && (
+          {task.status && (
             <Badge variant="light" color={"red"}>
-              {task.label}
+              {task.status}
             </Badge>
           )}
         </Stack>
