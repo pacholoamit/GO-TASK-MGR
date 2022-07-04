@@ -10,11 +10,11 @@ import {
   TextInput,
   Text,
   MultiSelect,
+  ScrollArea,
 } from "@mantine/core";
 import { TaskRequest } from "../../../api/dto";
 import RichTextEditor from "../../RichTextEditor";
 import useTaskContext from "../../../hooks/useTaskContext";
-import useUpdateTask from "../../../hooks/useUpdateTask";
 import useCreateOrUpdateTask from "../../../hooks/useCreateOrUpdateTask";
 
 interface StatusEnum {
@@ -32,7 +32,7 @@ const statusOpts: StatusEnum[] = [
 const initialValues: TaskRequest = {
   title: "",
   description: "",
-  status: "",
+  status: statusOpts[0].status,
   label: "",
 };
 
@@ -61,40 +61,46 @@ const TaskDrawer: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opts.isSuccess, opts.isError, currentTask]);
 
-  return (
-    <Drawer
-      opened={opened}
-      position="right"
-      size="40%"
-      onClose={() => clearTask()}
-      padding="xl"
-    >
-      <form onSubmit={form.onSubmit((v) => opts.mutate(v))}>
-        <Stack>
-          <TextInput
-            placeholder="Write a task name"
-            disabled={opts.isLoading}
-            size={"xl"}
-            {...form.getInputProps("title")}
-          />
+  console.log(form.getInputProps("label").value);
 
-          <MultiSelect
-            label="Label"
-            maxSelectedValues={1}
-            variant={"unstyled"}
-            disabled={opts.isLoading}
-            defaultValue={[statusOpts[0].status]}
-            data={statusOpts.map(({ status }) => status)}
-            {...form.getInputProps("label")}
-          />
-          <Text>Description</Text>
-          <RichTextEditor {...form.getInputProps("description")} />
-          <Button mt="md" type="submit" loading={opts.isLoading}>
-            {buttonText}
-          </Button>
-        </Stack>
-      </form>
-    </Drawer>
+  return (
+    <ScrollArea style={{ height: "100vh" }}>
+      <Drawer
+        opened={opened}
+        position="right"
+        size="40%"
+        onClose={() => clearTask()}
+        padding="xl"
+      >
+        <form onSubmit={form.onSubmit((v) => opts.mutate(v))}>
+          <Stack align={"flex-start"}>
+            <TextInput
+              placeholder="Write a task name"
+              disabled={opts.isLoading}
+              size={"xl"}
+              {...form.getInputProps("title")}
+            />
+
+            <MultiSelect
+              label="Label"
+              maxSelectedValues={1}
+              variant={"unstyled"}
+              disabled={opts.isLoading}
+              defaultValue={[
+                form.getInputProps("label").value || statusOpts[0].status,
+              ]}
+              onChange={(arr) => form.setFieldValue("label", arr[0])}
+              data={statusOpts.map(({ status }) => status)}
+            />
+            <Text>Description</Text>
+            <RichTextEditor {...form.getInputProps("description")} />
+            <Button mt="md" type="submit" loading={opts.isLoading}>
+              {buttonText}
+            </Button>
+          </Stack>
+        </form>
+      </Drawer>
+    </ScrollArea>
   );
 };
 
