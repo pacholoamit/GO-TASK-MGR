@@ -1,4 +1,3 @@
-import useCreateTask from "../../../hooks/useCreateTask";
 import React from "react";
 
 import { useForm, zodResolver } from "@mantine/form";
@@ -7,17 +6,20 @@ import {
   Button,
   Drawer,
   Stack,
-  TextInput,
   Text,
   MultiSelect,
   ScrollArea,
+  Textarea,
+  Group,
+  ActionIcon,
 } from "@mantine/core";
 import { TaskRequest } from "../../../api/dto";
 import RichTextEditor from "../../RichTextEditor";
 import useTaskContext from "../../../hooks/useTaskContext";
 import useCreateOrUpdateTask from "../../../hooks/useCreateOrUpdateTask";
-import { showNotification } from "@mantine/notifications";
 import ErrorNotification from "../../notifications/error.notification";
+import { Trash } from "tabler-icons-react";
+import useDeleteTask from "../../../hooks/useDeleteTask";
 
 interface StatusEnum {
   status: "Not Started" | "In Progress" | "Waiting" | "Deferred" | "Done";
@@ -46,10 +48,16 @@ const schema = z.object({
 });
 
 const TaskDrawer: React.FC = () => {
+  const mut = useCreateOrUpdateTask();
   const { opened, currentTask, clearTask } = useTaskContext();
-  const opts = useCreateOrUpdateTask();
+  const { mutate: remove } = useDeleteTask();
+  const isExistingTask = currentTask?.ID;
+  const submitText = isExistingTask ? "Update task! " : "Create a new task!";
 
-  const submitText = currentTask?.ID ? "Update task! " : "Create a new task!";
+  const handleRemoveTask = () => {
+    remove(currentTask?.ID?.toString() as string);
+    clearTask();
+  };
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -58,13 +66,13 @@ const TaskDrawer: React.FC = () => {
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
-    if (opts.isError)
+    if (mut.isError)
       ErrorNotification({
         title: "Oh no an error!",
         message: "Something bad happened because of my bad programming skills",
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opts.isError, currentTask]);
+  }, [mut.isError, currentTask]);
 
   return (
     <ScrollArea style={{ height: "100vh" }}>
@@ -74,26 +82,44 @@ const TaskDrawer: React.FC = () => {
         size="40%"
         onClose={() => clearTask()}
         padding="xl"
+        overlayBlur={5}
       >
         <form
           onSubmit={form.onSubmit((v) => {
-            opts.mutate(v);
+            mut.mutate(v);
             clearTask();
           })}
         >
           <Stack align={"flex-start"}>
-            <TextInput
-              placeholder="Write a task name"
-              disabled={opts.isLoading}
-              size={"xl"}
-              {...form.getInputProps("title")}
-            />
+            <Group position="apart" style={{ width: "100%" }}>
+              <Textarea
+                placeholder="Write a task name"
+                variant="filled"
+                disabled={mut.isLoading}
+                size={"xl"}
+                minRows={1}
+                maxRows={3}
+                autosize
+                required
+                style={{ width: "80%" }}
+                {...form.getInputProps("title")}
+              />
+              {isExistingTask && (
+                <ActionIcon
+                  onClick={handleRemoveTask}
+                  variant="filled"
+                  color={"red"}
+                >
+                  <Trash size={16} />
+                </ActionIcon>
+              )}
+            </Group>
 
             <MultiSelect
               label="Label"
               maxSelectedValues={1}
               variant={"unstyled"}
-              disabled={opts.isLoading}
+              disabled={mut.isLoading}
               defaultValue={[
                 form.getInputProps("label").value || statusOpts[0].status,
               ]}
@@ -102,7 +128,7 @@ const TaskDrawer: React.FC = () => {
             />
             <Text>Description</Text>
             <RichTextEditor {...form.getInputProps("description")} />
-            <Button mt="md" type="submit" loading={opts.isLoading}>
+            <Button mt="md" type="submit" loading={mut.isLoading}>
               {submitText}
             </Button>
           </Stack>

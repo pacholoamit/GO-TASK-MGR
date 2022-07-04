@@ -11,10 +11,16 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const onClick = () => proxyTask(task);
 
   return (
-    <Grid.Col sm={12} md={4} lg={2} onClick={onClick}>
-      <Card shadow="lg" p="lg" sx={{ height: 150 }}>
+    <Grid.Col sm={12} md={4} lg={2}>
+      <Card
+        shadow="lg"
+        p="lg"
+        sx={{ height: 150 }}
+        onClick={onClick}
+        style={{ cursor: "pointer" }}
+      >
         <Stack align={"flex-start"}>
-          <Text size={"sm"} lineClamp={2}>
+          <Text size={"sm"} lineClamp={3}>
             {task.title}
           </Text>
           {task.label && (

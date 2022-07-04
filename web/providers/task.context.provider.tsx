@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useState } from "react";
-import { TaskRequest } from "../api/dto";
+import { Task, TaskRequest } from "../api/dto";
 
 export interface TaskContextInterface {
   opened: boolean;
