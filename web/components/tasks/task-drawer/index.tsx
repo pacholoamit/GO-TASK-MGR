@@ -12,6 +12,8 @@ import {
   Textarea,
   Group,
   ActionIcon,
+  Chips,
+  Chip,
 } from "@mantine/core";
 import { TaskRequest } from "../../../api/dto";
 import RichTextEditor from "../../RichTextEditor";
@@ -51,6 +53,7 @@ const TaskDrawer: React.FC = () => {
   const mut = useCreateOrUpdateTask();
   const { opened, currentTask, clearTask } = useTaskContext();
   const { mutate: remove } = useDeleteTask();
+
   const isExistingTask = currentTask?.ID;
   const submitText = isExistingTask ? "Update task! " : "Create a new task!";
 
@@ -115,23 +118,27 @@ const TaskDrawer: React.FC = () => {
               )}
             </Group>
 
-            <MultiSelect
-              label="Status"
-              maxSelectedValues={1}
-              variant={"unstyled"}
-              disabled={mut.isLoading}
-              defaultValue={[
-                form.getInputProps("status").value || statusOpts[0].status,
-              ]}
-              onChange={(arr) => form.setFieldValue("status", arr[0])}
-              data={statusOpts.map(({ status }) => status)}
-            />
+            <Text>Status</Text>
+            <Chips
+              variant="filled"
+              color={"red"}
+              size="sm"
+              defaultValue={form.getInputProps("status").value}
+              onChange={(v) => form.setFieldValue("status", v as string)}
+            >
+              {statusOpts.map(({ status }) => (
+                <Chip key={status} value={status}>
+                  {status}
+                </Chip>
+              ))}
+            </Chips>
             <MultiSelect
               label="Label"
+              size="md"
               maxSelectedValues={1}
               variant={"unstyled"}
               disabled={mut.isLoading}
-              defaultValue={[form.getInputProps("label").value]}
+              defaultValue={[form.getInputProps("label").value || "none"]}
               onChange={(arr) => form.setFieldValue("label", arr[0])}
               creatable
               searchable
