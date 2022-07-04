@@ -1,19 +1,26 @@
 import { TextInput } from "@mantine/core";
-import { useState } from "react";
+import { KeyboardEventHandler, useState } from "react";
+import { Project } from "../../api/dto";
+import useUpdateProject from "../../hooks/useUpdateProject";
 
 interface ProjectTitleComponentProps {
-  name: string;
+  project: Project;
 }
 
 const ProjectTitleComponent: React.FC<ProjectTitleComponentProps> = ({
-  name: projectName,
+  project,
 }) => {
-  const [name, setName] = useState(projectName);
+  const [name, setName] = useState(project.name);
+  const { mutate } = useUpdateProject();
+
+  const submitUpdate = () => mutate({ name, ID: project.ID });
   return (
     <TextInput
       variant={"unstyled"}
       value={name}
       onChange={(e) => setName(e.target.value)}
+      onBlur={submitUpdate}
+      onKeyDown={(e) => e.key === "Enter" && mutate({ name, ID: project.ID })}
       styles={{
         input: {
           width: "75%",

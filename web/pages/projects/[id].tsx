@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { CSSProperties } from "react";
 import { Trash } from "tabler-icons-react";
+import { Project } from "../../api/dto";
 import ErrorNotification from "../../components/notifications/error.notification";
 import SuccessNotification from "../../components/notifications/success.notification";
 import ProjectDescriptionComponent from "../../components/project/project-description";
@@ -71,7 +72,10 @@ const ProjectPage = () => {
       </Center>
     );
 
-  if (isError) push("/");
+  if (isError) {
+    ErrorNotification({});
+    push("/");
+  }
 
   return (
     <div style={styles.container}>
@@ -81,7 +85,7 @@ const ProjectPage = () => {
             id={project?.ID?.toString() ?? ""}
             name={project?.name ?? ""}
           />
-          <ProjectTitleComponent name={project?.name ?? ""} />
+          <ProjectTitleComponent project={project as Project} />
         </Group>
         <ProjectDescriptionComponent description={project?.description ?? ""} />
         <TaskCards tasks={tasks ?? []} />
