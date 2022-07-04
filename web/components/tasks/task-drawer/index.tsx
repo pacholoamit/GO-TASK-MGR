@@ -16,6 +16,8 @@ import { TaskRequest } from "../../../api/dto";
 import RichTextEditor from "../../RichTextEditor";
 import useTaskContext from "../../../hooks/useTaskContext";
 import useCreateOrUpdateTask from "../../../hooks/useCreateOrUpdateTask";
+import { showNotification } from "@mantine/notifications";
+import ErrorNotification from "../../notifications/error.notification";
 
 interface StatusEnum {
   status: "Not Started" | "In Progress" | "Waiting" | "Deferred" | "Done";
@@ -47,7 +49,7 @@ const TaskDrawer: React.FC = () => {
   const { opened, currentTask, clearTask } = useTaskContext();
   const opts = useCreateOrUpdateTask();
 
-  const buttonText = currentTask?.ID ? "Update task! " : "Create a new task!";
+  const submitText = currentTask?.ID ? "Update task! " : "Create a new task!";
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -56,12 +58,14 @@ const TaskDrawer: React.FC = () => {
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
-    if (opts.isSuccess) clearTask();
-    if (opts.isError) console.log(opts.error);
+
+    if (opts.isError)
+      ErrorNotification({
+        title: "Oh no an error!",
+        message: "Something bad happened because of my bad programming skills",
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opts.isSuccess, opts.isError, currentTask]);
-
-  console.log(form.getInputProps("label").value);
 
   return (
     <ScrollArea style={{ height: "100vh" }}>
@@ -72,7 +76,12 @@ const TaskDrawer: React.FC = () => {
         onClose={() => clearTask()}
         padding="xl"
       >
-        <form onSubmit={form.onSubmit((v) => opts.mutate(v))}>
+        <form
+          onSubmit={form.onSubmit((v) => {
+            opts.mutate(v);
+            clearTask();
+          })}
+        >
           <Stack align={"flex-start"}>
             <TextInput
               placeholder="Write a task name"
@@ -95,7 +104,7 @@ const TaskDrawer: React.FC = () => {
             <Text>Description</Text>
             <RichTextEditor {...form.getInputProps("description")} />
             <Button mt="md" type="submit" loading={opts.isLoading}>
-              {buttonText}
+              {submitText}
             </Button>
           </Stack>
         </form>

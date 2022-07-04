@@ -9,6 +9,7 @@ import { z } from "zod";
 import { CreateProjectRequest } from "../../api/dto";
 import { useSWRConfig } from "swr";
 import { apiUrl } from "../../api/config";
+import SuccessNotification from "../notifications/success.notification";
 
 const initialValues: CreateProjectRequest = {
   name: "",
@@ -32,29 +33,13 @@ const CreateProjectModal = ({ context, id }: ContextModalProps) => {
 
   const { value } = form.getInputProps("name");
 
-  const notificationProps: NotificationProps = {
-    title: `WOOO! New project created 🎉`,
-    message: `Project ${value} successfully created!`,
-    styles: (theme) => ({
-      root: {
-        backgroundColor: theme.colors.green[6],
-        borderColor: theme.colors.green[6],
-        "&::before": { backgroundColor: theme.white },
-      },
-
-      title: { color: theme.white },
-      description: { color: theme.white },
-      closeButton: {
-        color: theme.white,
-        "&:hover": { backgroundColor: theme.colors.green[7] },
-      },
-    }),
-  };
-
   React.useEffect(() => {
     if (isSuccess) {
       context.closeModal(id);
-      showNotification(notificationProps);
+      SuccessNotification({
+        title: `WOOO! New project created 🎉`,
+        message: `Project ${value} successfully created!`,
+      });
     }
     if (isError) console.log(error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
