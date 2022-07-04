@@ -1,20 +1,20 @@
 import axios from "axios";
 import { useMutation } from "react-query";
 import { useSWRConfig } from "swr";
-import { createTaskEndpoint, getAllTasksEndpoint } from "../api/config";
+import { getAllTasksEndpoint, updateTaskEndpoint } from "../api/config";
 import { TaskRequest, Task } from "../api/dto";
 
-export const createTask = (data: TaskRequest) => {
+export const updateTask = (data: TaskRequest) => {
   return axios
-    .post(createTaskEndpoint, data)
+    .put(updateTaskEndpoint(data.ID as number), data)
     .then((res) => res.data) as Promise<Task>;
 };
 
-const useCreateTask = () => {
+const useUpdateTask = () => {
   const { mutate: revalidate } = useSWRConfig();
-  return useMutation((formData: TaskRequest) => createTask(formData), {
+  return useMutation((formData: TaskRequest) => updateTask(formData), {
     onSuccess: () => revalidate(getAllTasksEndpoint),
   });
 };
 
-export default useCreateTask;
+export default useUpdateTask;

@@ -1,4 +1,4 @@
-import useCreateTask from "../../hooks/useCreateTask";
+import useCreateTask from "../../../hooks/useCreateTask";
 import React from "react";
 
 import { useForm, zodResolver } from "@mantine/form";
@@ -11,9 +11,11 @@ import {
   Text,
   MultiSelect,
 } from "@mantine/core";
-import { TaskRequest } from "../../api/dto";
-import RichTextEditor from "../RichTextEditor";
-import useTaskContext from "../../hooks/useTaskContext";
+import { TaskRequest } from "../../../api/dto";
+import RichTextEditor from "../../RichTextEditor";
+import useTaskContext from "../../../hooks/useTaskContext";
+import useUpdateTask from "../../../hooks/useUpdateTask";
+import useCreateOrUpdateTask from "../../../hooks/useCreateOrUpdateTask";
 
 interface StatusEnum {
   status: "Not Started" | "In Progress" | "Waiting" | "Deferred" | "Done";
@@ -42,8 +44,10 @@ const schema = z.object({
 });
 
 const TaskDrawer: React.FC = () => {
-  const { mutate, isLoading, isSuccess, isError, error } = useCreateTask();
   const { opened, setOpened, currentTask } = useTaskContext();
+  const opts = useCreateOrUpdateTask();
+
+  const buttonText = currentTask?.ID ? "Update task! " : "Create a new task!";
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -52,12 +56,12 @@ const TaskDrawer: React.FC = () => {
 
   React.useEffect(() => {
     form.setValues(currentTask ?? initialValues);
-    if (isSuccess) {
+    if (opts.isSuccess) {
       setOpened(false);
     }
-    if (isError) console.log(error);
+    if (opts.isError) console.log(opts.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, isError, currentTask]);
+  }, [opts.isSuccess, opts.isError, currentTask]);
 
   return (
     <Drawer
@@ -67,28 +71,28 @@ const TaskDrawer: React.FC = () => {
       onClose={() => setOpened(false)}
       padding="xl"
     >
-      <form onSubmit={form.onSubmit((v) => mutate(v))}>
+      <form onSubmit={form.onSubmit((v) => opts.mutate(v))}>
         <Stack>
           <TextInput
             placeholder="Write a task name"
-            disabled={isLoading}
+            disabled={opts.isLoading}
             size={"xl"}
             {...form.getInputProps("title")}
           />
 
           <MultiSelect
             label="Label"
-            searchable
             maxSelectedValues={1}
-            disabled={isLoading}
+            variant={"unstyled"}
+            disabled={opts.isLoading}
             defaultValue={[statusOpts[0].status]}
             data={statusOpts.map(({ status }) => status)}
             {...form.getInputProps("label")}
           />
           <Text>Description</Text>
           <RichTextEditor {...form.getInputProps("description")} />
-          <Button mt="md" type="submit" loading={isLoading}>
-            Create a new task!
+          <Button mt="md" type="submit" loading={opts.isLoading}>
+            {buttonText}
           </Button>
         </Stack>
       </form>

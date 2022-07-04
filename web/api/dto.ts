@@ -9,7 +9,7 @@ export type Project = {
 export type Projects = Project[];
 
 export type Task = {
-  ID: string;
+  ID: number;
   title: string;
   description: string;
   status: string;
@@ -27,6 +27,7 @@ export type CreateProjectRequest = {
 };
 
 export type TaskRequest = {
+  ID?: number;
   title: string;
   description: string;
   status: string;

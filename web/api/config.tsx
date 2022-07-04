@@ -17,6 +17,9 @@ export const deleteProjectEndpoint = (id: string) => `${apiUrl}/project/${id}`;
 // POST
 export const createTaskEndpoint = `${apiUrl}/task`;
 
+//PUT
+export const updateTaskEndpoint = (id: string) => `${apiUrl}/task/${id}`;
+
 // GET
 export const getAllTasksEndpoint = `${apiUrl}/tasks`;
 
