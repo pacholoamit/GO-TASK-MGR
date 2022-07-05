@@ -88,13 +88,13 @@ func (p Project) AssignTaskToProject(c echo.Context) error {
 	pid, _ := strconv.Atoi(c.Param("projectId"))
 	tid, _ := strconv.Atoi(c.Param("taskId"))
 
-	message, err := services.Project.AssignTaskToProject(tid, pid)
+	m, err := services.Project.AssignTaskToProject(tid, pid)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
-	return c.String(http.StatusOK, message)
+	return c.String(http.StatusOK, m)
 
 }
 
@@ -102,12 +102,12 @@ func (p Project) GetAllTasksInProject(c echo.Context) error {
 	p.l.Println("Get all tasks in project controller executing...")
 	pid, _ := strconv.Atoi(c.Param("projectId"))
 
-	message, err := services.Project.GetAllTasksInProject(pid)
+	m, err := services.Project.GetAllTasksInProject(pid)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, message)
+	return c.JSON(http.StatusOK, m)
 
 }

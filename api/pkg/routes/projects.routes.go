@@ -16,11 +16,11 @@ var (
 
 type Project struct{}
 
-func NewProjectRoutes() *Project {
+func NewProject() *Project {
 	return &Project{}
 }
 
-func (pr Project) ProjectRoutes(router *echo.Echo) {
+func (pr Project) Routes(router *echo.Echo) {
 	router.GET("/projects", c.GetAllProjects)
 	router.POST("/project", c.CreateProject)
 	router.GET("/project/:id", c.GetProject, middlewares.ValidateQueryId)

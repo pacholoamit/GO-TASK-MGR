@@ -3,10 +3,10 @@ package routes
 import "github.com/labstack/echo/v4"
 
 var (
-	pr = NewProjectRoutes()
+	pr = NewProject()
 )
 
 var SetupRoutes = func(router *echo.Echo) {
-	pr.ProjectRoutes(router)
+	pr.Routes(router)
 	Task.registerRoutes(router)
 }
