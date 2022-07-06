@@ -25,7 +25,7 @@ func NewProject(l *log.Logger) *Project {
 }
 
 func (p Project) GetAllProjects(c echo.Context) error {
-	p.l.Println("Get All Projects controller executing...")
+	p.l.Println("GetAllProjects controller executing...")
 	all, err := psvc.GetAllProjects()
 	if err != nil {
 		p.l.Println("Error in GetAllProjects controller", err)
@@ -35,7 +35,7 @@ func (p Project) GetAllProjects(c echo.Context) error {
 }
 
 func (p Project) CreateProject(c echo.Context) error {
-	p.l.Println("Create Project controller executing...")
+	p.l.Println("CreateProject controller executing...")
 	pdto := new(dto.Project)
 	if err := c.Bind(pdto); err != nil {
 		p.l.Println("Error in CreateProject controller", err)
@@ -56,7 +56,7 @@ func (p Project) CreateProject(c echo.Context) error {
 
 // G
 func (p Project) GetProject(c echo.Context) error {
-	p.l.Println("Get Project controller executing...")
+	p.l.Println("GetProject controller executing...")
 	id, _ := strconv.Atoi(c.Param("id"))
 	proj, err := psvc.GetProject(id)
 
@@ -68,7 +68,7 @@ func (p Project) GetProject(c echo.Context) error {
 }
 
 func (p Project) UpdateProject(c echo.Context) error {
-	p.l.Println("Update Project controller executing...")
+	p.l.Println("UpdateProject controller executing...")
 	pdto := new(dto.Project)
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -87,7 +87,7 @@ func (p Project) UpdateProject(c echo.Context) error {
 }
 
 func (p Project) DeleteProject(c echo.Context) error {
-	p.l.Println("Delete Project controller executing...")
+	p.l.Println("DeleteProject controller executing...")
 	id, _ := strconv.Atoi(c.Param("id"))
 	dp, err := psvc.DeleteProject(id)
 	if err != nil {
@@ -98,7 +98,7 @@ func (p Project) DeleteProject(c echo.Context) error {
 }
 
 func (p Project) AssignTaskToProject(c echo.Context) error {
-	p.l.Println("Assign Task to project controller executing...")
+	p.l.Println("AssignTaskToProject controller executing...")
 	pid, _ := strconv.Atoi(c.Param("projectId"))
 	tid, _ := strconv.Atoi(c.Param("taskId"))
 
@@ -114,7 +114,7 @@ func (p Project) AssignTaskToProject(c echo.Context) error {
 }
 
 func (p Project) GetAllTasksInProject(c echo.Context) error {
-	p.l.Println("Get all tasks in project controller executing...")
+	p.l.Println("GetAllTasksInProject controller executing...")
 	pid, _ := strconv.Atoi(c.Param("projectId"))
 
 	m, err := psvc.GetAllTasksInProject(pid)

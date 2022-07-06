@@ -26,6 +26,7 @@ func NewProject(l *log.Logger) *Project {
 }
 
 func (p Project) GetAllProjects() (*dto.Projects, error) {
+	p.l.Println("GetAllProjects service executing...")
 	all, err := pRepo.GetAllProjects()
 	if err != nil {
 		fmt.Println("Error when Getting all projects:", err)
@@ -35,6 +36,7 @@ func (p Project) GetAllProjects() (*dto.Projects, error) {
 }
 
 func (p Project) CreateProject(t *dto.Project) (*dto.Project, error) {
+	p.l.Println("CreateProject service executing...")
 	cp, err := pRepo.CreateProject(t)
 	if err != nil {
 		fmt.Println("Error when Creating a project:", err)
@@ -45,6 +47,7 @@ func (p Project) CreateProject(t *dto.Project) (*dto.Project, error) {
 }
 
 func (p Project) GetProject(id int) (*dto.Project, error) {
+	p.l.Println("GetProject service executing...")
 	proj, err := pRepo.GetProject(id)
 
 	if proj.ID == 0 {
@@ -60,6 +63,7 @@ func (p Project) GetProject(id int) (*dto.Project, error) {
 }
 
 func (p Project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
+	p.l.Println("UpdateProject service executing...")
 	up, err := pRepo.UpdateProject(id, t)
 
 	if up.ID == 0 {
@@ -74,6 +78,7 @@ func (p Project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
 }
 
 func (p Project) DeleteProject(id int) (*dto.Project, error) {
+	p.l.Println("DeleteProject service executing...")
 	dp, err := pRepo.DeleteProject(id)
 
 	if dp.ID == 0 {
@@ -88,7 +93,7 @@ func (p Project) DeleteProject(id int) (*dto.Project, error) {
 }
 
 func (p Project) AssignTaskToProject(taskId int, projectId int) (string, error) {
-
+	p.l.Println("AssignTaskToProject service executing...")
 	m, err := pRepo.AssignTaskToProject(taskId, projectId)
 	if err != nil {
 		fmt.Println("Error when Assigning a task to a project:", err)
@@ -99,7 +104,7 @@ func (p Project) AssignTaskToProject(taskId int, projectId int) (string, error) 
 }
 
 func (p Project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
-
+	p.l.Println("GetAllTasksInProject service executing...")
 	t, err := pRepo.GetAllTasksInProject(projectId)
 	if err != nil {
 		fmt.Println("Error when Getting all tasks from a project:", err)
