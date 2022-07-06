@@ -10,6 +10,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/middlewares"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/routes"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
 )
@@ -30,6 +31,7 @@ func main() {
 		Format: "${method} ${uri} ${status} ${latency_human} ${error}\n",
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
+	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
 	routes.SetupRoutes(e)
 
 	// Graceful shutdown
