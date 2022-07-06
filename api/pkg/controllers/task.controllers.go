@@ -28,7 +28,6 @@ func (task) CreateTask(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	// Issue where validating project is required
 	if err := c.Validate(taskModel); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

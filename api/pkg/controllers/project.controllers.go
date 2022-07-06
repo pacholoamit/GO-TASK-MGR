@@ -80,6 +80,11 @@ func (p Project) UpdateProject(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
+	if err := c.Validate(pdto); err != nil {
+		p.l.Println("Error in UpdateProject controller", err)
+		return echo.NewHTTPError(http.StatusBadRequest, err)
+	}
+
 	up, err := psvc.UpdateProject(id, pdto)
 
 	if err != nil {
