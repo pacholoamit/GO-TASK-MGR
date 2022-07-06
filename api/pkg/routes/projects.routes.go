@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	l = log.New(os.Stdout, "projects-controller", log.LstdFlags)
+	l = log.New(os.Stdout, "projects-controller: ", log.LstdFlags)
 	c = controllers.NewProject(l)
 )
 

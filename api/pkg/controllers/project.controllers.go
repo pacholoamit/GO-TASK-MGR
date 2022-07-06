@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	psvcLogger = log.New(os.Stdout, "projects-service", log.LstdFlags)
+	psvcLogger = log.New(os.Stdout, "projects-service: ", log.LstdFlags)
 	psvc       = services.NewProject(psvcLogger)
 )
 

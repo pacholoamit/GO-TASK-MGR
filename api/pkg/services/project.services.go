@@ -17,7 +17,7 @@ type Project struct {
 
 var (
 	projectNonExistErr = utils.NonExistentError("project")
-	pRepoLogger        = log.New(os.Stdout, "projects-repository", log.LstdFlags)
+	pRepoLogger        = log.New(os.Stdout, "projects-repository: ", log.LstdFlags)
 	pRepo              = repositories.NewProject(pRepoLogger)
 )
 
