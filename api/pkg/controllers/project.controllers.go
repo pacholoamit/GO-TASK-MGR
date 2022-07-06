@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
+
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/services"
 )
 
@@ -26,6 +27,7 @@ func NewProject(l *log.Logger) *Project {
 
 func (p Project) GetAllProjects(c echo.Context) error {
 	p.l.Println("GetAllProjects controller executing...")
+
 	all, err := psvc.GetAllProjects()
 	if err != nil {
 		p.l.Println("Error in GetAllProjects controller", err)
@@ -99,8 +101,17 @@ func (p Project) DeleteProject(c echo.Context) error {
 
 func (p Project) AssignTaskToProject(c echo.Context) error {
 	p.l.Println("AssignTaskToProject controller executing...")
-	pid, _ := strconv.Atoi(c.Param("projectId"))
+	pid, err := strconv.Atoi(c.Param("projectId"))
+
+	if err != nil {
+		echo.NewHTTPError(http.StatusBadRequest, "Unable to parse project id")
+	}
+
 	tid, _ := strconv.Atoi(c.Param("taskId"))
+
+	if err != nil {
+		echo.NewHTTPError(http.StatusBadRequest, "Unable to parse task id")
+	}
 
 	m, err := psvc.AssignTaskToProject(tid, pid)
 
@@ -109,7 +120,7 @@ func (p Project) AssignTaskToProject(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
 
-	return c.String(http.StatusOK, m)
+	return c.JSON(http.StatusOK, m)
 
 }
 
