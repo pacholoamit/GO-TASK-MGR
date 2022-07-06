@@ -23,9 +23,9 @@ func NewProject() *Project {
 func (pr Project) Routes(router *echo.Echo) {
 	router.GET("/projects", c.GetAllProjects)
 	router.POST("/project", c.CreateProject)
-	router.GET("/project/:id", c.GetProject, middlewares.ValidateQueryId)
-	router.PUT("/project/:id", c.UpdateProject, middlewares.ValidateQueryId)
-	router.DELETE("/project/:id", c.DeleteProject, middlewares.ValidateQueryId)
+	router.GET("/project/:id", c.GetProject, middlewares.ValidateDynamicParamIds)
+	router.PUT("/project/:id", c.UpdateProject, middlewares.ValidateDynamicParamIds)
+	router.DELETE("/project/:id", c.DeleteProject, middlewares.ValidateDynamicParamIds)
 	router.PUT("/project/:projectId/task/:taskId", c.AssignTaskToProject)
 	router.GET("/project/:projectId/tasks", c.GetAllTasksInProject)
 

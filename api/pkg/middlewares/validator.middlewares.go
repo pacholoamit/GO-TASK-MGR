@@ -8,14 +8,21 @@ import (
 )
 
 // Validates the `/route/:id` parameter if a number is provided
+var DynamicParams = []string{"id", "taskId", "projectId"}
 
-func ValidateQueryId(next echo.HandlerFunc) echo.HandlerFunc {
+func ValidateDynamicParamIds(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		p := c.Param("id")
-		_, err := strconv.Atoi(p)
-		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, "You have provided an invalid ID")
+		for _, id := range DynamicParams {
+			id = c.Param(id)
+			if id == "" {
+				return nil
+			}
+
+			if _, err := strconv.Atoi(id); err != nil {
+				return echo.NewHTTPError(http.StatusBadRequest, "You have provided an Invalid id")
+			}
 		}
+
 		return next(c)
 	}
 }

@@ -39,6 +39,7 @@ func (p Project) GetAllProjects(c echo.Context) error {
 func (p Project) CreateProject(c echo.Context) error {
 	p.l.Println("CreateProject controller executing...")
 	pdto := new(dto.Project)
+
 	if err := c.Bind(pdto); err != nil {
 		p.l.Println("Error in CreateProject controller", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err)
@@ -101,17 +102,8 @@ func (p Project) DeleteProject(c echo.Context) error {
 
 func (p Project) AssignTaskToProject(c echo.Context) error {
 	p.l.Println("AssignTaskToProject controller executing...")
-	pid, err := strconv.Atoi(c.Param("projectId"))
-
-	if err != nil {
-		echo.NewHTTPError(http.StatusBadRequest, "Unable to parse project id")
-	}
-
+	pid, _ := strconv.Atoi(c.Param("projectId"))
 	tid, _ := strconv.Atoi(c.Param("taskId"))
-
-	if err != nil {
-		echo.NewHTTPError(http.StatusBadRequest, "Unable to parse task id")
-	}
 
 	m, err := psvc.AssignTaskToProject(tid, pid)
 
