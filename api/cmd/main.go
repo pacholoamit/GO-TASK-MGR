@@ -14,6 +14,10 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
 )
 
+// TODO: Implement validators
+// TODO: Immplement contexts
+// TODO: Implement middlewares
+
 func main() {
 	e := echo.New()
 
@@ -25,7 +29,7 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{Level: 5}))
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Format: "method=${method} uri=${uri} status=${status} latency=${latency_human} error=${error}\n",
+		Format: "${method} ${uri} ${status} ${latency_human} ${error}\n",
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 

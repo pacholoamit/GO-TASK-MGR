@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
@@ -9,93 +10,98 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
 )
 
-type project struct{}
+type Project struct {
+	l *log.Logger
+}
 
 var (
-	Project            project
 	projectNonExistErr = utils.NonExistentError("project")
 )
 
-func (project) GetAllProjects() (*dto.Projects, error) {
-	projects, err := repositories.Project.GetAllProjects()
+func NewProject(l *log.Logger) *Project {
+	return &Project{l}
+}
+
+func (p Project) GetAllProjects() (*dto.Projects, error) {
+	all, err := repositories.Project.GetAllProjects()
 	if err != nil {
 		fmt.Println("Error when Getting all projects:", err)
-		return projects, err
+		return all, err
 	}
-	return projects, nil
+	return all, nil
 }
 
-func (project) CreateProject(t *dto.Project) (*dto.Project, error) {
-	createdProject, err := repositories.Project.CreateProject(t)
+func (p Project) CreateProject(t *dto.Project) (*dto.Project, error) {
+	cp, err := repositories.Project.CreateProject(t)
 	if err != nil {
 		fmt.Println("Error when Creating a project:", err)
-		return createdProject, err
+		return cp, err
 	}
 
-	return createdProject, nil
+	return cp, nil
 }
 
-func (project) GetProject(id int) (*dto.Project, error) {
-	project, err := repositories.Project.GetProject(id)
+func (p Project) GetProject(id int) (*dto.Project, error) {
+	proj, err := repositories.Project.GetProject(id)
 
-	if project.ID == 0 {
+	if proj.ID == 0 {
 		fmt.Println("Error when Getting a project:", projectNonExistErr)
-		return project, projectNonExistErr
+		return nil, projectNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Getting a project:", err)
-		return project, err
+		return nil, err
 	}
 
-	return project, nil
+	return proj, nil
 }
 
-func (project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
-	updatedProject, err := repositories.Project.UpdateProject(id, t)
+func (p Project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
+	up, err := repositories.Project.UpdateProject(id, t)
 
-	if updatedProject.ID == 0 {
+	if up.ID == 0 {
 		fmt.Println("Error when Updating a project:", err)
-		return updatedProject, projectNonExistErr
+		return up, projectNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Updating a project:", err)
-		return updatedProject, err
+		return up, err
 	}
-	return updatedProject, nil
+	return up, nil
 }
 
-func (project) DeleteProject(id int) (*dto.Project, error) {
-	deletedProject, err := repositories.Project.DeleteProject(id)
+func (p Project) DeleteProject(id int) (*dto.Project, error) {
+	dp, err := repositories.Project.DeleteProject(id)
 
-	if deletedProject.ID == 0 {
+	if dp.ID == 0 {
 		fmt.Println("Error when Deleting a project:", err)
-		return deletedProject, projectNonExistErr
+		return dp, projectNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Deleting a project:", err)
-		return deletedProject, err
+		return dp, err
 	}
-	return deletedProject, nil
+	return dp, nil
 }
 
-func (project) AssignTaskToProject(taskId int, projectId int) (string, error) {
+func (p Project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 
-	message, err := repositories.Project.AssignTaskToProject(taskId, projectId)
+	m, err := repositories.Project.AssignTaskToProject(taskId, projectId)
 	if err != nil {
 		fmt.Println("Error when Assigning a task to a project:", err)
 		return "", err
 	}
-	return message, nil
+	return m, nil
 
 }
 
-func (project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
+func (p Project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
 
-	tasks, err := repositories.Project.GetAllTasksInProject(projectId)
+	t, err := repositories.Project.GetAllTasksInProject(projectId)
 	if err != nil {
 		fmt.Println("Error when Getting all tasks from a project:", err)
-		return tasks, err
+		return t, err
 	}
-	return tasks, nil
+	return t, nil
 
 }

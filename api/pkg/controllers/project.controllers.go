@@ -3,11 +3,17 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/services"
+)
+
+var (
+	psvcLogger = log.New(os.Stdout, "projects-controller", log.LstdFlags)
+	psvc       = services.NewProject(psvcLogger)
 )
 
 type Project struct {
@@ -20,7 +26,7 @@ func NewProject(l *log.Logger) *Project {
 
 func (p Project) GetAllProjects(c echo.Context) error {
 	p.l.Println("Get All Projects controller executing...")
-	all, err := services.Project.GetAllProjects()
+	all, err := psvc.GetAllProjects()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -37,7 +43,7 @@ func (p Project) CreateProject(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
-	cp, err := services.Project.CreateProject(pdto)
+	cp, err := psvc.CreateProject(pdto)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
@@ -48,12 +54,12 @@ func (p Project) CreateProject(c echo.Context) error {
 func (p Project) GetProject(c echo.Context) error {
 	p.l.Println("Get Project controller executing...")
 	id, _ := strconv.Atoi(c.Param("id"))
-	pr, err := services.Project.GetProject(id)
+	proj, err := psvc.GetProject(id)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
-	return c.JSON(http.StatusOK, pr)
+	return c.JSON(http.StatusOK, proj)
 }
 
 func (p Project) UpdateProject(c echo.Context) error {
@@ -65,7 +71,7 @@ func (p Project) UpdateProject(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	up, err := services.Project.UpdateProject(id, pdto)
+	up, err := psvc.UpdateProject(id, pdto)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
@@ -76,7 +82,7 @@ func (p Project) UpdateProject(c echo.Context) error {
 func (p Project) DeleteProject(c echo.Context) error {
 	p.l.Println("Delete Project controller executing...")
 	id, _ := strconv.Atoi(c.Param("id"))
-	dp, err := services.Project.DeleteProject(id)
+	dp, err := psvc.DeleteProject(id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
 	}
@@ -88,7 +94,7 @@ func (p Project) AssignTaskToProject(c echo.Context) error {
 	pid, _ := strconv.Atoi(c.Param("projectId"))
 	tid, _ := strconv.Atoi(c.Param("taskId"))
 
-	m, err := services.Project.AssignTaskToProject(tid, pid)
+	m, err := psvc.AssignTaskToProject(tid, pid)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
@@ -102,7 +108,7 @@ func (p Project) GetAllTasksInProject(c echo.Context) error {
 	p.l.Println("Get all tasks in project controller executing...")
 	pid, _ := strconv.Atoi(c.Param("projectId"))
 
-	m, err := services.Project.GetAllTasksInProject(pid)
+	m, err := psvc.GetAllTasksInProject(pid)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, err.Error())
