@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
@@ -16,6 +17,8 @@ type Project struct {
 
 var (
 	projectNonExistErr = utils.NonExistentError("project")
+	pRepoLogger        = log.New(os.Stdout, "projects-repository", log.LstdFlags)
+	pRepo              = repositories.NewProject(pRepoLogger)
 )
 
 func NewProject(l *log.Logger) *Project {
@@ -23,7 +26,7 @@ func NewProject(l *log.Logger) *Project {
 }
 
 func (p Project) GetAllProjects() (*dto.Projects, error) {
-	all, err := repositories.Project.GetAllProjects()
+	all, err := pRepo.GetAllProjects()
 	if err != nil {
 		fmt.Println("Error when Getting all projects:", err)
 		return all, err
@@ -32,7 +35,7 @@ func (p Project) GetAllProjects() (*dto.Projects, error) {
 }
 
 func (p Project) CreateProject(t *dto.Project) (*dto.Project, error) {
-	cp, err := repositories.Project.CreateProject(t)
+	cp, err := pRepo.CreateProject(t)
 	if err != nil {
 		fmt.Println("Error when Creating a project:", err)
 		return cp, err
@@ -42,7 +45,7 @@ func (p Project) CreateProject(t *dto.Project) (*dto.Project, error) {
 }
 
 func (p Project) GetProject(id int) (*dto.Project, error) {
-	proj, err := repositories.Project.GetProject(id)
+	proj, err := pRepo.GetProject(id)
 
 	if proj.ID == 0 {
 		fmt.Println("Error when Getting a project:", projectNonExistErr)
@@ -57,7 +60,7 @@ func (p Project) GetProject(id int) (*dto.Project, error) {
 }
 
 func (p Project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
-	up, err := repositories.Project.UpdateProject(id, t)
+	up, err := pRepo.UpdateProject(id, t)
 
 	if up.ID == 0 {
 		fmt.Println("Error when Updating a project:", err)
@@ -71,7 +74,7 @@ func (p Project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
 }
 
 func (p Project) DeleteProject(id int) (*dto.Project, error) {
-	dp, err := repositories.Project.DeleteProject(id)
+	dp, err := pRepo.DeleteProject(id)
 
 	if dp.ID == 0 {
 		fmt.Println("Error when Deleting a project:", err)
@@ -86,7 +89,7 @@ func (p Project) DeleteProject(id int) (*dto.Project, error) {
 
 func (p Project) AssignTaskToProject(taskId int, projectId int) (string, error) {
 
-	m, err := repositories.Project.AssignTaskToProject(taskId, projectId)
+	m, err := pRepo.AssignTaskToProject(taskId, projectId)
 	if err != nil {
 		fmt.Println("Error when Assigning a task to a project:", err)
 		return "", err
@@ -97,7 +100,7 @@ func (p Project) AssignTaskToProject(taskId int, projectId int) (string, error) 
 
 func (p Project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
 
-	t, err := repositories.Project.GetAllTasksInProject(projectId)
+	t, err := pRepo.GetAllTasksInProject(projectId)
 	if err != nil {
 		fmt.Println("Error when Getting all tasks from a project:", err)
 		return t, err

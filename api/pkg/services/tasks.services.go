@@ -28,7 +28,7 @@ func (task) CreateTask(t *dto.Task) (*dto.Task, error) {
 	createdTask, err := repositories.Task.CreateTask(t)
 
 	if t.ProjectID != 0 {
-		if _, err := repositories.Project.AssignTaskToProject(int(createdTask.ID), int(t.ProjectID)); err != nil {
+		if _, err := pRepo.AssignTaskToProject(int(createdTask.ID), int(t.ProjectID)); err != nil {
 			return createdTask, err
 		}
 		return createdTask, err
