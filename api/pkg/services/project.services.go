@@ -30,7 +30,7 @@ func (p Project) GetAllProjects() (*dto.Projects, error) {
 	all, err := pRepo.GetAllProjects()
 	if err != nil {
 		fmt.Println("Error when Getting all projects:", err)
-		return all, err
+		return nil, err
 	}
 	return all, nil
 }
@@ -40,7 +40,7 @@ func (p Project) CreateProject(t *dto.Project) (*dto.Project, error) {
 	cp, err := pRepo.CreateProject(t)
 	if err != nil {
 		fmt.Println("Error when Creating a project:", err)
-		return cp, err
+		return nil, err
 	}
 
 	return cp, nil
@@ -68,11 +68,11 @@ func (p Project) UpdateProject(id int, t *dto.Project) (*dto.Project, error) {
 
 	if up.ID == 0 {
 		fmt.Println("Error when Updating a project:", err)
-		return up, projectNonExistErr
+		return nil, projectNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Updating a project:", err)
-		return up, err
+		return nil, err
 	}
 	return up, nil
 }
@@ -83,11 +83,11 @@ func (p Project) DeleteProject(id int) (*dto.Project, error) {
 
 	if dp.ID == 0 {
 		fmt.Println("Error when Deleting a project:", err)
-		return dp, projectNonExistErr
+		return nil, projectNonExistErr
 	}
 	if err != nil {
 		fmt.Println("Error when Deleting a project:", err)
-		return dp, err
+		return nil, err
 	}
 	return dp, nil
 }
@@ -108,7 +108,7 @@ func (p Project) GetAllTasksInProject(projectId int) (*models.Tasks, error) {
 	t, err := pRepo.GetAllTasksInProject(projectId)
 	if err != nil {
 		fmt.Println("Error when Getting all tasks from a project:", err)
-		return t, err
+		return nil, err
 	}
 	return t, nil
 
