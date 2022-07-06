@@ -20,9 +20,7 @@ import (
 
 func main() {
 	e := echo.New()
-
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
-
 	e.Use(middleware.CORS())
 	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{Timeout: 10 * time.Second}))
 	e.Use(middleware.Secure())
@@ -32,12 +30,17 @@ func main() {
 		Format: "${method} ${uri} ${status} ${latency_human} ${error}\n",
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
-
 	routes.SetupRoutes(e)
 
 	// Graceful shutdown
+	portEnv, ok := os.LookupEnv("PORT")
+	if !ok {
+		portEnv = "8081"
+	}
+
 	go func() {
-		if err := e.Start(":8081"); err != nil && err != http.ErrServerClosed {
+		if err := e.Start(":" + portEnv); err != nil && err != http.ErrServerClosed {
+			e.Logger.Error(err)
 			e.Logger.Fatal("shutting down the server")
 		}
 	}()
