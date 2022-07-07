@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/project"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/task"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/middlewares"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
@@ -75,4 +76,5 @@ func main() {
 
 func registerHandler(r *echo.Echo, l log.Logger, db *gorm.DB) {
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
+	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)
 }
