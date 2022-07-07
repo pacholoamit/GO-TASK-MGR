@@ -43,7 +43,7 @@ func main() {
 		PrepareStmt:            true,
 	})
 
-	l := log.New().With(context.TODO(), "version", "0.0.1")
+	l := log.New()
 	registerHandler(e, l, db)
 
 	if err != nil {

@@ -21,9 +21,10 @@ type resource struct {
 }
 
 func (r resource) list(c echo.Context) error {
+	r.logger.Info("Listing all tasks")
 	tasks, err := r.service.List()
 	if err != nil {
-		r.logger.Debug("Error when Getting all tasks:", err)
+		r.logger.Error("Error when Getting all tasks:", err)
 		return c.JSON(http.StatusBadRequest, err)
 	}
 	return c.JSON(http.StatusOK, tasks)
