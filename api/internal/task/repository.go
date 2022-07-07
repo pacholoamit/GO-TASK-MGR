@@ -2,7 +2,6 @@ package task
 
 import (
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
-
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -21,8 +20,8 @@ type repository struct {
 	logger log.Logger
 }
 
-func NewRepository(db *gorm.DB, logger log.Logger) Repository {
-	return repository{db, logger}
+func NewRepository(db *gorm.DB, l log.Logger) Repository {
+	return repository{db, l}
 }
 
 func (r repository) List() ([]dto.Task, error) {

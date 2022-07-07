@@ -21,10 +21,10 @@ type service struct {
 	logger log.Logger
 }
 
-func NewService(repo Repository, logger log.Logger) Service {
+func NewService(r Repository, l log.Logger) Service {
 	return &service{
-		repo:   repo,
-		logger: logger,
+		repo:   r,
+		logger: l,
 	}
 }
 
@@ -32,7 +32,7 @@ func (s *service) List() ([]dto.Task, error) {
 	tasks, err := s.repo.List()
 	if err != nil {
 		s.logger.Error("Error when Getting all tasks:", err)
-		return []dto.Task{}, err
+		return tasks, err
 	}
 	return tasks, nil
 }
@@ -45,7 +45,7 @@ func (s *service) Get(id int) (dto.Task, error) {
 	}
 	if err != nil {
 		s.logger.Error("Error when Getting task:", err)
-		return dto.Task{}, err
+		return task, err
 	}
 	return task, nil
 }
@@ -64,11 +64,11 @@ func (s *service) Update(id int, t *dto.Task) (*dto.Task, error) {
 
 	if task.ID == 0 {
 		s.logger.Info("Error when Updating task:", err)
-		return &dto.Task{}, errors.New("task not found")
+		return task, errors.New("task not found")
 	}
 	if err != nil {
 		s.logger.Error("Error when Updating task:", err)
-		return &dto.Task{}, err
+		return task, err
 	}
 	return task, nil
 }
@@ -77,11 +77,11 @@ func (s *service) Delete(id int) (dto.Task, error) {
 	task, err := s.repo.Delete(id)
 	if task.ID == 0 {
 		s.logger.Info("Error when Updating task:", err)
-		return dto.Task{}, errors.New("task not found")
+		return task, errors.New("task not found")
 	}
 	if err != nil {
 		s.logger.Error("Error when Deleting task:", err)
-		return dto.Task{}, err
+		return task, err
 	}
 	return task, nil
 }

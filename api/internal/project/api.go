@@ -1,23 +1,22 @@
-package task
+package project
 
 import (
 	"net/http"
 	"strconv"
 
+	"github.com/labstack/echo/v4"
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
-
-	"github.com/labstack/echo/v4"
 )
 
 func RegisterHandlers(r *echo.Echo, s Service, l log.Logger) {
 	res := resource{s, l}
 
-	r.GET("/tasks", res.list)
-	r.POST("/task", res.create)
-	r.GET("/task/:id", res.get)
-	r.PUT("/task/:id", res.update)
-	r.DELETE("/task/:id", res.delete)
+	r.GET("/projects", res.list)
+	r.POST("/project", res.create)
+	r.GET("/project/:id", res.get)
+	r.PUT("/project/:id", res.update)
+	r.DELETE("/projects/:id", res.delete)
 }
 
 type resource struct {
@@ -27,67 +26,72 @@ type resource struct {
 
 func (r resource) list(c echo.Context) error {
 	r.logger.Info("Listing all tasks")
-	tasks, err := r.service.List()
+	projects, err := r.service.List()
 	if err != nil {
 		r.logger.Error("Error when Getting all tasks:", err)
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, tasks)
+	return c.JSON(http.StatusOK, projects)
 }
 
 func (r resource) get(c echo.Context) error {
 	r.logger.Info("Getting a task")
 	id, _ := strconv.Atoi(c.Param("id"))
+	project, err := r.service.Get(id)
 
-	task, err := r.service.Get(id)
 	if err != nil {
 		r.logger.Error("Error when Getting task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, task)
+	return c.JSON(http.StatusOK, project)
 }
 
 func (r resource) create(c echo.Context) error {
 	r.logger.Info("Creating a task")
-	task := new(dto.Task)
-	if err := c.Bind(task); err != nil {
+	project := new(dto.Project)
+
+	if err := c.Bind(project); err != nil {
 		r.logger.Error("Error when Binding task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	if err := c.Validate(task); err != nil {
+	if err := c.Validate(project); err != nil {
 		r.logger.Error("Error when Validating task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	createdTask, err := r.service.Create(task)
+	createdProject, err := r.service.Create(project)
 	if err != nil {
+		r.logger.Error("Error when Creating task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusCreated, createdTask)
+	return c.JSON(http.StatusOK, createdProject)
 }
 
 func (r resource) update(c echo.Context) error {
 	r.logger.Info("Updating a task")
 	id, _ := strconv.Atoi(c.Param("id"))
-	task := new(dto.Task)
+	project := new(dto.Project)
 
-	if err := c.Bind(task); err != nil {
+	if err := c.Bind(project); err != nil {
 		r.logger.Error("Error when Binding task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	updatedTask, err := r.service.Update(id, task)
+
+	updatedProject, err := r.service.Update(id, project)
 	if err != nil {
+		r.logger.Error("Error when Updating task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, updatedTask)
+	return c.JSON(http.StatusOK, updatedProject)
 }
 
 func (r resource) delete(c echo.Context) error {
 	r.logger.Info("Deleting a task")
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	deletedTask, err := r.service.Delete(id)
+	project, err := r.service.Delete(id)
 	if err != nil {
+		r.logger.Error("Error when Deleting task:", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusOK, deletedTask)
+	return c.JSON(http.StatusOK, project)
 }
