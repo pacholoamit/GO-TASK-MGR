@@ -16,7 +16,7 @@ func RegisterHandlers(r *echo.Echo, s Service, l log.Logger) {
 	r.POST("/project", res.create)
 	r.GET("/project/:id", res.get)
 	r.PUT("/project/:id", res.update)
-	r.DELETE("/projects/:id", res.delete)
+	r.DELETE("/project/:id", res.delete)
 }
 
 type resource struct {
