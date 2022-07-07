@@ -42,13 +42,13 @@ func main() {
 		SkipDefaultTransaction: true,
 		PrepareStmt:            true,
 	})
-
-	l := log.New()
-	registerHandler(e, l, db)
-
 	if err != nil {
 		panic("failed to connect to database")
 	}
+
+	// Set up logger
+	l := log.New()
+	registerHandler(e, l, db)
 
 	// Graceful shutdown
 	portEnv, ok := os.LookupEnv("PORT")
@@ -74,7 +74,5 @@ func main() {
 }
 
 func registerHandler(r *echo.Echo, l log.Logger, db *gorm.DB) {
-	(*r).Group("/v1")
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
-
 }
