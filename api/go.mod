@@ -3,9 +3,16 @@ module github.com/pacholoamit/GO-TASK-MGR
 go 1.18
 
 require (
+	github.com/google/uuid v1.3.0
 	github.com/labstack/echo/v4 v4.7.2
+	go.uber.org/zap v1.21.0
 	gorm.io/driver/sqlite v1.3.4
 	gorm.io/gorm v1.23.6
+)
+
+require (
+	go.uber.org/atomic v1.7.0 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
 )
 
 require (

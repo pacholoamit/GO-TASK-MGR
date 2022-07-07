@@ -10,9 +10,12 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pacholoamit/GO-TASK-MGR/common/log"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/task"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/middlewares"
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/routes"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 // TODO: Implement validators
@@ -32,7 +35,20 @@ func main() {
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
-	routes.SetupRoutes(e)
+	// routes.SetupRoutes(e)
+
+	// Set up DB
+	db, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+	})
+
+	l := log.New().With(context.TODO(), "version", "0.0.1")
+	registerHandler(e, l, db)
+
+	if err != nil {
+		panic("failed to connect to database")
+	}
 
 	// Graceful shutdown
 	portEnv, ok := os.LookupEnv("PORT")
@@ -55,4 +71,10 @@ func main() {
 	if err := e.Shutdown(ctx); err != nil {
 		e.Logger.Fatal(err)
 	}
+}
+
+func registerHandler(r *echo.Echo, l log.Logger, db *gorm.DB) {
+	(*r).Group("/v1")
+	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
+
 }
