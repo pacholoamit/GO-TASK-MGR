@@ -19,10 +19,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// TODO: Implement validators
-// TODO: Immplement contexts
-// TODO: Implement middlewares
-
 func main() {
 	e := echo.New()
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
@@ -38,25 +34,15 @@ func main() {
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
 	// routes.SetupRoutes(e)
 
-	// Set up DB
-	db, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{
-		SkipDefaultTransaction: true,
-		PrepareStmt:            true,
-	})
-	if err != nil {
-		panic("failed to connect to database")
-	}
-
-	// Set up logger
+	db := startDB()
 	l := log.New()
 	registerHandler(e, l, db)
 
-	// Graceful shutdown
 	portEnv, ok := os.LookupEnv("PORT")
 	if !ok {
 		portEnv = "8081"
 	}
-
+	// Graceful shutdown
 	go func() {
 		if err := e.Start(":" + portEnv); err != nil && err != http.ErrServerClosed {
 			e.Logger.Error(err)
@@ -74,6 +60,17 @@ func main() {
 	}
 }
 
+func startDB() *gorm.DB {
+	db, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+	})
+
+	if err != nil {
+		panic("failed to connect to database")
+	}
+	return db
+}
 func registerHandler(r *echo.Echo, l log.Logger, db *gorm.DB) {
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
 	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)

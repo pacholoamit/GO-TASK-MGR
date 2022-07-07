@@ -14,6 +14,7 @@ type Service interface {
 	Create(t *dto.Project) (*dto.Project, error)
 	Update(id int, t *dto.Project) (*dto.Project, error)
 	Delete(id int) (dto.Project, error)
+	GetTasks(id int) ([]dto.Task, error)
 }
 
 type service struct {
@@ -83,4 +84,13 @@ func (s *service) Delete(id int) (dto.Project, error) {
 		return dto.Project{}, err
 	}
 	return project, nil
+}
+
+func (s *service) GetTasks(id int) ([]dto.Task, error) {
+	tasks, err := s.repo.GetTasks(id)
+	if err != nil {
+		s.logger.Error("Error when Getting tasks:", err)
+		return []dto.Task{}, err
+	}
+	return tasks, nil
 }
