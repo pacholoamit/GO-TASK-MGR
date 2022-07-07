@@ -2,7 +2,6 @@ package task
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
@@ -47,7 +46,7 @@ func (r repository) Create(t *dto.Task) (*dto.Task, error) {
 	project := new(dto.Project)
 	// Validates if Project exists
 	if t.ProjectID != 0 {
-		r.db.Model(&project).Where("id = ?", t.ProjectID)
+		r.db.Model(&project).Find(&project, t.ProjectID)
 	}
 	if t.ProjectID != 0 && project.ID == 0 {
 		return new(dto.Task), errors.New("project not found")
@@ -62,10 +61,12 @@ func (r repository) Create(t *dto.Task) (*dto.Task, error) {
 func (r repository) Update(id int, t *dto.Task) (*dto.Task, error) {
 	task := new(dto.Task)
 	project := new(dto.Project)
+
 	// Validates if Project exists
 	if t.ProjectID != 0 {
-		r.db.Model(&project).Where("id = ?", t.ProjectID)
+		r.db.Model(&project).Find(&project, t.ProjectID)
 	}
+
 	if t.ProjectID != 0 && project.ID == 0 {
 		return new(dto.Task), errors.New("project not found")
 	}
@@ -74,7 +75,6 @@ func (r repository) Update(id int, t *dto.Task) (*dto.Task, error) {
 		return new(dto.Task), err
 	}
 
-	fmt.Print(task)
 	return task, nil
 }
 
