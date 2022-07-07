@@ -62,6 +62,10 @@ func (s *service) Create(t *dto.Task) (*dto.Task, error) {
 func (s *service) Update(id int, t *dto.Task) (*dto.Task, error) {
 	task, err := s.repo.Update(id, t)
 
+	if err != nil && task.ID == 0 {
+		s.logger.Error("Error when Updating task:", err)
+		return task, errors.New("task not found, " + err.Error())
+	}
 	if err != nil {
 		s.logger.Error("Error when Updating task:", err)
 		return task, err

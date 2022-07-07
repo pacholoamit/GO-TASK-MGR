@@ -14,6 +14,7 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/internal/project"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/task"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/middlewares"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/utils"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -65,6 +66,8 @@ func startDB() *gorm.DB {
 		SkipDefaultTransaction: true,
 		PrepareStmt:            true,
 	})
+
+	db.AutoMigrate(&models.Project{}, &models.Task{})
 
 	if err != nil {
 		panic("failed to connect to database")

@@ -3,6 +3,7 @@ package project
 import (
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 	"gorm.io/gorm"
 )
 
@@ -12,7 +13,7 @@ type Repository interface {
 	Create(t *dto.Project) (*dto.Project, error)
 	Update(id int, t *dto.Project) (*dto.Project, error)
 	Delete(id int) (dto.Project, error)
-	GetTasks(id int) ([]dto.Task, error)
+	GetTasks(id int) (dto.ProjectWithTasks, error)
 }
 
 type repository struct {
@@ -63,10 +64,22 @@ func (r repository) Delete(id int) (dto.Project, error) {
 	return project, nil
 }
 
-func (r repository) GetTasks(id int) ([]dto.Task, error) {
-	tasks := []dto.Task{}
-	if err := r.db.Where("project_id = ?", id).Find(&tasks).Error; err != nil {
-		return []dto.Task{}, err
+func (r repository) GetTasks(id int) (dto.ProjectWithTasks, error) {
+	project := models.Project{}
+	tasks := []models.Task{}
+	if err := r.db.Find(&project, id).Error; err != nil {
+		return dto.ProjectWithTasks{}, err
 	}
-	return tasks, nil
+
+	if err := r.db.Model(&project).Association("Tasks").Find(&tasks); err != nil {
+		return dto.ProjectWithTasks{}, err
+	}
+
+	project.Tasks = tasks
+
+	p := dto.ProjectWithTasks{
+		Project: project,
+	}
+
+	return p, nil
 }

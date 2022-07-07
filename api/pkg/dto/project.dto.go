@@ -1,6 +1,10 @@
 package dto
 
-import "time"
+import (
+	"time"
+
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
+)
 
 type Project struct {
 	ID          uint
@@ -10,4 +14,9 @@ type Project struct {
 	Description string `json:"description" form:"description"`
 }
 
+type ProjectWithTasks struct {
+	Project models.Project
+}
+
+//TODO: Remove this later
 type Projects []Project
