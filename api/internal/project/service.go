@@ -62,14 +62,15 @@ func (s *service) Create(t *dto.Project) (*dto.Project, error) {
 
 func (s *service) Update(id int, t *dto.Project) (*dto.Project, error) {
 	project, err := s.repo.Update(id, t)
+	if err != nil {
+		s.logger.Error("Error when Updating a project:", err)
+		return &dto.Project{}, err
+	}
 	if project.ID == 0 {
 		s.logger.Error("Error when Updating project:", err)
 		return &dto.Project{}, errors.New("project not found")
 	}
-	if err != nil {
-		s.logger.Error("Error when Getting project:", err)
-		return &dto.Project{}, err
-	}
+
 	return project, nil
 }
 
