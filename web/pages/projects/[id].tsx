@@ -1,16 +1,15 @@
-import { Center, Container, Group, Loader, Menu, Stack } from "@mantine/core";
+import { Center, Group, Loader, Menu, Stack } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import { NextRouter, useRouter } from "next/router";
 import React, { CSSProperties } from "react";
 import { Trash } from "tabler-icons-react";
-import { Project } from "../../api/dto";
 import ErrorNotification from "../../components/notifications/error.notification";
 import SuccessNotification from "../../components/notifications/success.notification";
 import ProjectDescriptionComponent from "../../components/project/project-description";
 import ProjectTitleComponent from "../../components/project/project-title";
 import TaskCards from "../../components/tasks/task-cards";
 import useDeleteProject from "../../hooks/useDeleteProject";
-import useGetAllTasksAndProject from "../../hooks/useGetAllTasksAndProject";
+import useGetAllTasksByProject from "../../hooks/useGetAllTasksByProject";
 
 const styles: { [key: string]: CSSProperties } = {
   container: {
@@ -61,11 +60,10 @@ const ProjectMenu: React.FC<ProjectMenuProps> = ({ id, name, router }) => {
 
 const ProjectPage = () => {
   const router = useRouter();
-  const { project, tasks, isLoading, isError } = useGetAllTasksAndProject({
+  const { project, isLoading, isError } = useGetAllTasksByProject({
     id: router?.query?.id || undefined,
   });
 
-  console.log({ project });
   if (isLoading)
     return (
       <Center style={styles.center}>
@@ -91,7 +89,7 @@ const ProjectPage = () => {
             <ProjectTitleComponent project={project} />
           </Group>
           <ProjectDescriptionComponent project={project} />
-          <TaskCards tasks={tasks ?? []} />
+          <TaskCards tasks={project.tasks ?? []} />
         </Stack>
       </div>
     );

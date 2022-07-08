@@ -8,13 +8,12 @@ import {
   Center,
   Menu,
 } from "@mantine/core";
-import { Projects } from "../../../../api/dto";
-import { Folder, Trash } from "tabler-icons-react";
+import { Project } from "../../../../api/dto";
+import { Folder } from "tabler-icons-react";
 import useGetAllProjects from "../../../../hooks/useGetAllProjects";
-import useDeleteProject from "../../../../hooks/useDeleteProject";
 
 interface ProjectsListProps {
-  projects: Projects;
+  projects: Project[];
 }
 
 const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {

@@ -1,9 +1,9 @@
 import useSWR from "swr";
 import { getAllProjectsEndpoint } from "../api/config";
-import { Projects } from "../api/dto";
+import { Project } from "../api/dto";
 
 const useGetAllProjects = () => {
-  const { data, error } = useSWR<Projects>(getAllProjectsEndpoint);
+  const { data, error } = useSWR<Project[]>(getAllProjectsEndpoint);
 
   return {
     allProjects: data,

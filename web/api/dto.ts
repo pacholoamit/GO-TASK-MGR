@@ -6,8 +6,6 @@ export type Project = {
   UpdatedAt: string;
 };
 
-export type Projects = Project[];
-
 export type Task = {
   ID: number;
   title: string;
@@ -19,8 +17,9 @@ export type Task = {
   UpdatedAt: string;
 };
 
-export type Tasks = Task[];
-
+export interface ProjectWithTasks extends Project {
+  tasks: Task[];
+}
 export type ProjectRequest = {
   ID?: number;
   name: string;

@@ -1,6 +1,6 @@
 import { Grid, Card, Text, Stack, Button, Badge } from "@mantine/core";
 
-import { Task, Tasks } from "../../api/dto";
+import { Task } from "../../api/dto";
 import useTaskContext from "../../hooks/useTaskContext";
 
 interface TaskCardProps {
@@ -40,7 +40,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
 };
 
 interface TasksCardProps {
-  tasks: Tasks;
+  tasks: Task[];
 }
 
 const TaskCards: React.FC<TasksCardProps> = ({ tasks }) => {

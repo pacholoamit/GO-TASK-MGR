@@ -1,9 +1,9 @@
 import useSWR from "swr";
 import { getAllTasksEndpoint } from "../api/config";
-import { Tasks } from "../api/dto";
+import { Task } from "../api/dto";
 
 const useGetAllTasks = () => {
-  const { data, error } = useSWR<Tasks>(getAllTasksEndpoint);
+  const { data, error } = useSWR<Task[]>(getAllTasksEndpoint);
 
   return {
     tasks: data,

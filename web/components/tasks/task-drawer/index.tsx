@@ -8,7 +8,7 @@ import useDeleteTask from "../../../hooks/useDeleteTask";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { Trash } from "tabler-icons-react";
-import { Projects, TaskRequest } from "../../../api/dto";
+import { TaskRequest } from "../../../api/dto";
 import {
   Button,
   Drawer,
@@ -22,7 +22,6 @@ import {
   Chips,
   Chip,
   Select,
-  SelectItem,
 } from "@mantine/core";
 import useGetAllProjects from "../../../hooks/useGetAllProjects";
 
