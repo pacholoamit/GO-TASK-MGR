@@ -23,7 +23,7 @@ import (
 
 func main() {
 	e := echo.New()
-	e.Static("/", "out")
+	e.Static("/", "web/out") //<-- Web app
 
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
 	e.Use(middleware.CORS())
