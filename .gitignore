@@ -21,6 +21,7 @@ out/
 
 # production
 build/
+server.go/
 
 # misc
 .DS_Store
