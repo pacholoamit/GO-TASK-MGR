@@ -4,7 +4,7 @@ import LayoutHeader from "@/components/layout/layout-header";
 import { AppShell, useMantineTheme } from "@mantine/core";
 
 type LayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
