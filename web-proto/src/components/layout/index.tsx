@@ -1,14 +1,13 @@
 import React from "react";
 import LayoutNavbar from "@/components/layout/layout-navbar";
 import LayoutHeader from "@/components/layout/layout-header";
+import TaskDrawer from "@/features/tasks/components/task-drawer";
 import { AppShell, useMantineTheme } from "@mantine/core";
+import { Outlet } from "react-router-dom";
 
-type LayoutProps = {
-  children?: React.ReactNode;
-};
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC = () => {
   const theme = useMantineTheme();
+
   const [opened, setOpened] = React.useState(false);
   const styles = {
     main: {
@@ -27,7 +26,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       fixed
       styles={styles}
     >
-      {children}
+      <Outlet />
+      <TaskDrawer />
     </AppShell>
   );
 };
