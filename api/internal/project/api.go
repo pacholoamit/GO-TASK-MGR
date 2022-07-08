@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/pacholoamit/GO-TASK-MGR/common/log"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/dto"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/log"
 )
 
 func RegisterHandlers(r *echo.Echo, s Service, l log.Logger) {

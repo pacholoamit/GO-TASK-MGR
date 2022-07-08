@@ -3,7 +3,7 @@ package task
 import (
 	"errors"
 
-	"github.com/pacholoamit/GO-TASK-MGR/common/log"
+	"github.com/pacholoamit/GO-TASK-MGR/pkg/log"
 
 	"github.com/pacholoamit/GO-TASK-MGR/internal/dto"
 )
