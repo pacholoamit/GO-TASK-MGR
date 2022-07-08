@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Install Node dependencies
-From node:16-alpine AS deps
+FROM node:16-alpine AS deps
 
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
