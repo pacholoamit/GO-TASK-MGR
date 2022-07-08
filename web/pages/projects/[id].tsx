@@ -22,9 +22,9 @@ const styles: { [key: string]: CSSProperties } = {
   },
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  return { props: { key: params?.id } };
-};
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+//   return { props: { key: params?.id } };
+// };
 
 interface ProjectMenuProps {
   id: string;

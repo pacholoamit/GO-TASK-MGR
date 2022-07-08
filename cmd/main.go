@@ -23,6 +23,8 @@ import (
 
 func main() {
 	e := echo.New()
+	e.Static("/", "out")
+
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
 	e.Use(middleware.CORS())
 	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{Timeout: 10 * time.Second}))
@@ -34,7 +36,6 @@ func main() {
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
-	// routes.SetupRoutes(e)
 
 	db := startDB()
 	l := log.New()
@@ -79,4 +80,5 @@ func startDB() *dbcontext.DB {
 func registerHandler(r *echo.Echo, l log.Logger, db *dbcontext.DB) {
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
 	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)
+
 }
