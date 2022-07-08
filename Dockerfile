@@ -1,27 +1,26 @@
 # Install Node dependencies
-FROM node:16-alpine AS deps
+FROM node:16-alpine AS builder
 
 RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-
-# Build the source code and export build artifacts
-FROM node:16-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+WORKDIR /usr/src/app
 COPY . .
-RUN yarn export
+RUN cd web && \
+    yarn install --frozen-lockfile && \
+    yarn export
+
+
 
 # Build Go binary with the exported artifacts
 FROM golang:1.18.3-alpine AS runner
+ENV PORT 8081
 RUN apk add build-base 
 WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
-COPY . .
+COPY . ./
+COPY --from=builder /usr/src/app/web/out ./web/out
 RUN go build -o /main.go ./cmd/main.go 
-EXPOSE 8081
+EXPOSE ${PORT}
 
 CMD ["/main.go"]

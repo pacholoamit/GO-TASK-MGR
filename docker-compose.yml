@@ -3,7 +3,7 @@ version: "3.0"
 services:
   task-mgr:
     container_name: GO-TASK-MGR
-    image: ghcr.io/pacholoamit/go-task-mgr:latest
+    image: ghcr.io/pacholoamit/go-task-mgr:master
     environment:
       PORT: 8081 # Optional: Default is 8081, sets the server port of the container.
     volumes:
