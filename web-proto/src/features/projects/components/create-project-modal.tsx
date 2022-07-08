@@ -1,13 +1,11 @@
 import React from "react";
-import useCreateProject from "../../hooks/useCreateProject";
-
+import useCreateProject from "@/features/projects/hooks/useCreateProject";
+import SuccessNotification from "@/components/notifications/success.notification";
 import { Button, Textarea, TextInput, Stack, Text } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { ContextModalProps } from "@mantine/modals";
 import { z } from "zod";
-import { ProjectRequest } from "../../api/dto";
-
-import SuccessNotification from "../notifications/success.notification";
+import { ProjectRequest } from "@/features/api/dto";
 
 const initialValues: ProjectRequest = {
   name: "",
