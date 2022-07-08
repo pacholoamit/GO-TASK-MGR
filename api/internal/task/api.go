@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/dto"
 
 	"github.com/labstack/echo/v4"
 )

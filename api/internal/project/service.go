@@ -5,8 +5,8 @@ import (
 
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
 
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/dto"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/models"
 )
 
 type Service interface {

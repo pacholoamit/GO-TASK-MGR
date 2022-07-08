@@ -2,8 +2,6 @@ package dto
 
 import (
 	"time"
-
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/models"
 )
 
 type Project struct {
@@ -12,10 +10,6 @@ type Project struct {
 	UpdatedAt   time.Time
 	Name        string `json:"name" form:"name" validate:"required"`
 	Description string `json:"description" form:"description"`
-}
-
-type ProjectWithTasks struct {
-	models.Project
 }
 
 //TODO: Remove this later

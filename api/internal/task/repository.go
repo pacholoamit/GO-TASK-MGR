@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
-	"github.com/pacholoamit/GO-TASK-MGR/pkg/dto"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/dto"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
