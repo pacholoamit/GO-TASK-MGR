@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY . .
 RUN cd web && \
     yarn install --frozen-lockfile && \
-    yarn export
+    yarn build
 
 # Build Go binary with the exported artifacts
 FROM golang:1.18.3-alpine AS runner
