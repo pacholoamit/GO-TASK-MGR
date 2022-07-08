@@ -15,7 +15,7 @@ type Project struct {
 }
 
 type ProjectWithTasks struct {
-	Project models.Project
+	models.Project
 }
 
 //TODO: Remove this later
