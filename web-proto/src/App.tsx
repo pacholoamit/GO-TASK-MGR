@@ -1,8 +1,12 @@
-import { useState } from "react";
-import { Routes } from "react-router-dom";
+import AppRoutes from "@/routes";
+import Providers from "@/providers";
 
 function App() {
-  return <Routes />;
+  return (
+    <Providers>
+      <AppRoutes />
+    </Providers>
+  );
 }
 
 export default App;
