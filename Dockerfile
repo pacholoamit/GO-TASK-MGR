@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 # Install Node dependencies
 FROM node:16-alpine AS deps
 
