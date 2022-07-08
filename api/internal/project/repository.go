@@ -13,7 +13,7 @@ type Repository interface {
 	Create(t *dto.Project) (*dto.Project, error)
 	Update(id int, t *dto.Project) (*dto.Project, error)
 	Delete(id int) (dto.Project, error)
-	GetTasks(id int) (models.Project, error)
+	GetTasks(id int) (dto.ProjectWithTasks, error)
 }
 
 type repository struct {
@@ -64,17 +64,25 @@ func (r repository) Delete(id int) (dto.Project, error) {
 	return project, nil
 }
 
-func (r repository) GetTasks(id int) (models.Project, error) {
+func (r repository) GetTasks(id int) (dto.ProjectWithTasks, error) {
 	project := models.Project{}
-	tasks := []models.Task{}
+	tasks := []dto.Task{}
 	if err := r.db.Find(&project, id).Error; err != nil {
-		return project, err
+		return dto.ProjectWithTasks{}, err
 	}
 
 	if err := r.db.Model(&project).Association("Tasks").Find(&tasks); err != nil {
-		return project, err
+		return dto.ProjectWithTasks{}, err
 	}
-	project.Tasks = tasks
 
-	return project, nil
+	projectWithTasks := dto.ProjectWithTasks{
+		ID:          project.ID,
+		Name:        project.Name,
+		Description: project.Description,
+		CreatedAt:   project.CreatedAt,
+		UpdatedAt:   project.UpdatedAt,
+		Tasks:       tasks,
+	}
+
+	return projectWithTasks, nil
 }
