@@ -8,7 +8,7 @@ import (
 )
 
 // Validates the `/route/:id` parameter if a number is provided
-var DynamicParams = []string{"id", "taskId", "projectId"}
+var DynamicParams = []string{"id"}
 
 func ValidateDynamicParamIds(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
