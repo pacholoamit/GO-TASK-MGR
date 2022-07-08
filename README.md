@@ -9,16 +9,16 @@ The easiest way to install `GO-TASK-MGR` is via docker & docker-compose
 Docker quickstart
 
 ```sh
-$ docker run -p 8081:8081 -v ${PWD}/db:app/db pacholoamit/go-task-mgr:latest
+docker run -p 8081:8081 -v ${PWD}/db:app/db pacholoamit/go-task-mgr:latest
 ```
 
 Docker-compose quickstart
 
 ```sh
-$ mkdir GO-TASK-MGR
-$ cd GO-TASK-MGR
-$ curl https://raw.githubusercontent.com/pacholoamit/GO-TASK-MGR/master/docker-compose.yml >> docker-compose.yml
-$ docker-compose up -d
+mkdir GO-TASK-MGR
+cd GO-TASK-MGR
+curl https://raw.githubusercontent.com/pacholoamit/GO-TASK-MGR/master/docker-compose.yml >> docker-compose.yml
+docker-compose up -d
 ```
 
 Optionally, if you'd want to create your own `docker-compose.yml` file...
