@@ -8,8 +8,6 @@ RUN cd web && \
     yarn install --frozen-lockfile && \
     yarn export
 
-
-
 # Build Go binary with the exported artifacts
 FROM golang:1.18.3-alpine AS runner
 ENV PORT 8081
