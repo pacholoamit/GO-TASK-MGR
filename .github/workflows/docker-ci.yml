@@ -21,6 +21,7 @@ jobs:
           - dockerfile: ./Dockerfile
             image: ghcr.io/pacholoamit/go-task-mgr
             context: .
+
     permissions:
       packages: write
       contents: read
