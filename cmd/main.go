@@ -64,7 +64,7 @@ func main() {
 }
 
 func startDB() *dbcontext.DB {
-	db, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{
+	db, err := gorm.Open(sqlite.Open("./db/GO-TASK-MGR.db"), &gorm.Config{
 		SkipDefaultTransaction: true,
 		PrepareStmt:            true,
 	})

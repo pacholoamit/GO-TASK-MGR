@@ -3,6 +3,8 @@ version: "3.0"
 services:
   task-mgr:
     container_name: GO-TASK-MGR-API
-    image: ghcr.io/pacholoamit/go-task-mgr-api:latest
+    image: ghcr.io/pacholoamit/go-task-mgr:latest
+    volumes:
+      - ./db:/app/db
     ports:
       - 8081:8081
