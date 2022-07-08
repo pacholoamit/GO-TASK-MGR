@@ -10,6 +10,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pacholoamit/GO-TASK-MGR/common/dbcontext"
 	"github.com/pacholoamit/GO-TASK-MGR/common/log"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/middlewares"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/models"
@@ -61,7 +62,7 @@ func main() {
 	}
 }
 
-func startDB() *gorm.DB {
+func startDB() *dbcontext.DB {
 	db, err := gorm.Open(sqlite.Open("GO-TASK-MGR.db"), &gorm.Config{
 		SkipDefaultTransaction: true,
 		PrepareStmt:            true,
@@ -72,9 +73,10 @@ func startDB() *gorm.DB {
 	if err != nil {
 		panic("failed to connect to database")
 	}
-	return db
+
+	return dbcontext.New(db)
 }
-func registerHandler(r *echo.Echo, l log.Logger, db *gorm.DB) {
+func registerHandler(r *echo.Echo, l log.Logger, db *dbcontext.DB) {
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
 	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)
 }

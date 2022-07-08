@@ -6,19 +6,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type DBContext interface {
-	ValidateIfExists(model interface{}, id int, name string) error
-}
-
-type dbcontexts struct {
+// Database connection wrapped
+type DB struct {
 	db *gorm.DB
 }
 
-func NewDbContext(db *gorm.DB) *dbcontexts {
-	return &dbcontexts{db}
+func New(db *gorm.DB) *DB {
+	return &DB{db}
 }
 
-func (d *dbcontexts) ValidateIfExists(model interface{}, id int, name string) error {
+func (d *DB) ValidateIfExists(model interface{}, id int, name string) error {
 	var exists bool
 	err := d.db.Model(model).
 		Select("count(*) > 0").
@@ -31,4 +28,9 @@ func (d *dbcontexts) ValidateIfExists(model interface{}, id int, name string) er
 	}
 	return nil
 
+}
+
+// Returns wrapped database
+func (d *DB) DB() *gorm.DB {
+	return d.db
 }
