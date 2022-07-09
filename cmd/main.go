@@ -37,8 +37,6 @@ func main() {
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
 
-	// e.Static("/", "web/dist") //<-- Web app
-
 	db := startDB()
 	l := log.New()
 	registerHandler(e, l, db)
@@ -66,7 +64,19 @@ func main() {
 }
 
 func startDB() *dbcontext.DB {
-	db, err := gorm.Open(sqlite.Open("./db/GO-TASK-MGR.db"), &gorm.Config{
+	confPath, _ := os.UserConfigDir()
+	appDir := confPath + "/GO-TASK-MGR"
+	sqliteFile := "/GO-TASK-MGR.db"
+
+	// Check SQLite db if exists
+	if _, err := os.Stat(appDir + sqliteFile); err != nil {
+		os.MkdirAll(appDir, 0700)
+		os.Create(appDir + sqliteFile)
+	}
+
+	sqlite := sqlite.Open(appDir + sqliteFile)
+
+	db, err := gorm.Open(sqlite, &gorm.Config{
 		SkipDefaultTransaction: true,
 		PrepareStmt:            true,
 	})
