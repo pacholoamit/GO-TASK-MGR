@@ -17,7 +17,11 @@ interface ProjectsListProps {
 
 const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
   const projectslist = projects.map((project) => (
-    <Link to={`/projects/${encodeURIComponent(project.ID)}`} key={project.ID}>
+    <Link
+      to={`/projects/${encodeURIComponent(project.ID)}`}
+      key={project.ID}
+      style={{ textDecoration: "none" }}
+    >
       <NavbarButton
         icon={<Folder size={16} />}
         label={project.name}
