@@ -32,12 +32,6 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-dockers:
-  - image_templates:
-      - "pacholoamit/go-task-mgr:{{ .Tag }}"
-      - "pacholoamit/go-task-mgr:latest"
-      - "ghcr.io/pacholoamit/go-task-mgr:{{ .Tag }}"
-      - "ghcr.io/pacholoamit/go-task-mgr:latest"
 
 release:
   github:
@@ -52,8 +46,6 @@ release:
 
     Welcome to this new release!
 
-  # Footer template for the release body.
-  # Defaults to empty.
   footer: |
     ## Thanks!
 
