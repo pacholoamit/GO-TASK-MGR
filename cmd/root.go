@@ -45,9 +45,11 @@ func Execute() error {
 }
 
 func initConfig() {
-	confDir, err := os.UserConfigDir()
+	configDir, err := os.UserConfigDir()
+	appDir := configDir + "/GO-TASK-MGR"
 	confType := "yaml"
 	confFileName := "GO-TASK-MGR"
+	confFile := appDir + "/" + confFileName + "." + confType
 	if cfgFile != "" {
 
 		// Use config file from the flag.
@@ -58,7 +60,7 @@ func initConfig() {
 		cobra.CheckErr(err)
 
 		// Search config in home directory with name ".cobra" (without extension).
-		viper.AddConfigPath(confDir)
+		viper.AddConfigPath(appDir)
 		viper.SetConfigType(confType)
 		viper.SetConfigName(confFileName)
 	}
@@ -67,10 +69,11 @@ func initConfig() {
 
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println("No config file found")
-		os.MkdirAll(confDir, 0700)
-		os.Create(confDir + "/" + confFileName + "." + confType)
+		os.MkdirAll(appDir, 0700)
+		os.Create(confFile)
+		fmt.Println("Creating config file at " + confFile)
+	} else {
+		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
-
-	fmt.Println("Using config file:", viper.ConfigFileUsed())
 
 }
