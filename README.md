@@ -2,15 +2,16 @@
 
 A Task manager with a Golang backend and a NextJS frontend
 
-## Quickstart (Docker compose/Docker)
+### Quickstart (Linux/MacOS/Windows)
 
-The easiest way to install `GO-TASK-MGR` is via docker & docker-compose
+Please find your compiled binaries in the repository's [Releases](https://github.com/pacholoamit/GO-TASK-MGR/releases) section
+Once, downloaded you may run the binaries & open `http://localhost:8081` to check the web UI
 
 ### Docker quickstart
 
 ```sh
 mkdir data
-docker run -p 8081:8081 -v ./data:/root/.config/GO-TASK-MGR pacholoamit/go-task-mgr:latest
+docker run -p 8081:8081 -v ./data:/root/.config/GO-TASK-MGR -d pacholoamit/go-task-mgr:latest
 ```
 
 ### Docker-compose quickstart
