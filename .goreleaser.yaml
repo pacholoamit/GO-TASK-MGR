@@ -32,12 +32,12 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-dockers:
-  - image_templates:
-      - "pacholoamit/go-task-mgr:{{ .Tag }}"
-      - "pacholoamit/go-task-mgr:latest"
-      - "ghcr.io/pacholoamit/go-task-mgr:{{ .Tag }}"
-      - "ghcr.io/pacholoamit/go-task-mgr:latest"
+# dockers:
+#   - image_templates:
+#       - "pacholoamit/go-task-mgr:{{ .Tag }}"
+#       - "pacholoamit/go-task-mgr:latest"
+#       - "ghcr.io/pacholoamit/go-task-mgr:{{ .Tag }}"
+#       - "ghcr.io/pacholoamit/go-task-mgr:latest"
 
 release:
   github:
