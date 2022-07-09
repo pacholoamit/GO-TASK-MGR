@@ -17,13 +17,13 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/internal/utils"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dbcontext"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/log"
+	"github.com/pacholoamit/GO-TASK-MGR/web"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 func main() {
 	e := echo.New()
-	e.Static("/", "web/dist") //<-- Web app
 
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
 	e.Use(middleware.CORS())
@@ -36,6 +36,8 @@ func main() {
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
+
+	// e.Static("/", "web/dist") //<-- Web app
 
 	db := startDB()
 	l := log.New()
@@ -80,5 +82,6 @@ func startDB() *dbcontext.DB {
 func registerHandler(r *echo.Echo, l log.Logger, db *dbcontext.DB) {
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
 	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)
+	web.RegisterHandlers(r)
 
 }

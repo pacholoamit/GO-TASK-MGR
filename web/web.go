@@ -6,12 +6,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-//go:embed all:dist
-var dist embed.FS
+var (
+	//go:embed all:dist
+	dist embed.FS
+	//go:embed dist/index.html
+	indexHTML     embed.FS
+	distDirFS     = echo.MustSubFS(dist, "dist")
+	distIndexHtml = echo.MustSubFS(indexHTML, "dist")
+)
 
-//go:embed dist/index.html
-var indexHTML embed.FS
-
-var DistDirFS = echo.MustSubFS(dist, "dist")
-
-var DistIndexHtml = echo.MustSubFS(indexHTML, "dist")
+func RegisterHandlers(r *echo.Echo) {
+	r.FileFS("/", "index.html", distIndexHtml)
+	r.StaticFS("/", distDirFS)
+}
