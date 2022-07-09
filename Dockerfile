@@ -17,7 +17,7 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 COPY . ./
-COPY --from=builder /usr/src/app/web/out ./web/out
+COPY --from=builder /usr/src/app/web/dist ./web/dist
 RUN go build -o /main.go ./cmd/main.go 
 EXPOSE ${PORT}
 

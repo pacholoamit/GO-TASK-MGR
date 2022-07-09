@@ -1,4 +1,5 @@
-export const apiUrl = process.env.API_URL || "http://localhost:8081";
+export const apiUrl =
+  process.env.API_URL || `http://localhost:${process.env.PORT || "8081"}`;
 
 // POST
 export const createProjectEndpoint = `${apiUrl}/project`;
