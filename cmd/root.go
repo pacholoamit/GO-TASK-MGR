@@ -20,7 +20,7 @@ var (
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(viper.AllKeys())
+			viper.WriteConfig()
 		},
 	}
 )
@@ -45,25 +45,32 @@ func Execute() error {
 }
 
 func initConfig() {
-	fmt.Println("Hello world")
+	confDir, err := os.UserConfigDir()
+	confType := "yaml"
+	confFileName := "GO-TASK-MGR"
 	if cfgFile != "" {
 
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
 		// Find home directory.
-		home, err := os.UserHomeDir()
+
 		cobra.CheckErr(err)
 
 		// Search config in home directory with name ".cobra" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".cobra")
+		viper.AddConfigPath(confDir)
+		viper.SetConfigType(confType)
+		viper.SetConfigName(confFileName)
 	}
 
 	viper.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("No config file found")
+		os.MkdirAll(confDir, 0700)
+		os.Create(confDir + "/" + confFileName + "." + confType)
 	}
+
+	fmt.Println("Using config file:", viper.ConfigFileUsed())
+
 }

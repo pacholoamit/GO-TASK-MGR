@@ -64,6 +64,7 @@ func main() {
 	}
 }
 
+// CONFIG
 func startDB() *dbcontext.DB {
 	confPath, _ := os.UserConfigDir()
 	appDir := confPath + "/GO-TASK-MGR"
