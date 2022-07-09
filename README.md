@@ -6,13 +6,14 @@ A Task manager with a Golang backend and a NextJS frontend
 
 The easiest way to install `GO-TASK-MGR` is via docker & docker-compose
 
-Docker quickstart
+### Docker quickstart
 
 ```sh
-docker run -p 8081:8081 -v ${PWD}/db:app/db pacholoamit/go-task-mgr:latest
+mkdir data
+docker run -p 8081:8081 -v ./data:/root/.config/GO-TASK-MGR pacholoamit/go-task-mgr:latest
 ```
 
-Docker-compose quickstart
+### Docker-compose quickstart
 
 ```sh
 mkdir GO-TASK-MGR
@@ -35,7 +36,7 @@ services:
     environment:
       PORT: 8081 # Optional: Default is 8081, sets the server port of the container.
     volumes:
-      - ./db:/app/db
+      - ./data:/root/.config/GO-TASK-MGR
     ports:
       - 8081:8081
 ```
