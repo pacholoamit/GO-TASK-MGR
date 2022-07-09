@@ -1,6 +1,6 @@
 # GO-TASK-MGR
 
-A Task manager with a Golang backend and a NextJS frontend
+A bog standard fancy to-do list written in Go & Typescript
 
 ### Quickstart (Linux/MacOS/Windows)
 

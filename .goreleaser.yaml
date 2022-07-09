@@ -18,7 +18,7 @@ archives:
     format: zip
     files:
       - README.md
-      - LICENSE.md
+      - LICENSE
     replacements:
       darwin: Darwin
       linux: Linux

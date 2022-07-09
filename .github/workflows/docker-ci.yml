@@ -3,6 +3,8 @@ name: docker-ci
 on:
   workflow_dispatch:
   push:
+    tags:
+      - "v*"
     branches:
       - "master"
 
@@ -49,6 +51,15 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          labels: |
+            org.opencontainers.image.title=go-task-mgr
+            org.opencontainers.image.description=A bog standard fancy to-do list written in Go & Typescript
+            org.opencontainers.image.vendor=Pacholo Amit
+            org.opencontainers.image.licenses=MIT
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
           flavor: |
             latest=true
           images: ${{ matrix.image }}
