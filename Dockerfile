@@ -7,7 +7,7 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 COPY . ./
-RUN go build -o /main.go ./cmd/main.go 
+RUN go build -o /main.go ./cmd/serve.go 
 EXPOSE ${PORT}
 
 CMD ["/main.go"]
