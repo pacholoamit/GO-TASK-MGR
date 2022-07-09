@@ -32,12 +32,12 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
-# dockers:
-#   - image_templates:
-#       - "pacholoamit/go-task-mgr:{{ .Tag }}"
-#       - "pacholoamit/go-task-mgr:latest"
-#       - "ghcr.io/pacholoamit/go-task-mgr:{{ .Tag }}"
-#       - "ghcr.io/pacholoamit/go-task-mgr:latest"
+dockers:
+  - image_templates:
+      - "pacholoamit/go-task-mgr:{{ .Tag }}"
+      - "pacholoamit/go-task-mgr:latest"
+      - "ghcr.io/pacholoamit/go-task-mgr:{{ .Tag }}"
+      - "ghcr.io/pacholoamit/go-task-mgr:latest"
 
 release:
   github:
@@ -45,3 +45,16 @@ release:
     name: GO-TASK-MGR
   prerelease: auto
   draft: false
+  mode: append
+  name_template: "{{.ProjectName}}-{{.Version}}"
+  header: |
+    ## GO TASK MGR Release: {{ .Tag }}! 
+
+    Welcome to this new release!
+
+  # Footer template for the release body.
+  # Defaults to empty.
+  footer: |
+    ## Thanks!
+
+    Those were the changes on ({{ .Date }}) Published by Pacholo Amit
