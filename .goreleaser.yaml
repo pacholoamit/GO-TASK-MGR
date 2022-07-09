@@ -1,22 +1,22 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
-    # you may remove this if you don't need go generate
     - go generate ./...
 builds:
   - env:
-      - CGO_ENABLED=1
+      - CGO_ENABLED=0
     goos:
       - linux
       - windows
       - darwin
     dir: .
     main: ./cmd/main.go
+    binary: GO-TASK-MGR
 archives:
-  - replacements:
+  - id: GO-TASK-MGR
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format: zip
+    replacements:
       darwin: Darwin
       linux: Linux
       windows: Windows
@@ -32,3 +32,10 @@ changelog:
     exclude:
       - "^docs:"
       - "^test:"
+
+release:
+  github:
+    owner: pacholoamit
+    name: GO-TASK-MGR
+  prerelease: auto
+  draft: false

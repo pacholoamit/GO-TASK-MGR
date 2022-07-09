@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/glebarez/sqlite"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -18,10 +19,10 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dbcontext"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/log"
 	"github.com/pacholoamit/GO-TASK-MGR/web"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
+// TODO: Make config file
 func main() {
 	e := echo.New()
 
