@@ -3,8 +3,10 @@ version: "3.0"
 services:
   task-mgr:
     container_name: GO-TASK-MGR
-    image: pacholoamit/go-task-mgr:master
+    image: pacholoamit/go-task-mgr:latest
     environment:
       PORT: 8081 # Optional: Default is 8081, sets the server port of the container.
+    volumes:
+      - ./data:/root/.config/GO-TASK-MGR # Persist data with volumes
     ports:
       - 8081:8081
