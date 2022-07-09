@@ -1,12 +1,10 @@
-# version: "3.0"
+version: "3.0"
 
-# services:
-#   task-mgr:
-#     container_name: GO-TASK-MGR
-#     image: pacholoamit/go-task-mgr:master
-#     environment:
-#       PORT: 8081 # Optional: Default is 8081, sets the server port of the container.
-#     volumes:
-#       - ./db:/app/db
-#     ports:
-#       - 8081:8081
+services:
+  task-mgr:
+    container_name: GO-TASK-MGR
+    image: pacholoamit/go-task-mgr:master
+    environment:
+      PORT: 8081 # Optional: Default is 8081, sets the server port of the container.
+    ports:
+      - 8081:8081
