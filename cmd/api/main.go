@@ -7,24 +7,26 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/glebarez/sqlite"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/config"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/middlewares"
-	"github.com/pacholoamit/GO-TASK-MGR/internal/models"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/project"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/task"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/utils"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/dbcontext"
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/log"
 	"github.com/pacholoamit/GO-TASK-MGR/web"
-	"gorm.io/gorm"
 )
 
-// TODO: Make config file
+const version = "0.0.1"
+
 func main() {
+	conf := config.New(os.Getenv("PORT"), os.Getenv("ENV"))
+	l := log.New()
 	e := echo.New()
+	app := conf.Bootstrap()
 
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
 	e.Use(middleware.CORS())
@@ -38,17 +40,11 @@ func main() {
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
 
-	db := startDB()
-	l := log.New()
-	registerHandler(e, l, db)
+	registerHandler(e, l, app.Db)
 
-	portEnv, ok := os.LookupEnv("PORT")
-	if !ok {
-		portEnv = "8081"
-	}
 	// Graceful shutdown
 	go func() {
-		if err := e.Start(":" + portEnv); err != nil && err != http.ErrServerClosed {
+		if err := e.Start(":" + app.Port); err != nil && err != http.ErrServerClosed {
 			e.Logger.Error(err)
 			e.Logger.Fatal("shutting down the server")
 		}
@@ -64,32 +60,6 @@ func main() {
 	}
 }
 
-func startDB() *dbcontext.DB {
-	confPath, _ := os.UserConfigDir()
-	appDir := confPath + "/GO-TASK-MGR"
-	sqliteFile := "/GO-TASK-MGR.db"
-
-	// Check SQLite db if exists
-	if _, err := os.Stat(appDir + sqliteFile); err != nil {
-		os.MkdirAll(appDir, 0700)
-		os.Create(appDir + sqliteFile)
-	}
-
-	sqlite := sqlite.Open(appDir + sqliteFile)
-
-	db, err := gorm.Open(sqlite, &gorm.Config{
-		SkipDefaultTransaction: true,
-		PrepareStmt:            true,
-	})
-
-	db.AutoMigrate(&models.Project{}, &models.Task{})
-
-	if err != nil {
-		panic("failed to connect to database")
-	}
-
-	return dbcontext.New(db)
-}
 func registerHandler(r *echo.Echo, l log.Logger, db *dbcontext.DB) {
 	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
 	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)
