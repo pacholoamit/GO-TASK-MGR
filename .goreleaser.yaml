@@ -10,7 +10,7 @@ builds:
       - windows
       - darwin
     dir: .
-    main: ./cmd/main.go
+    main: ./cmd/api/main.go
     binary: GO-TASK-MGR
 archives:
   - id: GO-TASK-MGR
