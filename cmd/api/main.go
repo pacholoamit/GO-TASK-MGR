@@ -47,7 +47,10 @@ func main() {
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20))) // 20 request/sec rate limit
 	e.Use(middlewares.ValidateDynamicParamIds)                              // Validates dynamic param IDs
 
-	registerHandler(e, l, app.Db)
+	// Register handlers or routes
+	h := Handlers{e, l, app.Db}
+	h.registerRestricted()
+	h.registerPublic()
 
 	// Graceful shutdown
 	go func() {
@@ -67,11 +70,19 @@ func main() {
 	}
 }
 
-func registerHandler(r *echo.Echo, l log.Logger, db *dbcontext.DB) {
-	restricted := auth.RegisterHandlers(r)
+type Handlers struct {
+	r  *echo.Echo
+	l  log.Logger
+	db *dbcontext.DB
+}
 
-	task.RegisterHandlers(restricted, task.NewService(task.NewRepository(db, l), l), l)
-	project.RegisterHandlers(restricted, project.NewService(project.NewRepository(db, l), l), l)
-	web.RegisterHandlers(r)
+func (h Handlers) registerRestricted() {
+	restricted := auth.RegisterHandlers(h.r)
+	task.RegisterHandlers(restricted, task.NewService(task.NewRepository(h.db, h.l), h.l), h.l)
+	project.RegisterHandlers(restricted, project.NewService(project.NewRepository(h.db, h.l), h.l), h.l)
 
+}
+
+func (h Handlers) registerPublic() {
+	web.RegisterHandlers(h.r)
 }
