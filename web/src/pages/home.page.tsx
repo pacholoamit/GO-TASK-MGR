@@ -17,18 +17,19 @@ const styles: { [key: string]: CSSProperties } = {
 const Home: React.FC = () => {
   const { tasks, isLoading } = useGetAllTasks();
 
-  if (isLoading)
+  if (isLoading || !tasks) {
     return (
       <Center style={styles.center}>
         <Loader />
       </Center>
     );
+  }
 
   return (
     <div style={styles.container}>
       <Stack>
         <Title>Recently created tasks</Title>
-        <TaskCards tasks={tasks ?? []} />
+        <TaskCards tasks={tasks} />
       </Stack>
     </div>
   );

@@ -29,6 +29,7 @@ func main() {
 	app := conf.Bootstrap()
 
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
+
 	e.Use(middleware.CORS())
 	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{Timeout: 10 * time.Second}))
 	e.Use(middleware.Secure())
