@@ -37,6 +37,7 @@ require (
 	github.com/glebarez/sqlite v1.4.5
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/labstack/echo v3.3.10+incompatible
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
 )

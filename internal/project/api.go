@@ -9,7 +9,7 @@ import (
 	"github.com/pacholoamit/GO-TASK-MGR/pkg/log"
 )
 
-func RegisterHandlers(r *echo.Echo, s Service, l log.Logger) {
+func RegisterHandlers(r *echo.Group, s Service, l log.Logger) {
 	res := resource{s, l}
 
 	r.GET("/projects", res.list)

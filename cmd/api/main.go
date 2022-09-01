@@ -10,6 +10,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/pacholoamit/GO-TASK-MGR/internal/auth"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/config"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/middlewares"
 	"github.com/pacholoamit/GO-TASK-MGR/internal/project"
@@ -28,7 +29,12 @@ func main() {
 	e := echo.New()
 	app := conf.Bootstrap()
 
+	jwt := middleware.JWTConfig{
+		Claims:     auth.JwtCustomClaims{},
+		SigningKey: []byte("secret"),
+	}
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
+	e.Use(middleware.JWTWithConfig(jwt))
 
 	e.Use(middleware.CORS())
 	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{Timeout: 10 * time.Second}))
@@ -62,8 +68,10 @@ func main() {
 }
 
 func registerHandler(r *echo.Echo, l log.Logger, db *dbcontext.DB) {
-	task.RegisterHandlers(r, task.NewService(task.NewRepository(db, l), l), l)
-	project.RegisterHandlers(r, project.NewService(project.NewRepository(db, l), l), l)
+	restricted := auth.RegisterHandlers(r)
+
+	task.RegisterHandlers(restricted, task.NewService(task.NewRepository(db, l), l), l)
+	project.RegisterHandlers(restricted, project.NewService(project.NewRepository(db, l), l), l)
 	web.RegisterHandlers(r)
 
 }
